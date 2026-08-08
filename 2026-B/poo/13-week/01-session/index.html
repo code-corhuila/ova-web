@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación y Diseño Orientado a Objetos · Semana 13 · Lectura de archivos en Java | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación y Diseño Orientado a Objetos</span><span class="brand-topic">Semana 13 · Sesión 1 · Lectura de archivos en Java</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#1-por-que-archivos">¿Por qué archivos?</a></li><li><a href="#2-leer-con-bufferedreader">Leer con BufferedReader</a></li><li><a href="#3-try-with-resources-recomendado">try-with-resources (recomendado)</a></li><li><a href="#4-alternativa-moderna-files">Alternativa moderna: Files</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana-formativa">Actividad de la semana (formativa)</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Persistencia · Corte 3</span>
+    <h1>Lectura de archivos en Java</h1>
+    <p class="lead">Hasta ahora los datos desaparecían al cerrar el programa. Leer y escribir archivos permite que la información persista. Empezamos por leer archivos de texto de forma segura.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Leer un archivo de texto línea por línea.</p></div><div class="objective-card"><span class="num">2</span><p>Manejar la IOException que puede ocurrir.</p></div><div class="objective-card"><span class="num">3</span><p>Usar try-with-resources para cerrar el archivo automáticamente.</p></div></div>
+  </section>
+  <section id="1-por-que-archivos"><h2>1. ¿Por qué archivos?</h2><p>La memoria del programa es <strong>volátil</strong>: al cerrar, se pierde todo. Un <strong>archivo</strong> guarda los datos en disco para recuperarlos después. Es la forma más simple de <strong>persistencia</strong>.</p></section><section id="2-leer-con-bufferedreader"><h2>2. Leer con BufferedReader</h2><p>Una forma clásica y eficiente de leer texto línea por línea:</p><pre class="code"><span class="kw">import</span> java.io.*;
+
+BufferedReader br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> FileReader("datos.txt"));
+String linea;
+<span class="kw">while</span> ((linea = br.readLine()) != <span class="kw">null</span>) {
+    <span class="kw">System</span>.out.<span class="kw">println</span>(linea);
+}
+br.close();   <span class="cm">// ¡hay que cerrarlo!</span></pre><div class="callout warn"><h4>Cuidado</h4><p>Estas operaciones lanzan <code>IOException</code> (verificada): debes manejarla con try/catch o declararla con <code>throws</code>.</p></div></section><section id="3-try-with-resources-recomendado"><h2>3. try-with-resources (recomendado)</h2><p>Java cierra el archivo <strong>automáticamente</strong> si lo declaras en el <code>try(...)</code>. Más seguro y limpio:</p><pre class="code">try (BufferedReader br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> FileReader("datos.txt"))) {
+    String linea;
+    <span class="kw">while</span> ((linea = br.readLine()) != <span class="kw">null</span>) {
+        <span class="kw">System</span>.out.<span class="kw">println</span>(linea);
+    }
+} catch (IOException e) {
+    <span class="kw">System</span>.out.<span class="kw">println</span>("No se pudo leer el archivo: " + e.getMessage());
+}</pre></section><section id="4-alternativa-moderna-files"><h2>4. Alternativa moderna: Files</h2><p>Para archivos pequeños, la API <code>java.nio.file</code> es muy cómoda:</p><pre class="code"><span class="kw">import</span> java.nio.file.*;
+<span class="kw">import</span> java.util.List;
+
+List&lt;String&gt; lineas = Files.readAllLines(Path.of("datos.txt"));
+<span class="kw">for</span> (String l : lineas) <span class="kw">System</span>.out.<span class="kw">println</span>(l);</pre><div class="callout tip"><h4>Tip</h4><p>Usa <code>try-with-resources</code> siempre que abras un recurso (archivo, conexión). Te ahorra el <code>close()</code> manual y evita fugas de recursos aunque ocurra un error.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 3 respondidas</div><div class="q" data-correct="0" data-exp="Los archivos dan persistencia; la memoria es volátil."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué ventaja da guardar datos en un archivo?</div><button class="opt">La información persiste después de cerrar el programa</button><button class="opt">El programa corre más rápido</button><button class="opt">Se evita usar clases</button><div class="feedback"></div></div><div class="q" data-correct="0" data-exp="Las operaciones de E/S lanzan IOException, que es verificada."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué excepción hay que manejar al leer archivos?</div><button class="opt">IOException (verificada)</button><button class="opt">NullPointerException</button><button class="opt">ArithmeticException</button><div class="feedback"></div></div><div class="q" data-correct="0" data-exp="try-with-resources cierra el recurso solo, aunque haya excepción."><div class="stem"><span class="n">Pregunta 3.</span> ¿Qué ventaja tiene try-with-resources?</div><button class="opt">Cierra el recurso automáticamente al terminar</button><button class="opt">Hace el archivo más pequeño</button><button class="opt">Evita importar clases</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/3</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana-formativa" class="activity-section"><h2>Actividad de la semana (formativa)</h2><p>Opcional y no evaluable. Versión ampliada con rúbrica en <strong>optional-activity</strong> (entrega por GitHub).</p><ul><li>Lee un archivo <code>nombres.txt</code> y muestra cada línea numerada, manejando el caso "archivo no encontrado".</li></ul></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación y Diseño Orientado a Objetos</strong> <span class="sep">·</span> Semana 13 · Sesión 1 · Lectura de archivos en Java</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js"></script>
+</body>
+</html>
