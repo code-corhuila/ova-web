@@ -28,7 +28,7 @@
         /   \
        B     C       &lt;- nivel 1
       / \     \
-     D   E     F     &lt;- nivel 2 (D, E, F son hojas)</pre><div class="table-responsive"><table class="styled-table"><thead><tr><th>Concepto</th><th>En el ejemplo</th></tr></thead><tbody><tr><td>Raíz</td><td><code>A</code></td></tr><tr><td>Hojas</td><td><code>D</code>, <code>E</code>, <code>F</code></td></tr><tr><td>Hijos de <code>B</code></td><td><code>D</code> (izquierdo), <code>E</code> (derecho)</td></tr><tr><td>Altura del árbol</td><td>2</td></tr><tr><td>Nivel de <code>C</code></td><td>1</td></tr></tbody></table></div></section><section id="s-3-implementacion-en-java"><h2>3. Implementación en Java</h2><p>Un árbol binario se construye a partir de una clase <strong>Nodo</strong> que se referencia a sí misma (hijo izquierdo y derecho).</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-75232-0">Clase Nodo</button><button class="tab-btn" data-tab="tab-75232-1">Construir el árbol</button></div><div class="tab-panel active" id="tab-75232-0"><pre class="code"><span class="kw">class</span> Nodo {
+     D   E     F     &lt;- nivel 2 (D, E, F son hojas)</pre><div class="table-responsive"><table class="styled-table"><thead><tr><th>Concepto</th><th>En el ejemplo</th></tr></thead><tbody><tr><td>Raíz</td><td><code>A</code></td></tr><tr><td>Hojas</td><td><code>D</code>, <code>E</code>, <code>F</code></td></tr><tr><td>Hijos de <code>B</code></td><td><code>D</code> (izquierdo), <code>E</code> (derecho)</td></tr><tr><td>Altura del árbol</td><td>2</td></tr><tr><td>Nivel de <code>C</code></td><td>1</td></tr></tbody></table></div></section><section id="s-3-implementacion-en-java"><h2>3. Implementación en Java</h2><p>Un árbol binario se construye a partir de una clase <strong>Nodo</strong> que se referencia a sí misma (hijo izquierdo y derecho).</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-51072-0">Clase Nodo</button><button class="tab-btn" data-tab="tab-51072-1">Construir el árbol</button></div><div class="tab-panel active" id="tab-51072-0"><pre class="code"><span class="kw">class</span> Nodo {
     <span class="kw">int</span> dato;
     Nodo izquierdo;
     Nodo derecho;
@@ -38,7 +38,7 @@
         this.izquierdo = <span class="kw">null</span>;
         this.derecho = <span class="kw">null</span>;
     }
-}</pre></div><div class="tab-panel" id="tab-75232-1"><pre class="code">Nodo raiz = <span class="kw">new</span> Nodo(1);        <span class="cm">// A</span>
+}</pre></div><div class="tab-panel" id="tab-51072-1"><pre class="code">Nodo raiz = <span class="kw">new</span> Nodo(1);        <span class="cm">// A</span>
 raiz.izquierdo = <span class="kw">new</span> Nodo(2);   <span class="cm">// B</span>
 raiz.derecho = <span class="kw">new</span> Nodo(3);     <span class="cm">// C</span>
 raiz.izquierdo.izquierdo = <span class="kw">new</span> Nodo(4); <span class="cm">// D</span>
