@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estructura de Datos · Semana 6 · Pilas (Stack) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Estructura de Datos</span><span class="brand-topic">Semana 6 · Sesión 1 · Pilas (Stack)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#1-que-es-una-pila">¿Qué es una pila?</a></li><li><a href="#2-operaciones-basicas">Operaciones básicas</a></li><li><a href="#3-implementacion-en-java">Implementación en Java</a></li><li><a href="#4-para-que-se-usan">¿Para qué se usan?</a></li><li><a href="#5-problema-clasico-parentesis-balanceados">Problema clásico: paréntesis balanceados</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana-formativa">Actividad de la semana (formativa)</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Estructuras lineales · Corte 2</span>
+    <h1>Pilas (Stack)</h1>
+    <p class="lead">La pila es una estructura tan simple como poderosa. Sigue una única regla —el último en entrar es el primero en salir— y con ella se resuelven desde el botón "deshacer" hasta la ejecución de tus propios programas.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Definir una pila y su principio LIFO.</p></div><div class="objective-card"><span class="num">2</span><p>Describir las operaciones push, pop, peek e isEmpty.</p></div><div class="objective-card"><span class="num">3</span><p>Implementar una pila en Java y reconocer sus aplicaciones.</p></div><div class="objective-card"><span class="num">4</span><p>Resolver un problema clásico con pilas (paréntesis balanceados).</p></div></div>
+  </section>
+  <section id="1-que-es-una-pila"><h2>1. ¿Qué es una pila?</h2><p>Una <strong>pila (stack)</strong> es una estructura lineal donde los elementos se agregan y se quitan <strong>por un solo extremo</strong>, llamado <em>tope</em> (top). Funciona con la regla <strong>LIFO</strong>: <em>Last In, First Out</em> — el último en entrar es el primero en salir.</p><div class="callout info"><h4>Nota</h4><p>Piensa en una pila de platos: solo puedes poner o quitar el de arriba. Nunca sacas uno del medio.</p></div></section><section id="2-operaciones-basicas"><h2>2. Operaciones básicas</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Operación</th><th>Qué hace</th><th>Costo</th></tr></thead><tbody><tr><td><code>push(x)</code></td><td>Agrega <code>x</code> en el tope</td><td>O(1)</td></tr><tr><td><code>pop()</code></td><td>Quita y devuelve el elemento del tope</td><td>O(1)</td></tr><tr><td><code>peek()</code></td><td>Mira el tope sin quitarlo</td><td>O(1)</td></tr><tr><td><code>isEmpty()</code></td><td>Indica si la pila está vacía</td><td>O(1)</td></tr></tbody></table></div><p>Todas son <strong>O(1)</strong>: no importa cuántos elementos haya, operar en el tope es inmediato.</p><pre class="ascii">push(3)      push(7)      pop() -&gt; 7
+ | 3 |        | 7 |        | 3 |
+ +---+        | 3 |        +---+
+              +---+</pre></section><section id="3-implementacion-en-java"><h2>3. Implementación en Java</h2><p>Puedes usar la clase <code>Stack</code> o <code>Deque</code> de Java, o construirla tú mismo:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-93120-0">Usando Deque (recomendado)</button><button class="tab-btn" data-tab="tab-93120-1">Pila propia con arreglo</button></div><div class="tab-panel active" id="tab-93120-0"><pre class="code">Deque&lt;Integer&gt; pila = <span class="kw">new</span> ArrayDeque&lt;&gt;();
+pila.push(3);
+pila.push(7);
+<span class="kw">System</span>.out.<span class="kw">println</span>(pila.peek()); <span class="cm">// 7</span>
+<span class="kw">System</span>.out.<span class="kw">println</span>(pila.pop());  <span class="cm">// 7</span>
+<span class="kw">System</span>.out.<span class="kw">println</span>(pila.isEmpty()); <span class="cm">// false</span></pre></div><div class="tab-panel" id="tab-93120-1"><pre class="code"><span class="kw">class</span> Pila {
+    <span class="kw">private</span> <span class="kw">int</span>[] datos = <span class="kw">new</span> <span class="kw">int</span>[100];
+    <span class="kw">private</span> <span class="kw">int</span> tope = -1;
+    <span class="kw">void</span> push(<span class="kw">int</span> x) { datos[++tope] = x; }
+    <span class="kw">int</span> pop() { <span class="kw">return</span> datos[tope--]; }
+    <span class="kw">int</span> peek() { <span class="kw">return</span> datos[tope]; }
+    <span class="kw">boolean</span> isEmpty() { <span class="kw">return</span> tope == -1; }
+}</pre></div></div><div class="callout warn"><h4>Cuidado</h4><p>Al hacer <code>pop()</code> o <code>peek()</code> en una pila vacía obtendrás un error. Verifica siempre <code>isEmpty()</code> antes.</p></div></section><section id="4-para-que-se-usan"><h2>4. ¿Para qué se usan?</h2><ul><li><strong>Deshacer/rehacer</strong> (undo/redo) en editores.</li><li><strong>Historial</strong> del navegador (botón "atrás").</li><li><strong>Llamadas a funciones</strong>: la JVM usa una pila de llamadas (<em>call stack</em>).</li><li><strong>Evaluar expresiones</strong> y verificar paréntesis balanceados.</li></ul></section><section id="5-problema-clasico-parentesis-balanceados"><h2>5. Problema clásico: paréntesis balanceados</h2><p>Para saber si <code>(a+[b*c])</code> está bien balanceado, recorres el texto: cada símbolo de apertura se hace <code>push</code>; en cada cierre haces <code>pop</code> y verificas que corresponda.</p><pre class="code"><span class="kw">boolean</span> balanceado(String s) {
+    Deque&lt;Character&gt; p = <span class="kw">new</span> ArrayDeque&lt;&gt;();
+    <span class="kw">for</span> (<span class="kw">char</span> c : s.toCharArray()) {
+        <span class="kw">if</span> (c == '(' || c == '[') p.push(c);
+        <span class="kw">else</span> <span class="kw">if</span> (c == ')') { <span class="kw">if</span> (p.isEmpty() || p.pop() != '(') <span class="kw">return</span> <span class="kw">false</span>; }
+        <span class="kw">else</span> <span class="kw">if</span> (c == ']') { <span class="kw">if</span> (p.isEmpty() || p.pop() != '[') <span class="kw">return</span> <span class="kw">false</span>; }
+    }
+    <span class="kw">return</span> p.isEmpty();
+}</pre><div class="callout tip"><h4>Tip</h4><p>Si al terminar la pila NO está vacía, quedaron aperturas sin cerrar → no está balanceado.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 4 respondidas</div><div class="q" data-correct="1" data-exp="La pila es LIFO: el último elemento en entrar es el primero en salir."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué principio sigue una pila?</div><button class="opt">FIFO (primero en entrar, primero en salir)</button><button class="opt">LIFO (último en entrar, primero en salir)</button><button class="opt">Orden aleatorio</button><div class="feedback"></div></div><div class="q" data-correct="0" data-exp="Se opera solo en el tope, por eso push y pop son O(1)."><div class="stem"><span class="n">Pregunta 2.</span> ¿Cuál es el costo de push y pop en una pila?</div><button class="opt">O(1)</button><button class="opt">O(n)</button><button class="opt">O(log n)</button><div class="feedback"></div></div><div class="q" data-correct="0" data-exp="peek() consulta el tope sin removerlo; pop() sí lo quita."><div class="stem"><span class="n">Pregunta 3.</span> ¿Qué operación mira el tope SIN quitarlo?</div><button class="opt">peek()</button><button class="opt">pop()</button><button class="opt">push()</button><div class="feedback"></div></div><div class="q" data-correct="0" data-exp="Las llamadas a funciones se apilan y desapilan en la pila de llamadas."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué estructura usa la JVM para las llamadas a funciones?</div><button class="opt">Una pila (call stack)</button><button class="opt">Una cola</button><button class="opt">Un árbol</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/4</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana-formativa" class="activity-section"><h2>Actividad de la semana (formativa)</h2><p>Opcional y no evaluable. Versión ampliada con rúbrica en <strong>optional-activity</strong> (entrega por GitHub).</p><ul><li>Implementa una pila propia y úsala para invertir una cadena de texto.</li><li>Implementa la verificación de paréntesis balanceados con <code>()</code>, <code>[]</code> y <code>{}</code>.</li></ul></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Estructura de Datos</strong> <span class="sep">·</span> Semana 6 · Sesión 1 · Pilas (Stack)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js"></script>
+</body>
+</html>
