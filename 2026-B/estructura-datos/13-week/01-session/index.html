@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estructura de Datos · Semana 13 · Aplicación práctica de estructuras de datos | CORHUILA</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=9a435c87">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -27,9 +27,9 @@
   <section id="s-1-del-ejercicio-al-sistema"><h2>1. Del ejercicio al sistema</h2><p>Hasta ahora estudiamos cada estructura por separado. En un programa real <strong>conviven varias</strong>: una elección para almacenar, otra para procesar, otra para ordenar la atención. Integrarlas bien es la competencia clave del corte.</p><div class="callout info"><h4>Nota</h4><p>Regla práctica: divide el problema en operaciones, y asigna a cada una la estructura que la hace más simple y eficiente.</p></div></section><section id="s-2-caso-mesa-de-ayuda-help-desk"><h2>2. Caso: mesa de ayuda (help desk)</h2><p>Un sistema de tickets de soporte debe:</p><ul><li><strong>Registrar</strong> tickets que llegan (orden de llegada).</li><li><strong>Atender</strong> en orden de llegada, salvo los urgentes.</li><li><strong>Consultar</strong> el historial de un usuario.</li><li><strong>Deshacer</strong> la última acción del operador.</li></ul><div class="table-responsive"><table class="styled-table"><thead><tr><th>Necesidad</th><th>Estructura</th><th>Por qué</th></tr></thead><tbody><tr><td>Atender por llegada</td><td><strong>Cola</strong></td><td>FIFO respeta el orden</td></tr><tr><td>Tickets urgentes primero</td><td><strong>Cola de prioridad</strong></td><td>Sale primero el más urgente</td></tr><tr><td>Historial por usuario</td><td><strong>Lista</strong></td><td>Crece dinámico, se recorre</td></tr><tr><td>Deshacer acción</td><td><strong>Pila</strong></td><td>LIFO: la última primero</td></tr></tbody></table></div></section><section id="s-3-diseno-antes-de-programar"><h2>3. Diseño antes de programar</h2><pre class="ascii">Ticket ---&gt; [ Cola de entrada ] ---&gt; Operador ---&gt; [ Pila de acciones (undo) ]
                                          |
                                          v
-                              [ Lista historial por usuario ]</pre><p>Diseñar el flujo primero evita reescribir código: sabes qué estructura toca en cada punto.</p></section><section id="s-4-esqueleto-en-java"><h2>4. Esqueleto en Java</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-56800-0">Estructuras del sistema</button><button class="tab-btn" data-tab="tab-56800-1">Operaciones</button></div><div class="tab-panel active" id="tab-56800-0"><pre class="code">Queue&lt;Ticket&gt; entrada = <span class="kw">new</span> LinkedList&lt;&gt;();          <span class="cm">// llegada (FIFO)</span>
+                              [ Lista historial por usuario ]</pre><p>Diseñar el flujo primero evita reescribir código: sabes qué estructura toca en cada punto.</p></section><section id="s-4-esqueleto-en-java"><h2>4. Esqueleto en Java</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-73504-0">Estructuras del sistema</button><button class="tab-btn" data-tab="tab-73504-1">Operaciones</button></div><div class="tab-panel active" id="tab-73504-0"><pre class="code">Queue&lt;Ticket&gt; entrada = <span class="kw">new</span> LinkedList&lt;&gt;();          <span class="cm">// llegada (FIFO)</span>
 Deque&lt;Accion&gt; deshacer = <span class="kw">new</span> ArrayDeque&lt;&gt;();         <span class="cm">// undo (LIFO)</span>
-Map&lt;Integer, List&lt;Ticket&gt;&gt; historial = <span class="kw">new</span> HashMap&lt;&gt;(); <span class="cm">// por usuario</span></pre></div><div class="tab-panel" id="tab-56800-1"><pre class="code"><span class="kw">void</span> registrar(Ticket t) {
+Map&lt;Integer, List&lt;Ticket&gt;&gt; historial = <span class="kw">new</span> HashMap&lt;&gt;(); <span class="cm">// por usuario</span></pre></div><div class="tab-panel" id="tab-73504-1"><pre class="code"><span class="kw">void</span> registrar(Ticket t) {
     entrada.add(t);
     historial.computeIfAbsent(t.usuario, k -&gt; <span class="kw">new</span> LinkedList&lt;&gt;()).add(t);
 }
@@ -42,6 +42,6 @@ Accion undo() { <span class="kw">return</span> deshacer.isEmpty() ? <span class=
   <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
 </div></footer>
 <button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
-<script src="js/script.js"></script>
+<script src="js/script.js?v=9a435c87"></script>
 </body>
 </html>
