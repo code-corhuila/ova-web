@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 9 · Sesión 1: Recorridos básicos en árboles | Estructura de Datos · CORHUILA</title>
+    <meta name="description" content="OVA interactiva sobre recorridos en árboles binarios (preorden, inorden, postorden y por niveles) para Estructura de Datos, CORHUILA.">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="readingBar"></div>
+
+<header class="main-header">
+    <div class="top-bar">
+        <div class="container">
+            <div class="brand-badge">UH</div>
+            <div class="brand-text">
+                <span class="brand-course">Estructura de Datos</span>
+                <span class="brand-topic">Semana 9 · Sesión 1 · Recorridos básicos en árboles</span>
+            </div>
+            <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+        </div>
+    </div>
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#introduccion" class="active">Inicio</a></li>
+                <li><a href="#concepto">Concepto</a></li>
+                <li><a href="#tipos">Tipos</a></li>
+                <li><a href="#visualizador">Visualizador</a></li>
+                <li><a href="#ejemplo">Ejemplo</a></li>
+                <li><a href="#codigo">Código</a></li>
+                <li><a href="#aplicaciones">Aplicaciones</a></li>
+                <li><a href="#autoevaluacion">Autoevaluación</a></li>
+                <li><a href="#actividad">Actividad</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="container main-content">
+
+    <!-- HERO + OBJETIVOS -->
+    <section id="introduccion" class="hero-section">
+        <span class="eyebrow">Unidad 3 · Árboles · Corte 2</span>
+        <h1>Recorridos básicos en árboles</h1>
+        <p class="lead">
+            Un árbol no tiene un único orden natural como una lista. Para procesar la información
+            que guarda, necesitamos <strong>recorrerlo</strong>: visitar todos sus nodos siguiendo
+            una regla clara. En esta sesión dominarás los cuatro recorridos fundamentales y
+            aprenderás <em>cuándo</em> usar cada uno.
+        </p>
+        <div class="objectives-grid">
+            <div class="objective-card">
+                <span class="num">1</span>
+                <p>Explicar qué es un recorrido y por qué el orden de visita importa.</p>
+            </div>
+            <div class="objective-card">
+                <span class="num">2</span>
+                <p>Diferenciar preorden, inorden, postorden y recorrido por niveles.</p>
+            </div>
+            <div class="objective-card">
+                <span class="num">3</span>
+                <p>Ejecutar a mano cada recorrido sobre un árbol binario dado.</p>
+            </div>
+            <div class="objective-card">
+                <span class="num">4</span>
+                <p>Implementar los recorridos en Java (recursivo e iterativo).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCEPTO -->
+    <section id="concepto">
+        <h2>1. ¿Qué es un recorrido?</h2>
+        <p>
+            Un <strong>recorrido</strong> (o <em>traversal</em>) es el proceso de visitar
+            <strong>cada nodo del árbol exactamente una vez</strong>, siguiendo un orden definido.
+            "Visitar" significa hacer algo con el nodo: imprimirlo, sumarlo, compararlo, etc.
+        </p>
+        <blockquote class="definition-box">
+            <strong>Recorrido:</strong> forma sistemática de visitar todos los nodos de un árbol
+            una sola vez. La diferencia entre un recorrido y otro está en
+            <strong>cuándo se visita el nodo actual</strong> respecto a sus hijos.
+        </blockquote>
+        <p>
+            Los recorridos se agrupan en dos familias:
+        </p>
+        <ul>
+            <li><strong>En profundidad (DFS):</strong> bajan por una rama hasta el final antes de
+                retroceder. Aquí están <em>preorden</em>, <em>inorden</em> y <em>postorden</em>.</li>
+            <li><strong>En amplitud (BFS):</strong> visitan el árbol nivel por nivel. Es el
+                <em>recorrido por niveles</em>.</li>
+        </ul>
+        <div class="callout info">
+            <h4>Idea clave</h4>
+            <p>Los tres recorridos en profundidad se distinguen solo por el momento en que se
+            procesa la raíz: <strong>antes</strong> (pre), <strong>en medio</strong> (in) o
+            <strong>después</strong> (post) de sus subárboles.</p>
+        </div>
+    </section>
+
+    <!-- TIPOS -->
+    <section id="tipos">
+        <h2>2. Los cuatro recorridos</h2>
+        <div class="traversal-cards">
+            <div class="tcard pre">
+                <h3>Preorden</h3>
+                <p>Se visita <strong>primero la raíz</strong>, luego el subárbol izquierdo y por
+                último el derecho.</p>
+                <span class="order">Raíz → Izq → Der</span>
+            </div>
+            <div class="tcard in">
+                <h3>Inorden</h3>
+                <p>Primero el subárbol izquierdo, <strong>después la raíz</strong> y al final el
+                derecho.</p>
+                <span class="order">Izq → Raíz → Der</span>
+            </div>
+            <div class="tcard post">
+                <h3>Postorden</h3>
+                <p>Primero ambos subárboles (izq y der) y <strong>al final la raíz</strong>.</p>
+                <span class="order">Izq → Der → Raíz</span>
+            </div>
+            <div class="tcard">
+                <h3>Por niveles</h3>
+                <p>Se visitan los nodos <strong>nivel por nivel</strong>, de izquierda a derecha
+                (usa una cola).</p>
+                <span class="order">Nivel 0 → 1 → 2 …</span>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- VISUALIZADOR INTERACTIVO -->
+    <section id="visualizador">
+        <h2>3. Visualizador interactivo</h2>
+        <p>
+            Pulsa un recorrido y observa el orden en que se visitan los nodos. La secuencia se va
+            construyendo paso a paso.
+        </p>
+        <div class="viz-wrap">
+            <div class="viz-controls">
+                <button class="btn btn-primary" data-order="pre">▶ Preorden</button>
+                <button class="btn btn-primary" data-order="in">▶ Inorden</button>
+                <button class="btn btn-primary" data-order="post">▶ Postorden</button>
+                <button class="btn btn-lime" data-order="level">▶ Por niveles</button>
+                <button class="btn btn-ghost" id="vizReset">↺ Reiniciar</button>
+            </div>
+
+            <svg class="viz-svg" viewBox="0 0 520 360" role="img" aria-label="Árbol binario de ejemplo">
+                <!-- aristas -->
+                <line class="viz-edge" x1="260" y1="50"  x2="140" y2="140"/>
+                <line class="viz-edge" x1="260" y1="50"  x2="380" y2="140"/>
+                <line class="viz-edge" x1="140" y1="140" x2="70"  y2="240"/>
+                <line class="viz-edge" x1="140" y1="140" x2="210" y2="240"/>
+                <line class="viz-edge" x1="380" y1="140" x2="450" y2="240"/>
+                <line class="viz-edge" x1="70"  y1="240" x2="40"  y2="330"/>
+                <!-- nodos -->
+                <g class="viz-node" data-id="A" transform="translate(260,50)"><circle r="22"/><text text-anchor="middle" dy="6">A</text></g>
+                <g class="viz-node" data-id="B" transform="translate(140,140)"><circle r="22"/><text text-anchor="middle" dy="6">B</text></g>
+                <g class="viz-node" data-id="C" transform="translate(380,140)"><circle r="22"/><text text-anchor="middle" dy="6">C</text></g>
+                <g class="viz-node" data-id="D" transform="translate(70,240)"><circle r="22"/><text text-anchor="middle" dy="6">D</text></g>
+                <g class="viz-node" data-id="E" transform="translate(210,240)"><circle r="22"/><text text-anchor="middle" dy="6">E</text></g>
+                <g class="viz-node" data-id="F" transform="translate(450,240)"><circle r="22"/><text text-anchor="middle" dy="6">F</text></g>
+                <g class="viz-node" data-id="G" transform="translate(40,330)"><circle r="22"/><text text-anchor="middle" dy="6">G</text></g>
+            </svg>
+
+            <div class="viz-output">
+                <div class="label" id="vizLabel">Elige un recorrido</div>
+                <div class="viz-seq" id="vizSeq"></div>
+            </div>
+        </div>
+        <div class="callout tip">
+            <h4>Observa</h4>
+            <p>Aunque el árbol es siempre el mismo, cada recorrido produce una secuencia distinta.
+            El <strong>inorden</strong> de un árbol binario de búsqueda (ABB) devuelve los datos
+            <strong>ordenados de menor a mayor</strong>.</p>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- EJEMPLO PASO A PASO -->
+    <section id="ejemplo">
+        <h2>4. Ejemplo paso a paso</h2>
+        <p>Trabajemos sobre el mismo árbol del visualizador:</p>
+        <pre class="ascii">
+            A
+          /   \
+         B     C
+        / \     \
+       D   E     F
+      /
+     G
+        </pre>
+
+        <h3>4.1. Preorden (Raíz → Izq → Der)</h3>
+        <p>Visitamos la raíz apenas llegamos a ella y luego bajamos por la izquierda:</p>
+        <pre class="ascii">A → B → D → G → E → C → F</pre>
+
+        <h3>4.2. Inorden (Izq → Raíz → Der)</h3>
+        <p>Bajamos del todo a la izquierda, visitamos, y volvemos:</p>
+        <pre class="ascii">G → D → B → E → A → C → F</pre>
+
+        <h3>4.3. Postorden (Izq → Der → Raíz)</h3>
+        <p>La raíz siempre se visita al final de cada subárbol:</p>
+        <pre class="ascii">G → D → E → B → F → C → A</pre>
+
+        <h3>4.4. Por niveles (BFS)</h3>
+        <p>Nivel por nivel, de izquierda a derecha:</p>
+        <pre class="ascii">A → B → C → D → E → F → G</pre>
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr><th>Recorrido</th><th>Regla</th><th>Resultado</th><th>Estructura auxiliar</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Preorden</td><td><code>Raíz, Izq, Der</code></td><td>A B D G E C F</td><td>Pila (recursión)</td></tr>
+                    <tr><td>Inorden</td><td><code>Izq, Raíz, Der</code></td><td>G D B E A C F</td><td>Pila (recursión)</td></tr>
+                    <tr><td>Postorden</td><td><code>Izq, Der, Raíz</code></td><td>G D E B F C A</td><td>Pila (recursión)</td></tr>
+                    <tr><td>Por niveles</td><td><code>Nivel a nivel</code></td><td>A B C D E F G</td><td>Cola</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- CODIGO -->
+    <section id="codigo">
+        <h2>5. Implementación en Java</h2>
+        <p>Partimos de una clase <code>Nodo</code> con un dato y dos hijos:</p>
+        <div class="tabs">
+            <div class="tab-btns">
+                <button class="tab-btn active" data-tab="t-pre">Preorden</button>
+                <button class="tab-btn" data-tab="t-in">Inorden</button>
+                <button class="tab-btn" data-tab="t-post">Postorden</button>
+                <button class="tab-btn" data-tab="t-lvl">Por niveles</button>
+            </div>
+            <div class="tab-panel active" id="t-pre">
+<pre class="code"><span class="cm">// Recursivo: visita la raíz ANTES que los hijos</span>
+<span class="kw">void</span> <span class="fn">preorden</span>(Nodo n) {
+    <span class="kw">if</span> (n == <span class="kw">null</span>) <span class="kw">return</span>;
+    visitar(n);              <span class="cm">// 1. raíz</span>
+    preorden(n.izquierdo);   <span class="cm">// 2. izquierda</span>
+    preorden(n.derecho);     <span class="cm">// 3. derecha</span>
+}</pre>
+            </div>
+            <div class="tab-panel" id="t-in">
+<pre class="code"><span class="cm">// Recursivo: la raíz se visita EN MEDIO</span>
+<span class="kw">void</span> <span class="fn">inorden</span>(Nodo n) {
+    <span class="kw">if</span> (n == <span class="kw">null</span>) <span class="kw">return</span>;
+    inorden(n.izquierdo);    <span class="cm">// 1. izquierda</span>
+    visitar(n);              <span class="cm">// 2. raíz</span>
+    inorden(n.derecho);      <span class="cm">// 3. derecha</span>
+}</pre>
+            </div>
+            <div class="tab-panel" id="t-post">
+<pre class="code"><span class="cm">// Recursivo: la raíz se visita AL FINAL</span>
+<span class="kw">void</span> <span class="fn">postorden</span>(Nodo n) {
+    <span class="kw">if</span> (n == <span class="kw">null</span>) <span class="kw">return</span>;
+    postorden(n.izquierdo);  <span class="cm">// 1. izquierda</span>
+    postorden(n.derecho);    <span class="cm">// 2. derecha</span>
+    visitar(n);              <span class="cm">// 3. raíz</span>
+}</pre>
+            </div>
+            <div class="tab-panel" id="t-lvl">
+<pre class="code"><span class="cm">// Iterativo con una COLA (BFS)</span>
+<span class="kw">void</span> <span class="fn">porNiveles</span>(Nodo raiz) {
+    <span class="kw">if</span> (raiz == <span class="kw">null</span>) <span class="kw">return</span>;
+    Queue&lt;Nodo&gt; cola = <span class="kw">new</span> LinkedList&lt;&gt;();
+    cola.add(raiz);
+    <span class="kw">while</span> (!cola.isEmpty()) {
+        Nodo n = cola.poll();
+        visitar(n);
+        <span class="kw">if</span> (n.izquierdo != <span class="kw">null</span>) cola.add(n.izquierdo);
+        <span class="kw">if</span> (n.derecho != <span class="kw">null</span>)   cola.add(n.derecho);
+    }
+}</pre>
+            </div>
+        </div>
+        <div class="callout warn">
+            <h4>Cuidado con el caso base</h4>
+            <p>Olvidar <code>if (n == null) return;</code> provoca un
+            <code>NullPointerException</code> al llegar a las hojas. Es el error más común al
+            programar recorridos recursivos.</p>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- APLICACIONES -->
+    <section id="aplicaciones">
+        <h2>6. ¿Para qué sirve cada uno?</h2>
+        <div class="apps-grid">
+            <div class="app-item">
+                <div class="ico">🧮</div>
+                <h4>Inorden</h4>
+                <p>Recorrer un ABB en orden ascendente; imprimir datos ordenados.</p>
+            </div>
+            <div class="app-item">
+                <div class="ico">📄</div>
+                <h4>Preorden</h4>
+                <p>Copiar o serializar un árbol; mostrar su estructura jerárquica completa.</p>
+            </div>
+            <div class="app-item">
+                <div class="ico">🗑️</div>
+                <h4>Postorden</h4>
+                <p>Liberar/eliminar nodos desde las hojas hacia la raíz sin perder referencias.</p>
+            </div>
+            <div class="app-item">
+                <div class="ico">🌐</div>
+                <h4>Por niveles</h4>
+                <p>Camino más corto en árboles; recorrer organigramas o rutas de red.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider-thick">
+
+    <!-- AUTOEVALUACION -->
+    <section id="autoevaluacion">
+        <h2>7. Autoevaluación</h2>
+        <p>Responde para comprobar tu comprensión. Recibirás retroalimentación inmediata.</p>
+        <div class="quiz" id="quiz">
+            <div class="quiz-progress"><span id="quizAnswered">0</span> de 4 respondidas</div>
+
+            <div class="q" data-correct="1">
+                <div class="stem"><span class="n">Pregunta 1.</span> En el recorrido <strong>inorden</strong>, ¿cuándo se visita la raíz?</div>
+                <button class="opt">Antes de sus dos subárboles</button>
+                <button class="opt">Entre el subárbol izquierdo y el derecho</button>
+                <button class="opt">Después de sus dos subárboles</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-correct="2">
+                <div class="stem"><span class="n">Pregunta 2.</span> Para el árbol del ejemplo, ¿cuál es el resultado del recorrido <strong>preorden</strong>?</div>
+                <button class="opt">G D B E A C F</button>
+                <button class="opt">A B C D E F G</button>
+                <button class="opt">A B D G E C F</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-correct="0">
+                <div class="stem"><span class="n">Pregunta 3.</span> ¿Qué estructura auxiliar caracteriza al recorrido <strong>por niveles</strong>?</div>
+                <button class="opt">Una cola (FIFO)</button>
+                <button class="opt">Una pila (LIFO)</button>
+                <button class="opt">Un arreglo ordenado</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="q" data-correct="1">
+                <div class="stem"><span class="n">Pregunta 4.</span> Si aplicas <strong>inorden</strong> a un árbol binario de búsqueda (ABB), obtienes…</div>
+                <button class="opt">Los datos en orden de inserción</button>
+                <button class="opt">Los datos ordenados de menor a mayor</button>
+                <button class="opt">Solo las hojas del árbol</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="quiz-result" id="quizResult">
+                <div>Tu puntaje</div>
+                <div class="score" id="quizScore">0/4</div>
+                <div id="quizMsg"></div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ACTIVIDAD -->
+    <section id="actividad" class="activity-section">
+        <h2>8. Actividad práctica (formativa)</h2>
+        <div class="scenario-box">
+            <h4>Contexto</h4>
+            <p>Tienes un árbol binario que representa una expresión o una jerarquía y necesitas
+            procesar su información en distintos órdenes según la tarea.</p>
+        </div>
+        <h3>Pasos</h3>
+        <ul class="checklist">
+            <li><input type="checkbox"> Dibuja un árbol binario con al menos 6 nodos.</li>
+            <li><input type="checkbox"> Escribe a mano su recorrido preorden.</li>
+            <li><input type="checkbox"> Escribe a mano su recorrido inorden.</li>
+            <li><input type="checkbox"> Escribe a mano su recorrido postorden.</li>
+            <li><input type="checkbox"> Escribe a mano su recorrido por niveles.</li>
+            <li><input type="checkbox"> Justifica en 3–4 líneas qué recorrido usarías para cada caso.</li>
+        </ul>
+        <div class="callout info">
+            <h4>Entrega</h4>
+            <p>Esta actividad es <strong>formativa y no evaluable</strong>. Encuentra la versión
+            ampliada (con rúbrica) en la carpeta <strong>optional-activity</strong> de esta semana;
+            si decides entregarla, se hace por <strong>GitHub</strong>, no por Moodle.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p><strong>Estructura de Datos</strong> <span class="sep">·</span> Semana 9 · Sesión 1 · Recorridos básicos en árboles</p>
+        <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+    </div>
+</footer>
+
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+
+<script src="js/script.js"></script>
+</body>
+</html>

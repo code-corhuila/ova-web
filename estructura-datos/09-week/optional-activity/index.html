@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad práctica · Semana 9: Recorridos en árboles | Estructura de Datos · CORHUILA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="readingBar"></div>
+
+<header class="main-header">
+    <div class="top-bar">
+        <div class="container">
+            <div class="brand-badge">UH</div>
+            <div class="brand-text">
+                <span class="brand-course">Estructura de Datos</span>
+                <span class="brand-topic">Semana 9 · Actividad práctica · Recorridos en árboles</span>
+            </div>
+            <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+        </div>
+    </div>
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#intro" class="active">Inicio</a></li>
+                <li><a href="#objetivos">Objetivos</a></li>
+                <li><a href="#enunciado">Enunciado</a></li>
+                <li><a href="#requisitos">Requisitos</a></li>
+                <li><a href="#entrega">Entrega</a></li>
+                <li><a href="#rubrica">Rúbrica</a></li>
+                <li><a href="#descarga">Descargar PDF</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="container main-content">
+
+    <section id="intro" class="hero-section">
+        <span class="eyebrow">Actividad opcional · Formativa · Entrega por GitHub</span>
+        <h1>Implementa y compara los recorridos de un árbol</h1>
+        <p class="lead">
+            Lleva a código lo aprendido en la sesión: implementa los cuatro recorridos, pruébalos
+            sobre un árbol dado y argumenta cuándo conviene cada uno. Es una actividad
+            <strong>opcional</strong> pensada para afianzar la competencia; no se entrega en Moodle.
+        </p>
+        <div class="objectives-grid">
+            <div class="objective-card"><span class="num">⏱</span><p>Duración estimada: 2–3 horas.</p></div>
+            <div class="objective-card"><span class="num">👤</span><p>Modalidad: individual o parejas.</p></div>
+            <div class="objective-card"><span class="num">💻</span><p>Lenguaje: Java (o el de tu preferencia).</p></div>
+            <div class="objective-card"><span class="num">🔗</span><p>Entrega: repositorio en GitHub.</p></div>
+        </div>
+    </section>
+
+    <section id="objetivos">
+        <h2>1. Objetivos de aprendizaje</h2>
+        <ul>
+            <li>Implementar los recorridos <strong>preorden, inorden y postorden</strong> de forma recursiva.</li>
+            <li>Implementar el recorrido <strong>por niveles (BFS)</strong> usando una cola.</li>
+            <li>Verificar los resultados sobre un árbol de prueba y casos borde (árbol vacío, un solo nodo).</li>
+            <li>Argumentar, con criterio técnico, <strong>qué recorrido conviene</strong> para cada necesidad.</li>
+        </ul>
+    </section>
+
+    <section id="enunciado">
+        <h2>2. Enunciado</h2>
+        <p>Dado el siguiente árbol binario:</p>
+        <pre class="ascii">
+            A
+          /   \
+         B     C
+        / \     \
+       D   E     F
+      /
+     G
+        </pre>
+        <h3>Tareas</h3>
+        <ol>
+            <li>Define una clase <code>Nodo</code> con un dato y dos hijos (izquierdo/derecho) y
+                construye el árbol anterior en tu programa.</li>
+            <li>Implementa cuatro métodos: <code>preorden</code>, <code>inorden</code>,
+                <code>postorden</code> y <code>porNiveles</code>.</li>
+            <li>Imprime las cuatro secuencias y verifica que coinciden con las de la sesión.</li>
+            <li>Agrega dos casos borde: <strong>árbol vacío</strong> y <strong>árbol de un solo nodo</strong>.</li>
+            <li>Escribe un breve análisis (media página) respondiendo:
+                ¿para qué tarea usarías cada recorrido y por qué?</li>
+        </ol>
+        <div class="callout tip">
+            <h4>Reto opcional (+)</h4>
+            <p>Implementa además una versión <strong>iterativa</strong> del inorden usando una pila
+            explícita, y compárala con la recursiva.</p>
+        </div>
+    </section>
+
+    <section id="requisitos">
+        <h2>3. Requisitos técnicos</h2>
+        <div class="apps-grid">
+            <div class="app-item"><div class="ico">📦</div><h4>Estructura</h4><p>Código organizado; una clase por responsabilidad.</p></div>
+            <div class="app-item"><div class="ico">🧪</div><h4>Pruebas</h4><p>Salida verificable de las 4 secuencias + casos borde.</p></div>
+            <div class="app-item"><div class="ico">📝</div><h4>Documentación</h4><p>README con instrucciones de ejecución y el análisis.</p></div>
+            <div class="app-item"><div class="ico">🔁</div><h4>Historial</h4><p>Commits con mensajes claros y progresivos.</p></div>
+        </div>
+    </section>
+
+    <section id="entrega">
+        <h2>4. Cómo entregar</h2>
+        <p>La entrega es <strong>por GitHub</strong> (no por Moodle), con <strong>nombre y estructura estandarizados</strong> para que sea fácil de revisar.</p>
+
+        <h3>Nombre del repositorio</h3>
+        <p>Usa el patrón <code>&lt;sigla&gt;-s&lt;NN&gt;-&lt;tema&gt;</code> en minúsculas y con guiones. Para esta actividad:</p>
+        <div class="definition-box"><strong><code>edatos-s09-recorridos</code></strong></div>
+
+        <h3>Estructura del repositorio (refleja la rúbrica)</h3>
+        <pre class="ascii">edatos-s09-recorridos/
+├── README.md   → objetivo · cómo ejecutar · resultados (4 secuencias) · casos borde · análisis
+├── src/        → código fuente de los recorridos
+└── tests/      → pruebas y casos borde (árbol vacío / un nodo)</pre>
+        <p>Cada carpeta responde a un criterio de la rúbrica: <code>src/</code> → recorridos DFS/BFS;
+        <code>tests/</code> → pruebas y casos borde; <code>README.md</code> → análisis y calidad del repositorio.</p>
+
+        <h3>Pasos</h3>
+        <ol>
+            <li>Crea el repositorio público con el nombre indicado.</li>
+            <li>Organiza el código según la estructura anterior.</li>
+            <li>Redacta el <code>README.md</code> cubriendo, en secciones, los criterios de la rúbrica.</li>
+            <li>Comparte el enlace del repositorio por el canal indicado por el docente.</li>
+            <li>Verifica tu avance con esta lista:</li>
+        </ol>
+        <ul class="checklist" id="checklist">
+            <li><input type="checkbox"> Clase <code>Nodo</code> y construcción del árbol.</li>
+            <li><input type="checkbox"> Preorden, inorden y postorden (recursivos).</li>
+            <li><input type="checkbox"> Recorrido por niveles (BFS con cola).</li>
+            <li><input type="checkbox"> Casos borde: árbol vacío y de un nodo.</li>
+            <li><input type="checkbox"> Análisis de cuándo usar cada recorrido.</li>
+            <li><input type="checkbox"> README con instrucciones y resultados.</li>
+        </ul>
+        <div class="callout info">
+            <h4>Nota</h4>
+            <p>Actividad <strong>formativa y opcional</strong> (sin nota en Moodle); su objetivo es
+            consolidar la competencia antes del parcial del Corte 2. La <strong>guía unificada para
+            entregar todas las actividades opcionales</strong>, válida para todas las materias, estará
+            en el <em>Manual de Entrega de Actividades Opcionales</em> (genérico, próximamente).</p>
+        </div>
+    </section>
+
+    <section id="rubrica">
+        <h2>5. Rúbrica de autoevaluación</h2>
+        <p>Usa esta rúbrica para revisar tu propio trabajo (total: 100 puntos).</p>
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr><th>Criterio</th><th>Excelente</th><th>Aceptable</th><th>Por mejorar</th><th>Pts</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Recorridos DFS (pre/in/post)</td><td>Los 3 correctos y limpios</td><td>2 de 3 correctos</td><td>Con errores</td><td>30</td></tr>
+                    <tr><td>Recorrido por niveles (BFS)</td><td>Correcto con cola</td><td>Funciona con detalles</td><td>Incorrecto/ausente</td><td>15</td></tr>
+                    <tr><td>Pruebas y casos borde</td><td>Verifica todo + bordes</td><td>Prueba parcial</td><td>Sin pruebas</td><td>20</td></tr>
+                    <tr><td>Análisis (cuándo usar cada uno)</td><td>Claro y bien justificado</td><td>Básico</td><td>Ausente</td><td>20</td></tr>
+                    <tr><td>Calidad de código y repositorio</td><td>Ordenado, README, commits</td><td>Aceptable</td><td>Desordenado</td><td>15</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="descarga">
+        <h2>6. Descargar la guía (PDF oficial)</h2>
+        <p>Descarga esta actividad en el formato institucional con membrete CORHUILA para imprimir o adjuntar:</p>
+        <p>
+            <a class="btn btn-primary" href="pdf/Actividad-Semana9-Recorridos.pdf" download>⬇ Descargar guía en PDF (membrete CORHUILA)</a>
+        </p>
+    </section>
+
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p><strong>Estructura de Datos</strong> <span class="sep">·</span> Semana 9 · Actividad práctica · Recorridos en árboles</p>
+        <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+    </div>
+</footer>
+
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+
+<script src="js/script.js"></script>
+</body>
+</html>

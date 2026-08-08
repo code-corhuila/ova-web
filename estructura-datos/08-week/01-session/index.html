@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estructura de Datos · Semana 8 · Árboles binarios simples | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Estructura de Datos</span><span class="brand-topic">Semana 8 · Sesión 1 · Árboles binarios simples</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#1-que-es-un-arbol">¿Qué es un árbol?</a></li><li><a href="#2-anatomia-de-un-arbol-binario">Anatomía de un árbol binario</a></li><li><a href="#3-implementacion-en-java">Implementación en Java</a></li><li><a href="#4-para-que-se-usan-los-arboles">¿Para qué se usan los árboles?</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana-formativa">Actividad de la semana (formativa)</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Árboles · Corte 2</span>
+    <h1>Árboles binarios simples</h1>
+    <p class="lead">Hasta ahora usamos estructuras lineales (arrays, listas, pilas, colas). Los árboles introducen una organización jerárquica que modela relaciones de "padre a hijos" y hace muy eficientes la búsqueda y el orden. Esta sesión sienta las bases para los recorridos de la Semana 9.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Definir qué es un árbol y un árbol binario.</p></div><div class="objective-card"><span class="num">2</span><p>Manejar la terminología: raíz, nodo, hoja, hijo, altura, profundidad y nivel.</p></div><div class="objective-card"><span class="num">3</span><p>Implementar la clase Nodo y construir un árbol binario en Java.</p></div><div class="objective-card"><span class="num">4</span><p>Reconocer aplicaciones reales de los árboles.</p></div></div>
+  </section>
+  <section id="1-que-es-un-arbol"><h2>1. ¿Qué es un árbol?</h2><p>Un <strong>árbol</strong> es una estructura de datos <strong>jerárquica</strong> formada por <strong>nodos</strong>. Cada nodo guarda un dato y se conecta con otros nodos "hijos". A diferencia de una lista, un nodo puede tener <strong>varios hijos</strong>, pero <strong>un solo padre</strong> (excepto la raíz, que no tiene padre).</p><div class="callout info"><h4>Nota</h4><p>Un árbol binario es un árbol donde cada nodo tiene <strong>como máximo dos hijos</strong>: el hijo izquierdo y el hijo derecho.</p></div><h3>1.1 Terminología esencial</h3><ul><li><strong>Raíz (root):</strong> el nodo superior, único sin padre.</li><li><strong>Nodo hoja (leaf):</strong> nodo sin hijos.</li><li><strong>Hijo / padre:</strong> relación directa entre dos nodos conectados.</li><li><strong>Nivel:</strong> distancia en aristas desde la raíz (la raíz está en el nivel 0).</li><li><strong>Altura:</strong> el nivel más profundo del árbol.</li><li><strong>Profundidad de un nodo:</strong> número de aristas desde la raíz hasta ese nodo.</li></ul></section><section id="2-anatomia-de-un-arbol-binario"><h2>2. Anatomía de un árbol binario</h2><p>Observa el siguiente árbol binario:</p><pre class="ascii">          A          &lt;- raíz (nivel 0)
+        /   \
+       B     C       &lt;- nivel 1
+      / \     \
+     D   E     F     &lt;- nivel 2 (D, E, F son hojas)</pre><div class="table-responsive"><table class="styled-table"><thead><tr><th>Concepto</th><th>En el ejemplo</th></tr></thead><tbody><tr><td>Raíz</td><td><code>A</code></td></tr><tr><td>Hojas</td><td><code>D</code>, <code>E</code>, <code>F</code></td></tr><tr><td>Hijos de <code>B</code></td><td><code>D</code> (izquierdo), <code>E</code> (derecho)</td></tr><tr><td>Altura del árbol</td><td>2</td></tr><tr><td>Nivel de <code>C</code></td><td>1</td></tr></tbody></table></div></section><section id="3-implementacion-en-java"><h2>3. Implementación en Java</h2><p>Un árbol binario se construye a partir de una clase <strong>Nodo</strong> que se referencia a sí misma (hijo izquierdo y derecho).</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-74816-0">Clase Nodo</button><button class="tab-btn" data-tab="tab-74816-1">Construir el árbol</button></div><div class="tab-panel active" id="tab-74816-0"><pre class="code"><span class="kw">class</span> Nodo {
+    <span class="kw">int</span> dato;
+    Nodo izquierdo;
+    Nodo derecho;
+
+    Nodo(<span class="kw">int</span> dato) {
+        this.dato = dato;
+        this.izquierdo = <span class="kw">null</span>;
+        this.derecho = <span class="kw">null</span>;
+    }
+}</pre></div><div class="tab-panel" id="tab-74816-1"><pre class="code">Nodo raiz = <span class="kw">new</span> Nodo(1);        <span class="cm">// A</span>
+raiz.izquierdo = <span class="kw">new</span> Nodo(2);   <span class="cm">// B</span>
+raiz.derecho = <span class="kw">new</span> Nodo(3);     <span class="cm">// C</span>
+raiz.izquierdo.izquierdo = <span class="kw">new</span> Nodo(4); <span class="cm">// D</span>
+raiz.izquierdo.derecho = <span class="kw">new</span> Nodo(5);   <span class="cm">// E</span></pre></div></div><div class="callout warn"><h4>Cuidado</h4><p>Todo nodo nuevo nace con sus hijos en <code>null</code>. Antes de acceder a <code>nodo.izquierdo.dato</code> verifica que el hijo no sea <code>null</code> para evitar un <code>NullPointerException</code>.</p></div></section><section id="4-para-que-se-usan-los-arboles"><h2>4. ¿Para qué se usan los árboles?</h2><ul><li><strong>Sistemas de archivos:</strong> carpetas y subcarpetas forman un árbol.</li><li><strong>Árboles de decisión</strong> y motores de reglas.</li><li><strong>Árboles binarios de búsqueda (ABB):</strong> búsquedas e inserciones eficientes.</li><li><strong>Expresiones matemáticas:</strong> un árbol representa operadores y operandos.</li></ul><div class="callout tip"><h4>Tip</h4><p>En la Semana 9 aprenderás a <strong>recorrer</strong> este árbol (preorden, inorden, postorden y por niveles) para procesar toda su información en el orden adecuado.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 4 respondidas</div><div class="q" data-correct="1" data-exp="En un árbol binario cada nodo tiene a lo sumo dos hijos: izquierdo y derecho."><div class="stem"><span class="n">Pregunta 1.</span> ¿Cuántos hijos puede tener, como máximo, un nodo en un árbol binario?</div><button class="opt">Uno</button><button class="opt">Dos</button><button class="opt">Cualquier cantidad</button><div class="feedback"></div></div><div class="q" data-correct="1" data-exp="Un nodo sin hijos se llama hoja (leaf)."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué nombre recibe un nodo que no tiene hijos?</div><button class="opt">Raíz</button><button class="opt">Hoja</button><button class="opt">Padre</button><div class="feedback"></div></div><div class="q" data-correct="1" data-exp="La altura es el nivel más profundo; D, E y F están en el nivel 2."><div class="stem"><span class="n">Pregunta 3.</span> En el árbol del ejemplo, ¿cuál es la altura?</div><button class="opt">1</button><button class="opt">2</button><button class="opt">3</button><div class="feedback"></div></div><div class="q" data-correct="0" data-exp="La raíz es el único nodo sin padre; es el punto de entrada al árbol."><div class="stem"><span class="n">Pregunta 4.</span> ¿Cuál es el único nodo sin padre?</div><button class="opt">La raíz</button><button class="opt">La hoja más a la izquierda</button><button class="opt">El nodo con más hijos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/4</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana-formativa" class="activity-section"><h2>Actividad de la semana (formativa)</h2><p>Esta práctica es <strong>opcional y no evaluable</strong>. Encuentra la versión ampliada con rúbrica en la carpeta <strong>optional-activity</strong> de esta semana; si decides entregarla, se hace por <strong>GitHub</strong>.</p><ul><li>Dibuja un árbol binario con al menos 7 nodos e identifica raíz, hojas y altura.</li><li>Impleméntalo en Java con la clase <code>Nodo</code>.</li><li>Imprime el dato de la raíz y de sus dos hijos.</li></ul></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Estructura de Datos</strong> <span class="sep">·</span> Semana 8 · Sesión 1 · Árboles binarios simples</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js"></script>
+</body>
+</html>
