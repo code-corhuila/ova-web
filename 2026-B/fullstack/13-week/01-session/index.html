@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 13 · Pruebas y calidad de la aplicación (testing) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 13 · Sesión 1 · Pruebas y calidad de la aplicación (testing)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-por-que-probar">¿Por qué probar?</a></li><li><a href="#s-2-tipos-de-prueba">Tipos de prueba</a></li><li><a href="#s-3-prueba-de-backend-junit">Prueba de backend (JUnit)</a></li><li><a href="#s-4-prueba-de-frontend">Prueba de frontend</a></li><li><a href="#s-5-buenas-practicas-de-calidad">Buenas prácticas de calidad</a></li><li><a href="#s-6-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Calidad · Corte 3</span>
+    <h1>Pruebas y calidad de la aplicación (testing)</h1>
+    <p class="lead">El código que no se prueba se rompe en silencio. Esta sesión introduce las pruebas del backend y del frontend: unitarias (una pieza aislada) y de integración (varias piezas juntas), y buenas prácticas de calidad.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Distinguir prueba unitaria de integración.</p></div><div class="objective-card"><span class="num">2</span><p>Escribir una prueba básica de backend y de frontend.</p></div><div class="objective-card"><span class="num">3</span><p>Adoptar buenas prácticas de calidad.</p></div></div>
+  </section>
+  <section id="s-1-por-que-probar"><h2>1. ¿Por qué probar?</h2><div class="callout info"><h4>Nota</h4><p>Las <strong>pruebas</strong> verifican automáticamente que el código hace lo que debe. Detectan errores temprano, dan confianza para cambiar (refactorizar) y documentan el comportamiento esperado.</p></div></section><section id="s-2-tipos-de-prueba"><h2>2. Tipos de prueba</h2><div class="callout info"><h4>Nota</h4><p><strong>Unitaria:</strong> prueba una pieza aislada (p. ej. un método del service). <strong>De integración:</strong> prueba varias piezas juntas (p. ej. un endpoint que pasa por controller → service → repository). <strong>End-to-end (E2E):</strong> prueba el flujo completo como un usuario.</p></div><pre class="ascii">Unitaria      → una función/clase       (rápida, muchas)
+Integración   → varias capas juntas     (media)
+End-to-end    → toda la app como usuario (lenta, pocas)</pre></section><section id="s-3-prueba-de-backend-junit"><h2>3. Prueba de backend (JUnit)</h2><pre class="code">@Test
+<span class="kw">void</span> calculaTotalConImpuesto() {
+  <span class="kw">double</span> total = service.totalConIva(1000);
+  assertEquals(1190, total);   <span class="cm">// 19% IVA</span>
+}</pre><div class="callout info"><h4>Nota</h4><p>En Java se usa <strong>JUnit</strong> (y <code>assert...</code> para comprobar). Spring Boot facilita también pruebas de integración de los endpoints (MockMvc).</p></div></section><section id="s-4-prueba-de-frontend"><h2>4. Prueba de frontend</h2><pre class="code">test("muestra el nombre del producto", () =&gt; {
+  render(&lt;Producto nombre="Teclado" precio={80000} /&gt;);
+  expect(screen.getByText(/Teclado/)).toBeInTheDocument();
+});</pre></section><section id="s-5-buenas-practicas-de-calidad"><h2>5. Buenas prácticas de calidad</h2><div class="callout tip"><h4>Tip</h4><p>Prueba primero el <strong>camino feliz</strong> y luego los <strong>errores/límites</strong> (datos vacíos, 401, 404). Nombres de prueba claros ("qué hace y qué espera"). Automatiza las pruebas al hacer push.</p></div></section><section id="s-6-errores-comunes"><h2>6. Errores comunes</h2><ul><li>No probar nada y "confiar" en que funciona.</li><li>Probar solo el camino feliz.</li><li>Pruebas frágiles que dependen de datos reales cambiantes.</li><li>Nombres de prueba poco claros.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Aísla una unidad de código."><div class="stem"><span class="n">Pregunta 1.</span> Una prueba unitaria verifica...</div><button class="opt" data-c="1">Una pieza aislada (p. ej. un método)</button><button class="opt" data-c="0">Toda la aplicación como usuario</button><button class="opt" data-c="0">El diseño gráfico</button><div class="feedback"></div></div><div class="q" data-exp="Comprueba la colaboración entre capas."><div class="stem"><span class="n">Pregunta 2.</span> Una prueba de integración verifica...</div><button class="opt" data-c="1">Varias piezas trabajando juntas (p. ej. un endpoint completo)</button><button class="opt" data-c="0">Solo una función suelta</button><button class="opt" data-c="0">El color del botón</button><div class="feedback"></div></div><div class="q" data-exp="JUnit para pruebas en Java."><div class="stem"><span class="n">Pregunta 3.</span> En Java, el framework de pruebas típico es...</div><button class="opt" data-c="1">JUnit</button><button class="opt" data-c="0">Swagger</button><button class="opt" data-c="0">Docker</button><div class="feedback"></div></div><div class="q" data-exp="Verifica el valor obtenido."><div class="stem"><span class="n">Pregunta 4.</span> assertEquals(esperado, real) sirve para...</div><button class="opt" data-c="1">Comprobar que el resultado es el esperado</button><button class="opt" data-c="0">Desplegar la app</button><button class="opt" data-c="0">Crear la base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Los errores también deben cubrirse."><div class="stem"><span class="n">Pregunta 5.</span> Además del camino feliz conviene probar...</div><button class="opt" data-c="1">Errores y casos límite (vacíos, 401, 404)</button><button class="opt" data-c="0">Nada más</button><button class="opt" data-c="0">Solo la interfaz</button><div class="feedback"></div></div><div class="q" data-exp="Calidad y confianza para refactorizar."><div class="stem"><span class="n">Pregunta 6.</span> Probar el código sirve para...</div><button class="opt" data-c="1">Detectar errores temprano y dar confianza al cambiar</button><button class="opt" data-c="0">Hacer el código más lento a propósito</button><button class="opt" data-c="0">Reemplazar el despliegue</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Escribe al menos una prueba de backend (service o endpoint) y una de frontend (componente), cubriendo un caso de error. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 13 · Sesión 1 · Pruebas y calidad de la aplicación (testing)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

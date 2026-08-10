@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 3 · Diseño de interfaz (mockups) y consumo de APIs desde el frontend | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 3 · Sesión 1 · Diseño de interfaz (mockups) y consumo de APIs desde el frontend</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-disenar-antes-de-codificar-mockups">Diseñar antes de codificar: mockups</a></li><li><a href="#s-2-como-se-comunican-frontend-y-backend-http">Cómo se comunican frontend y backend: HTTP</a></li><li><a href="#s-3-consumir-una-api-con-fetch">Consumir una API con fetch</a></li><li><a href="#s-4-estados-de-la-interfaz">Estados de la interfaz</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Frontend · Corte 1</span>
+    <h1>Diseño de interfaz (mockups) y consumo de APIs desde el frontend</h1>
+    <p class="lead">Antes de programar una pantalla conviene diseñarla (mockup). Y como el frontend no guarda los datos, aprenderás a pedirlos a una API con peticiones HTTP (fetch) y a mostrarlos en la interfaz.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Diseñar un mockup antes de codificar.</p></div><div class="objective-card"><span class="num">2</span><p>Entender el ciclo petición/respuesta HTTP y JSON.</p></div><div class="objective-card"><span class="num">3</span><p>Consumir una API con fetch y mostrar los datos.</p></div></div>
+  </section>
+  <section id="s-1-disenar-antes-de-codificar-mockups"><h2>1. Diseñar antes de codificar: mockups</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>mockup</strong> es un boceto de la pantalla (qué elementos hay y cómo se distribuyen) antes de escribir código. Ahorra retrabajo y alinea al equipo. Herramientas: Figma, papel, o bloques simples.</p></div><pre class="ascii">┌───────────────────────────┐
+│  Encabezado / logo        │
+├───────────────────────────┤
+│  [Buscar...]     [Botón]  │
+│  ┌─────────────────────┐  │
+│  │ item 1              │  │
+│  │ item 2              │  │  &lt;- lista cargada desde la API
+│  └─────────────────────┘  │
+└───────────────────────────┘</pre></section><section id="s-2-como-se-comunican-frontend-y-backend-http"><h2>2. Cómo se comunican frontend y backend: HTTP</h2><div class="callout info"><h4>Nota</h4><p>El frontend hace una <strong>petición HTTP</strong> a una URL (endpoint) y el backend devuelve una <strong>respuesta</strong>, normalmente en <strong>JSON</strong>. Métodos: <strong>GET</strong> (leer), <strong>POST</strong> (crear), <strong>PUT</strong> (actualizar), <strong>DELETE</strong> (borrar).</p></div><pre class="code">[
+  { "id": 1, "nombre": "Teclado", "precio": 80000 },
+  { "id": 2, "nombre": "Mouse",   "precio": 45000 }
+]</pre></section><section id="s-3-consumir-una-api-con-fetch"><h2>3. Consumir una API con fetch</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-70400-0">GET con fetch</button><button class="tab-btn" data-tab="tab-70400-1">Mostrar en el DOM</button></div><div class="tab-panel active" id="tab-70400-0"><pre class="code">fetch("https:<span class="cm">//api.ejemplo.com/productos")</span>
+  .then(res =&gt; res.json())
+  .then(data =&gt; mostrar(data))
+  .catch(err =&gt; console.error("Error:", err));</pre></div><div class="tab-panel" id="tab-70400-1"><pre class="code"><span class="kw">function</span> mostrar(productos) {
+  <span class="kw">const</span> ul = document.getElementById("lista");
+  ul.innerHTML = productos
+    .map(p =&gt; `&lt;li&gt;${p.nombre} — $${p.precio}&lt;/li&gt;`)
+    .join("");
+}</pre></div></div><div class="callout tip"><h4>Tip</h4><p>Toda petición puede fallar (sin red, error del servidor). Maneja el <strong>error</strong> (<code>catch</code>) y el estado de <strong>carga</strong> para no dejar la pantalla en blanco.</p></div></section><section id="s-4-estados-de-la-interfaz"><h2>4. Estados de la interfaz</h2><p>Una vista que consume datos tiene al menos tres estados: <strong>cargando</strong>, <strong>con datos</strong> y <strong>error</strong>. Diséñalos desde el mockup.</p></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Programar sin mockup y rehacer la pantalla varias veces.</li><li>Olvidar <code>res.json()</code> (queda la respuesta sin parsear).</li><li>No manejar el error ni el estado de carga.</li><li>Suponer que los datos siempre llegan (y romper si vienen vacíos).</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Diseña la pantalla antes de codificar."><div class="stem"><span class="n">Pregunta 1.</span> Un mockup es...</div><button class="opt" data-c="1">Un boceto de la pantalla antes de programarla</button><button class="opt" data-c="0">El código final de la interfaz</button><button class="opt" data-c="0">La base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Pide a la API y recibe la respuesta."><div class="stem"><span class="n">Pregunta 2.</span> El frontend obtiene los datos...</div><button class="opt" data-c="1">Pidiéndolos a una API por HTTP</button><button class="opt" data-c="0">Leyéndolos directo del disco del usuario</button><button class="opt" data-c="0">No necesita datos</button><div class="feedback"></div></div><div class="q" data-exp="GET recupera información."><div class="stem"><span class="n">Pregunta 3.</span> El método HTTP para LEER datos es...</div><button class="opt" data-c="1">GET</button><button class="opt" data-c="0">DELETE</button><button class="opt" data-c="0">POST</button><div class="feedback"></div></div><div class="q" data-exp="JSON es el formato común de intercambio."><div class="stem"><span class="n">Pregunta 4.</span> Las APIs suelen devolver los datos en formato...</div><button class="opt" data-c="1">JSON</button><button class="opt" data-c="0">.exe</button><button class="opt" data-c="0">MP3</button><div class="feedback"></div></div><div class="q" data-exp="Parsea el cuerpo JSON de la respuesta."><div class="stem"><span class="n">Pregunta 5.</span> En fetch, res.json() sirve para...</div><button class="opt" data-c="1">Convertir la respuesta en un objeto/arreglo usable</button><button class="opt" data-c="0">Enviar un correo</button><button class="opt" data-c="0">Borrar la base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Cargando, con datos y error, para buena UX."><div class="stem"><span class="n">Pregunta 6.</span> Una vista que consume datos debería contemplar...</div><button class="opt" data-c="1">Estados de carga, datos y error</button><button class="opt" data-c="0">Solo el estado con datos</button><button class="opt" data-c="0">Ningún estado</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Diseña el mockup de una vista y consúmela desde una API pública con fetch, mostrando la lista y manejando carga/error. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 3 · Sesión 1 · Diseño de interfaz (mockups) y consumo de APIs desde el frontend</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

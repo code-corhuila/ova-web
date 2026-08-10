@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 12 · Integración Frontend–Backend | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 12 · Sesión 1 · Integración Frontend–Backend</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-la-integracion">La integración</a></li><li><a href="#s-2-consumir-la-api-con-el-token">Consumir la API con el token</a></li><li><a href="#s-3-estados-de-carga-y-error">Estados de carga y error</a></li><li><a href="#s-4-cors">CORS</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Integración · Corte 3</span>
+    <h1>Integración Frontend–Backend</h1>
+    <p class="lead">Es el momento de unir las dos capas: el frontend consume la API real (login, listar, crear), maneja el token y los estados de carga y error, y resuelve el CORS. Aquí "nace" la aplicación fullstack completa.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Conectar el frontend con la API real.</p></div><div class="objective-card"><span class="num">2</span><p>Manejar token, carga y error en la UI.</p></div><div class="objective-card"><span class="num">3</span><p>Entender y resolver CORS.</p></div></div>
+  </section>
+  <section id="s-1-la-integracion"><h2>1. La integración</h2><div class="callout info"><h4>Nota</h4><p>El frontend deja de usar datos de ejemplo y consume <strong>tu API</strong>: inicia sesión (recibe el token), lo guarda y lo envía en cada petición, y muestra los datos. Es la unión de todo el curso.</p></div><pre class="ascii">[ Frontend SPA ]  ──login──►  [ API Spring Boot ]  ──►  [ BD ]
+      │  guarda token
+      └──GET /productos (Bearer token)──►  responde JSON  ──►  render</pre></section><section id="s-2-consumir-la-api-con-el-token"><h2>2. Consumir la API con el token</h2><pre class="code">async <span class="kw">function</span> getProductos() {
+  <span class="kw">const</span> token = localStorage.getItem("token");
+  <span class="kw">const</span> res = await fetch("http:<span class="cm">//localhost:8080/productos", {</span>
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  <span class="kw">if</span> (!res.ok) throw <span class="kw">new</span> Error("Error " + res.status);
+  <span class="kw">return</span> res.json();
+}</pre></section><section id="s-3-estados-de-carga-y-error"><h2>3. Estados de carga y error</h2><div class="callout tip"><h4>Tip</h4><p>Muestra <strong>cargando</strong> mientras llega la respuesta, <strong>los datos</strong> al llegar y un <strong>mensaje de error</strong> si falla (token vencido → 401, no existe → 404). Nunca dejes la pantalla en blanco.</p></div><pre class="code"><span class="kw">const</span> [estado, setEstado] = useState("cargando");
+useEffect(() =&gt; {
+  getProductos().then(setDatos).then(() =&gt; setEstado("ok"))
+                .catch(() =&gt; setEstado("error"));
+}, []);</pre></section><section id="s-4-cors"><h2>4. CORS</h2><div class="callout info"><h4>Nota</h4><p><strong>CORS</strong> es una protección del navegador: por defecto bloquea que una página en un origen (p. ej. <code>localhost:5173</code>) llame a una API en otro (<code>localhost:8080</code>). Se resuelve <strong>habilitando CORS en el backend</strong> para el origen del frontend.</p></div><pre class="code">@CrossOrigin(origins = "http:<span class="cm">//localhost:5173")</span>
+@RestController
+@RequestMapping("/productos")
+<span class="kw">public</span> <span class="kw">class</span> ProductoController { /* ... */ }</pre></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Olvidar enviar el token → 401 (no autorizado).</li><li>No habilitar CORS → el navegador bloquea la petición.</li><li>No manejar el error/carga (pantalla en blanco o congelada).</li><li>Quemar la URL del backend en muchos lugares (centralízala).</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Consume la API, no la BD directa."><div class="stem"><span class="n">Pregunta 1.</span> Al integrar, el frontend consume...</div><button class="opt" data-c="1">La API real (con el token en cada petición)</button><button class="opt" data-c="0">Datos escritos a mano para siempre</button><button class="opt" data-c="0">La base de datos directamente</button><div class="feedback"></div></div><div class="q" data-exp="Falta la credencial → 401."><div class="stem"><span class="n">Pregunta 2.</span> Si no envías el token a un endpoint protegido, recibes...</div><button class="opt" data-c="1">401 (no autorizado)</button><button class="opt" data-c="0">200 (OK)</button><button class="opt" data-c="0">201 (creado)</button><div class="feedback"></div></div><div class="q" data-exp="Controla llamadas entre orígenes."><div class="stem"><span class="n">Pregunta 3.</span> CORS es...</div><button class="opt" data-c="1">Una protección del navegador entre orígenes distintos</button><button class="opt" data-c="0">Un lenguaje de backend</button><button class="opt" data-c="0">Un tipo de base de datos</button><div class="feedback"></div></div><div class="q" data-exp="El servidor autoriza el origen."><div class="stem"><span class="n">Pregunta 4.</span> CORS se habilita normalmente en...</div><button class="opt" data-c="1">El backend, para el origen del frontend</button><button class="opt" data-c="0">El navegador del usuario, a mano</button><button class="opt" data-c="0">La base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Contemplar los tres estados."><div class="stem"><span class="n">Pregunta 5.</span> Buena UX al consumir datos:</div><button class="opt" data-c="1">Mostrar carga, datos y error</button><button class="opt" data-c="0">Dejar la pantalla en blanco si falla</button><button class="opt" data-c="0">Ocultar los errores siempre</button><div class="feedback"></div></div><div class="q" data-exp="Se guarda y viaja en la cabecera."><div class="stem"><span class="n">Pregunta 6.</span> El token, en el frontend, suele...</div><button class="opt" data-c="1">Guardarse y enviarse en la cabecera Authorization</button><button class="opt" data-c="0">Escribirse en la URL visible</button><button class="opt" data-c="0">No usarse</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Conecta tu frontend con la API real: login que guarda el token, una vista que lista datos con el token y manejo de carga/error. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 12 · Sesión 1 · Integración Frontend–Backend</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

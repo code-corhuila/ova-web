@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 8 · Servicios y controladores REST (service, controller, endpoints) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 8 · Sesión 1 · Servicios y controladores REST (service, controller, endpoints)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-es-una-api-rest">¿Qué es una API REST?</a></li><li><a href="#s-2-el-controller">El controller</a></li><li><a href="#s-3-crud-rest-completo">CRUD REST completo</a></li><li><a href="#s-4-buenas-practicas-rest">Buenas prácticas REST</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Backend · Corte 2</span>
+    <h1>Servicios y controladores REST (service, controller, endpoints)</h1>
+    <p class="lead">Ahora exponemos los datos al mundo. El controller define los endpoints REST (URLs + método HTTP) que el frontend consume; el service aplica la lógica. Construiremos un CRUD REST completo.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Diseñar endpoints REST con buenas prácticas.</p></div><div class="objective-card"><span class="num">2</span><p>Implementar un controller que use el service.</p></div><div class="objective-card"><span class="num">3</span><p>Construir un CRUD REST de extremo a extremo.</p></div></div>
+  </section>
+  <section id="s-1-que-es-una-api-rest"><h2>1. ¿Qué es una API REST?</h2><div class="callout info"><h4>Nota</h4><p><strong>REST</strong> expone recursos mediante <strong>URLs</strong> y <strong>métodos HTTP</strong>: <code>GET /productos</code> (listar), <code>GET /productos/1</code> (uno), <code>POST /productos</code> (crear), <code>PUT /productos/1</code> (actualizar), <code>DELETE /productos/1</code> (borrar). Devuelve <strong>JSON</strong>.</p></div></section><section id="s-2-el-controller"><h2>2. El controller</h2><pre class="code">@RestController
+@RequestMapping("/productos")
+<span class="kw">public</span> <span class="kw">class</span> ProductoController {
+  <span class="kw">private</span> final ProductoService service;
+  <span class="kw">public</span> ProductoController(ProductoService service) { this.service = service; }
+
+  @GetMapping
+  <span class="kw">public</span> List&lt;Producto&gt; listar() { <span class="kw">return</span> service.listar(); }
+
+  @PostMapping
+  <span class="kw">public</span> Producto crear(@RequestBody Producto p) { <span class="kw">return</span> service.guardar(p); }
+}</pre><div class="callout info"><h4>Nota</h4><p><code>@RestController</code> devuelve JSON; <code>@RequestMapping</code> fija la ruta base; <code>@GetMapping/@PostMapping</code> mapean el método HTTP; <code>@RequestBody</code> convierte el JSON recibido en objeto.</p></div></section><section id="s-3-crud-rest-completo"><h2>3. CRUD REST completo</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Método</th><th>URL</th><th>Acción</th></tr></thead><tbody><tr><td>GET</td><td>/productos</td><td>Listar</td></tr><tr><td>GET</td><td>/productos/{id}</td><td>Obtener uno</td></tr><tr><td>POST</td><td>/productos</td><td>Crear</td></tr><tr><td>PUT</td><td>/productos/{id}</td><td>Actualizar</td></tr><tr><td>DELETE</td><td>/productos/{id}</td><td>Borrar</td></tr></tbody></table></div><pre class="code">@GetMapping("/{id}")
+<span class="kw">public</span> Producto uno(@PathVariable Long id) { <span class="kw">return</span> service.buscar(id); }
+
+@DeleteMapping("/{id}")
+<span class="kw">public</span> <span class="kw">void</span> borrar(@PathVariable Long id) { service.eliminar(id); }</pre></section><section id="s-4-buenas-practicas-rest"><h2>4. Buenas prácticas REST</h2><div class="callout tip"><h4>Tip</h4><p>Usa <strong>sustantivos en plural</strong> para los recursos (<code>/productos</code>), el <strong>método HTTP</strong> para la acción (no <code>/crearProducto</code>), y <strong>códigos de estado</strong> correctos (200 OK, 201 creado, 404 no encontrado).</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Poner verbos en la URL (<code>/getProductos</code>) en vez de usar el método HTTP.</li><li>Meter lógica de negocio en el controller (va en el service).</li><li>No validar la entrada del <code>@RequestBody</code>.</li><li>Devolver siempre 200 aunque haya error.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="GET sobre el recurso en plural."><div class="stem"><span class="n">Pregunta 1.</span> En REST, para LISTAR productos se usa...</div><button class="opt" data-c="1">GET /productos</button><button class="opt" data-c="0">POST /crearLista</button><button class="opt" data-c="0">DELETE /productos</button><div class="feedback"></div></div><div class="q" data-exp="Es la capa que responde a HTTP con JSON."><div class="stem"><span class="n">Pregunta 2.</span> @RestController se encarga de...</div><button class="opt" data-c="1">Exponer endpoints que devuelven JSON</button><button class="opt" data-c="0">Acceder a la base de datos</button><button class="opt" data-c="0">Renderizar CSS</button><div class="feedback"></div></div><div class="q" data-exp="Deserializa el cuerpo de la petición."><div class="stem"><span class="n">Pregunta 3.</span> @RequestBody sirve para...</div><button class="opt" data-c="1">Convertir el JSON recibido en un objeto Java</button><button class="opt" data-c="0">Borrar la tabla</button><button class="opt" data-c="0">Definir el color</button><div class="feedback"></div></div><div class="q" data-exp="POST crea; PUT actualiza."><div class="stem"><span class="n">Pregunta 4.</span> Para CREAR un recurso, el método HTTP es...</div><button class="opt" data-c="1">POST</button><button class="opt" data-c="0">GET</button><button class="opt" data-c="0">PUT (ese actualiza)</button><div class="feedback"></div></div><div class="q" data-exp="Recurso + método HTTP, sin verbos en la URL."><div class="stem"><span class="n">Pregunta 5.</span> Una buena URL REST es...</div><button class="opt" data-c="1">/productos/{id} usando el método HTTP para la acción</button><button class="opt" data-c="0">/borrarProductoPorId</button><button class="opt" data-c="0">/accion?tipo=crear</button><div class="feedback"></div></div><div class="q" data-exp="Mantener responsabilidades por capa."><div class="stem"><span class="n">Pregunta 6.</span> La lógica de negocio en el CRUD va en...</div><button class="opt" data-c="1">El service (el controller solo recibe/responde)</button><button class="opt" data-c="0">El controller</button><button class="opt" data-c="0">La entity</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Construye un CRUD REST (entity, repository, service, controller) para un recurso y prueba sus endpoints. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 8 · Sesión 1 · Servicios y controladores REST (service, controller, endpoints)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 11 · Seguridad — autenticación y autorización con JWT | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 11 · Sesión 1 · Seguridad — autenticación y autorización con JWT</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-autenticacion-vs-autorizacion">Autenticación vs autorización</a></li><li><a href="#s-2-el-patron-con-token-jwt">El patrón con token (JWT)</a></li><li><a href="#s-3-login-y-token">Login y token</a></li><li><a href="#s-4-autorizacion-por-rol">Autorización por rol</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Seguridad · Corte 3</span>
+    <h1>Seguridad — autenticación y autorización con JWT</h1>
+    <p class="lead">Una API real debe proteger sus datos. Esta sesión distingue autenticación (quién eres) de autorización (qué puedes hacer) y explica el patrón más usado en fullstack: iniciar sesión y recibir un token JWT que acompaña cada petición.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Distinguir autenticación de autorización.</p></div><div class="objective-card"><span class="num">2</span><p>Entender el flujo de login con JWT.</p></div><div class="objective-card"><span class="num">3</span><p>Proteger endpoints según el rol.</p></div></div>
+  </section>
+  <section id="s-1-autenticacion-vs-autorizacion"><h2>1. Autenticación vs autorización</h2><div class="callout info"><h4>Nota</h4><p><strong>Autenticación</strong> = verificar <strong>quién eres</strong> (login con usuario/contraseña). <strong>Autorización</strong> = decidir <strong>qué puedes hacer</strong> (permisos/roles). Primero te autenticas; luego el sistema autoriza cada acción.</p></div></section><section id="s-2-el-patron-con-token-jwt"><h2>2. El patrón con token (JWT)</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>JWT</strong> (JSON Web Token) es una credencial firmada que el servidor entrega al iniciar sesión. El frontend la guarda y la envía en cada petición (cabecera <code>Authorization</code>). El backend la valida sin guardar sesión en memoria (<strong>stateless</strong>).</p></div><pre class="ascii">1) POST /login (usuario, clave)  ─────────►  Backend verifica
+2)        ◄───────────  devuelve JWT (token firmado)
+3) GET /productos  Authorization: Bearer &lt;token&gt;  ─►  Backend valida el token
+4)        ◄───────────  responde si el token es válido</pre></section><section id="s-3-login-y-token"><h2>3. Login y token</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-74848-0">Cabecera en cada petición</button><button class="tab-btn" data-tab="tab-74848-1">Frontend guarda el token</button></div><div class="tab-panel active" id="tab-74848-0"><pre class="code">GET /productos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</pre></div><div class="tab-panel" id="tab-74848-1"><pre class="code"><span class="kw">const</span> { token } = await login(usuario, clave);
+localStorage.setItem("token", token);
+<span class="cm">// y lo envía luego:</span>
+fetch(url, { headers: { Authorization: `Bearer ${token}` } });</pre></div></div></section><section id="s-4-autorizacion-por-rol"><h2>4. Autorización por rol</h2><p>Con Spring Security proteges rutas: por ejemplo, <code>GET /productos</code> para cualquier usuario autenticado, pero <code>DELETE /productos/{id}</code> solo para rol <strong>ADMIN</strong>.</p><div class="callout tip"><h4>Tip</h4><p>Nunca guardes contraseñas en texto plano: se almacenan <strong>cifradas (hash)</strong>. El JWT no lleva la contraseña, solo una identidad firmada con caducidad.</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Confundir autenticación con autorización.</li><li>Guardar contraseñas sin cifrar.</li><li>Poner el token en la URL (va en la cabecera).</li><li>No dar caducidad al token ni validar su firma.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Autenticación = identidad."><div class="stem"><span class="n">Pregunta 1.</span> La autenticación responde a...</div><button class="opt" data-c="1">¿Quién eres? (verificar identidad)</button><button class="opt" data-c="0">¿Qué puedes hacer?</button><button class="opt" data-c="0">¿Qué color usar?</button><div class="feedback"></div></div><div class="q" data-exp="Autorización = permisos."><div class="stem"><span class="n">Pregunta 2.</span> La autorización responde a...</div><button class="opt" data-c="1">¿Qué puedes hacer? (permisos/roles)</button><button class="opt" data-c="0">¿Quién eres?</button><button class="opt" data-c="0">¿Dónde se despliega?</button><div class="feedback"></div></div><div class="q" data-exp="Token de identidad firmado."><div class="stem"><span class="n">Pregunta 3.</span> Un JWT es...</div><button class="opt" data-c="1">Una credencial firmada que se envía en cada petición</button><button class="opt" data-c="0">Una base de datos</button><button class="opt" data-c="0">Un lenguaje de estilos</button><div class="feedback"></div></div><div class="q" data-exp="En la cabecera, no en la URL."><div class="stem"><span class="n">Pregunta 4.</span> El token se envía normalmente en...</div><button class="opt" data-c="1">La cabecera Authorization: Bearer &lt;token&gt;</button><button class="opt" data-c="0">La URL como parámetro</button><button class="opt" data-c="0">El nombre del archivo</button><div class="feedback"></div></div><div class="q" data-exp="Siempre con hash."><div class="stem"><span class="n">Pregunta 5.</span> Las contraseñas deben guardarse...</div><button class="opt" data-c="1">Cifradas (hash), nunca en texto plano</button><button class="opt" data-c="0">En texto plano para leerlas fácil</button><button class="opt" data-c="0">En la URL</button><div class="feedback"></div></div><div class="q" data-exp="El token viaja y se valida cada vez."><div class="stem"><span class="n">Pregunta 6.</span> "Stateless" (con JWT) significa que...</div><button class="opt" data-c="1">El servidor no guarda la sesión; valida el token en cada petición</button><button class="opt" data-c="0">El servidor guarda todo en memoria</button><button class="opt" data-c="0">No hay seguridad</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Protege los endpoints de tu API con JWT (login que devuelve token; endpoints que exigen el token) y prueba el flujo. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 11 · Sesión 1 · Seguridad — autenticación y autorización con JWT</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

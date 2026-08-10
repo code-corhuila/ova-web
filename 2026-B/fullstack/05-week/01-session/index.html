@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 5 · Repaso y evaluación del Corte 1 | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 5 · Sesión 1 · Repaso y evaluación del Corte 1</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-mapa-del-corte">Mapa del corte</a></li><li><a href="#s-2-puntos-clave-para-el-parcial">Puntos clave para el parcial</a></li><li><a href="#s-3-checklist-de-repaso">Checklist de repaso</a></li><li><a href="#s-4-errores-comunes-a-evitar-en-el-parcial">Errores comunes a evitar en el parcial</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Cierre · Corte 1</span>
+    <h1>Repaso y evaluación del Corte 1</h1>
+    <p class="lead">Cierre del Corte 1. Repasamos los fundamentos web y de frontend, y preparamos el parcial: fullstack y sus capas, HTML/CSS/JS, SPA vs MPA, mockups, consumo de APIs y frameworks (componentes, estado, enrutamiento).</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Consolidar los conceptos del corte.</p></div><div class="objective-card"><span class="num">2</span><p>Autoevaluar el dominio antes del parcial.</p></div><div class="objective-card"><span class="num">3</span><p>Preparar la entrega del frontend inicial.</p></div></div>
+  </section>
+  <section id="s-1-mapa-del-corte"><h2>1. Mapa del corte</h2><pre class="ascii">Fullstack (frontend + backend + datos)
+      │
+      ├─ HTML (estructura) · CSS (apariencia) · JS (comportamiento)
+      ├─ SPA vs MPA
+      ├─ Mockup → interfaz
+      ├─ Consumo de API (fetch, JSON, estados carga/datos/error)
+      └─ Framework: componentes · estado · enrutamiento</pre></section><section id="s-2-puntos-clave-para-el-parcial"><h2>2. Puntos clave para el parcial</h2><div class="callout info"><h4>Nota</h4><p><strong>Capas:</strong> frontend pide, backend responde vía API. <strong>Los 3 lenguajes:</strong> HTML/CSS/JS y sus roles. <strong>SPA vs MPA.</strong> <strong>HTTP:</strong> GET/POST/PUT/DELETE y JSON. <strong>Framework:</strong> componente, estado (re-render), router.</p></div></section><section id="s-3-checklist-de-repaso"><h2>3. Checklist de repaso</h2><ul><li>Explico qué es fullstack y sus tres capas.</li><li>Distingo el rol de HTML, CSS y JavaScript.</li><li>Sé consumir una API con fetch y manejar carga/error.</li><li>Entiendo componente, estado y enrutamiento.</li><li>Uso Git para versionar y entregar por mi fork.</li></ul></section><section id="s-4-errores-comunes-a-evitar-en-el-parcial"><h2>4. Errores comunes a evitar en el parcial</h2><ul><li>Confundir SPA con "sin servidor".</li><li>Olvidar el manejo de error/carga al consumir datos.</li><li>Mezclar responsabilidades (estructura/estilo/lógica) sin orden.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Frontend consume; backend provee."><div class="stem"><span class="n">Pregunta 1.</span> El backend, frente al frontend...</div><button class="opt" data-c="1">Contiene la lógica y expone una API que el frontend consume</button><button class="opt" data-c="0">Es la interfaz que ve el usuario</button><button class="opt" data-c="0">Es el navegador</button><div class="feedback"></div></div><div class="q" data-exp="POST crea recursos."><div class="stem"><span class="n">Pregunta 2.</span> ¿Cuál es un método HTTP para CREAR?</div><button class="opt" data-c="1">POST</button><button class="opt" data-c="0">GET</button><button class="opt" data-c="0">(ninguno crea)</button><div class="feedback"></div></div><div class="q" data-exp="El router muestra vistas sin recargar."><div class="stem"><span class="n">Pregunta 3.</span> En una SPA, cambiar de vista según la URL lo hace...</div><button class="opt" data-c="1">El enrutamiento (router)</button><button class="opt" data-c="0">La base de datos</button><button class="opt" data-c="0">El CSS</button><div class="feedback"></div></div><div class="q" data-exp="El estado dirige la vista."><div class="stem"><span class="n">Pregunta 4.</span> Cuando cambia el estado en un framework...</div><button class="opt" data-c="1">La vista se re-renderiza automáticamente</button><button class="opt" data-c="0">Hay que recargar toda la página a mano</button><button class="opt" data-c="0">No pasa nada</button><div class="feedback"></div></div><div class="q" data-exp="El mockup guía la construcción."><div class="stem"><span class="n">Pregunta 5.</span> Antes de programar una pantalla conviene...</div><button class="opt" data-c="1">Diseñar un mockup</button><button class="opt" data-c="0">Desplegar en la nube</button><button class="opt" data-c="0">Borrar el repositorio</button><div class="feedback"></div></div><div class="q" data-exp="Entrega versionada por tu fork."><div class="stem"><span class="n">Pregunta 6.</span> Para entregar tu avance de frontend usas...</div><button class="opt" data-c="1">Git/GitHub (fork del repo de la clase)</button><button class="opt" data-c="0">Un USB entregado en físico</button><button class="opt" data-c="0">Correo con el .zip</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Consolida tu <strong>frontend inicial</strong> (mockup + vista que consume una API con estados) y prepárate para el parcial. La evaluación del corte se realiza en las actividades calificables.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 5 · Sesión 1 · Repaso y evaluación del Corte 1</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

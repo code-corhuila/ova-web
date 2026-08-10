@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 6 · Introducción a Spring Boot 3 y arquitectura en capas | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 6 · Sesión 1 · Introducción a Spring Boot 3 y arquitectura en capas</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-es-spring-boot">¿Qué es Spring Boot?</a></li><li><a href="#s-2-arquitectura-en-capas">Arquitectura en capas</a></li><li><a href="#s-3-responsabilidad-de-cada-capa">Responsabilidad de cada capa</a></li><li><a href="#s-4-estructura-de-un-proyecto-spring-boot">Estructura de un proyecto Spring Boot</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Backend · Corte 2</span>
+    <h1>Introducción a Spring Boot 3 y arquitectura en capas</h1>
+    <p class="lead">Empieza el backend. Spring Boot es el framework de Java para crear APIs de forma rápida. Esta sesión explica cómo se estructura un proyecto en capas (controller, service, repository, entity) para que el código quede ordenado y mantenible.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Entender qué es Spring Boot y para qué sirve.</p></div><div class="objective-card"><span class="num">2</span><p>Reconocer la arquitectura en capas de una API.</p></div><div class="objective-card"><span class="num">3</span><p>Identificar la responsabilidad de cada capa.</p></div></div>
+  </section>
+  <section id="s-1-que-es-spring-boot"><h2>1. ¿Qué es Spring Boot?</h2><div class="callout info"><h4>Nota</h4><p><strong>Spring Boot</strong> (Java) permite crear una <strong>API REST</strong> con poca configuración: trae servidor embebido, autoconfiguración y dependencias listas. Con él expones <strong>endpoints</strong> que el frontend consume.</p></div></section><section id="s-2-arquitectura-en-capas"><h2>2. Arquitectura en capas</h2><div class="callout info"><h4>Nota</h4><p>Separar el backend en <strong>capas</strong> con responsabilidades claras hace el código ordenado, testeable y fácil de cambiar: <strong>Controller</strong> (recibe la petición) → <strong>Service</strong> (lógica de negocio) → <strong>Repository</strong> (acceso a datos) → <strong>Entity</strong> (la tabla).</p></div><pre class="ascii">Petición HTTP
+   │
+[ Controller ]  recibe/valida, devuelve respuesta
+   │
+[ Service ]     reglas de negocio
+   │
+[ Repository ]  consulta la base de datos
+   │
+[ Entity ]      representa una tabla</pre></section><section id="s-3-responsabilidad-de-cada-capa"><h2>3. Responsabilidad de cada capa</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Capa</th><th>Responsabilidad</th></tr></thead><tbody><tr><td>Controller</td><td>Recibe la petición HTTP y responde (JSON)</td></tr><tr><td>Service</td><td>Contiene la lógica de negocio</td></tr><tr><td>Repository</td><td>Lee/escribe en la base de datos</td></tr><tr><td>Entity</td><td>Modela una tabla (fila = objeto)</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p>Regla de oro: el <strong>controller no habla directo con la base de datos</strong>. Pasa por el service y el repository. Así cada capa se prueba y cambia por separado.</p></div></section><section id="s-4-estructura-de-un-proyecto-spring-boot"><h2>4. Estructura de un proyecto Spring Boot</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-60768-0">Paquetes típicos</button><button class="tab-btn" data-tab="tab-60768-1">Clase principal</button></div><div class="tab-panel active" id="tab-60768-0"><pre class="code">com.corhuila.tienda
+ ├─ controller   <span class="cm">// ProductoController</span>
+ ├─ service      <span class="cm">// ProductoService</span>
+ ├─ repository   <span class="cm">// ProductoRepository</span>
+ ├─ entity       <span class="cm">// Producto</span>
+ └─ TiendaApplication.java  <span class="cm">// arranque</span></pre></div><div class="tab-panel" id="tab-60768-1"><pre class="code">@SpringBootApplication
+<span class="kw">public</span> <span class="kw">class</span> TiendaApplication {
+  <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> main(String[] args) {
+    SpringApplication.run(TiendaApplication.<span class="kw">class</span>, args);
+  }
+}</pre></div></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Poner toda la lógica en el controller (capas mezcladas).</li><li>Que el controller acceda directo al repository saltándose el service.</li><li>No separar por paquetes (todo en un solo archivo).</li><li>Confundir la API (backend) con la interfaz (frontend).</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Es el framework backend del curso."><div class="stem"><span class="n">Pregunta 1.</span> Spring Boot sirve para...</div><button class="opt" data-c="1">Crear APIs REST en Java rápidamente</button><button class="opt" data-c="0">Diseñar la interfaz gráfica</button><button class="opt" data-c="0">Administrar el sistema operativo</button><div class="feedback"></div></div><div class="q" data-exp="El controller es la puerta de entrada."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué capa recibe la petición HTTP?</div><button class="opt" data-c="1">Controller</button><button class="opt" data-c="0">Repository</button><button class="opt" data-c="0">Entity</button><div class="feedback"></div></div><div class="q" data-exp="El service concentra las reglas."><div class="stem"><span class="n">Pregunta 3.</span> La lógica de negocio vive en...</div><button class="opt" data-c="1">El service</button><button class="opt" data-c="0">El controller</button><button class="opt" data-c="0">La entity</button><div class="feedback"></div></div><div class="q" data-exp="El repository lee/escribe datos."><div class="stem"><span class="n">Pregunta 4.</span> El acceso a la base de datos lo hace...</div><button class="opt" data-c="1">El repository</button><button class="opt" data-c="0">El controller</button><button class="opt" data-c="0">El navegador</button><div class="feedback"></div></div><div class="q" data-exp="Modela los datos persistentes."><div class="stem"><span class="n">Pregunta 5.</span> Una entity representa...</div><button class="opt" data-c="1">Una tabla de la base de datos (fila = objeto)</button><button class="opt" data-c="0">Una pantalla del frontend</button><button class="opt" data-c="0">Un archivo CSS</button><div class="feedback"></div></div><div class="q" data-exp="Respetar responsabilidades por capa."><div class="stem"><span class="n">Pregunta 6.</span> Buena práctica de capas:</div><button class="opt" data-c="1">El controller pasa por el service, no directo al repository</button><button class="opt" data-c="0">El controller consulta la BD directamente</button><button class="opt" data-c="0">Todo en una sola clase</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Explica (foro/diagrama) la arquitectura en capas de una API para un caso propio: qué haría el controller, el service, el repository y la entity. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 6 · Sesión 1 · Introducción a Spring Boot 3 y arquitectura en capas</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

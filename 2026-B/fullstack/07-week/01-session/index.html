@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 7 · Capa de datos — entity y repository (JPA) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 7 · Sesión 1 · Capa de datos — entity y repository (JPA)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-mapeo-objeto-relacional-orm">Mapeo objeto-relacional (ORM)</a></li><li><a href="#s-2-la-entity">La entity</a></li><li><a href="#s-3-el-repository">El repository</a></li><li><a href="#s-4-crud-desde-el-service">CRUD desde el service</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Backend · Corte 2</span>
+    <h1>Capa de datos — entity y repository (JPA)</h1>
+    <p class="lead">El backend necesita guardar y leer datos. Con JPA/Spring Data, una clase Java (entity) se mapea a una tabla y un repository te da las operaciones (guardar, listar, buscar, borrar) casi sin escribir SQL.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Mapear una entidad a una tabla con JPA.</p></div><div class="objective-card"><span class="num">2</span><p>Usar un repository para las operaciones CRUD.</p></div><div class="objective-card"><span class="num">3</span><p>Entender el mapeo objeto-relacional (ORM).</p></div></div>
+  </section>
+  <section id="s-1-mapeo-objeto-relacional-orm"><h2>1. Mapeo objeto-relacional (ORM)</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>ORM</strong> hace corresponder <strong>clases ↔ tablas</strong> y <strong>objetos ↔ filas</strong>. <strong>JPA</strong> es el estándar de Java para ORM; <strong>Spring Data JPA</strong> lo hace muy simple. Así trabajas con objetos y la librería genera el SQL.</p></div></section><section id="s-2-la-entity"><h2>2. La entity</h2><pre class="code">@Entity
+<span class="kw">public</span> <span class="kw">class</span> Producto {
+  @Id @GeneratedValue
+  <span class="kw">private</span> Long id;
+  <span class="kw">private</span> String nombre;
+  <span class="kw">private</span> <span class="kw">double</span> precio;
+  <span class="cm">// getters y setters</span>
+}</pre><div class="callout info"><h4>Nota</h4><p><code>@Entity</code> marca la clase como tabla; <code>@Id</code> es la clave primaria; <code>@GeneratedValue</code> autogenera el id. Cada atributo es una columna.</p></div></section><section id="s-3-el-repository"><h2>3. El repository</h2><pre class="code"><span class="kw">public</span> interface ProductoRepository
+        extends JpaRepository&lt;Producto, Long&gt; {
+  List&lt;Producto&gt; findByNombreContaining(String texto);
+}</pre><div class="callout info"><h4>Nota</h4><p>Al extender <code>JpaRepository</code> obtienes gratis: <code>save()</code>, <code>findAll()</code>, <code>findById()</code>, <code>deleteById()</code>. Y puedes declarar consultas por nombre de método (<code>findByNombre...</code>) sin escribir SQL.</p></div></section><section id="s-4-crud-desde-el-service"><h2>4. CRUD desde el service</h2><pre class="code">@Service
+<span class="kw">public</span> <span class="kw">class</span> ProductoService {
+  <span class="kw">private</span> final ProductoRepository repo;
+  <span class="kw">public</span> ProductoService(ProductoRepository repo) { this.repo = repo; }
+
+  <span class="kw">public</span> List&lt;Producto&gt; listar() { <span class="kw">return</span> repo.findAll(); }
+  <span class="kw">public</span> Producto guardar(Producto p) { <span class="kw">return</span> repo.save(p); }
+}</pre><div class="callout tip"><h4>Tip</h4><p><strong>CRUD</strong> = Create, Read, Update, Delete. <code>save()</code> sirve para crear y actualizar; <code>findAll/findById</code> para leer; <code>deleteById</code> para borrar.</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Olvidar <code>@Entity</code> o <code>@Id</code> (JPA no mapea la clase).</li><li>Poner la lógica de datos en el controller en vez del service/repository.</li><li>No usar los métodos gratuitos de <code>JpaRepository</code> y reinventarlos.</li><li>Exponer la entity tal cual cuando conviene un DTO (se ve más adelante).</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Mapea el modelo de objetos con el relacional."><div class="stem"><span class="n">Pregunta 1.</span> Un ORM hace corresponder...</div><button class="opt" data-c="1">Clases con tablas y objetos con filas</button><button class="opt" data-c="0">Imágenes con audio</button><button class="opt" data-c="0">CSS con HTML</button><div class="feedback"></div></div><div class="q" data-exp="@Entity define la entidad persistente."><div class="stem"><span class="n">Pregunta 2.</span> La anotación que marca una clase como tabla es...</div><button class="opt" data-c="1">@Entity</button><button class="opt" data-c="0">@Service</button><button class="opt" data-c="0">@Controller</button><div class="feedback"></div></div><div class="q" data-exp="Spring Data provee el CRUD básico."><div class="stem"><span class="n">Pregunta 3.</span> Al extender JpaRepository obtienes...</div><button class="opt" data-c="1">save, findAll, findById, deleteById sin escribir SQL</button><button class="opt" data-c="0">Solo un método vacío</button><button class="opt" data-c="0">La interfaz gráfica</button><div class="feedback"></div></div><div class="q" data-exp="@Id marca el identificador único."><div class="stem"><span class="n">Pregunta 4.</span> @Id en una entity indica...</div><button class="opt" data-c="1">La clave primaria</button><button class="opt" data-c="0">El color de la fila</button><button class="opt" data-c="0">El nombre del proyecto</button><div class="feedback"></div></div><div class="q" data-exp="Las cuatro operaciones básicas sobre datos."><div class="stem"><span class="n">Pregunta 5.</span> CRUD significa...</div><button class="opt" data-c="1">Create, Read, Update, Delete</button><button class="opt" data-c="0">Compilar, Reiniciar, Usar, Depurar</button><button class="opt" data-c="0">Copiar, Renombrar, Unir, Descargar</button><div class="feedback"></div></div><div class="q" data-exp="Respeta la capa de datos."><div class="stem"><span class="n">Pregunta 6.</span> El acceso a datos debe hacerse desde...</div><button class="opt" data-c="1">El repository (usado por el service)</button><button class="opt" data-c="0">El controller directamente</button><button class="opt" data-c="0">El frontend</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Modela una entity y su repository para un caso propio, y describe qué operaciones CRUD necesitarías. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 7 · Sesión 1 · Capa de datos — entity y repository (JPA)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

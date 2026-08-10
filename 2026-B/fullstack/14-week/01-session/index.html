@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 14 · Contenedores con Docker | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 14 · Sesión 1 · Contenedores con Docker</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-problema-resuelve-docker">¿Qué problema resuelve Docker?</a></li><li><a href="#s-2-imagen-vs-contenedor">Imagen vs contenedor</a></li><li><a href="#s-3-dockerfile">Dockerfile</a></li><li><a href="#s-4-varios-servicios-juntos">Varios servicios juntos</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Contenedores · Corte 3</span>
+    <h1>Contenedores con Docker</h1>
+    <p class="lead">"En mi máquina sí funciona" deja de ser excusa con Docker. Un contenedor empaqueta tu aplicación con todo lo que necesita para correr igual en cualquier lugar. Esta sesión explica imágenes, contenedores y cómo empaquetar tu app.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Entender qué resuelve Docker.</p></div><div class="objective-card"><span class="num">2</span><p>Distinguir imagen de contenedor.</p></div><div class="objective-card"><span class="num">3</span><p>Empaquetar la aplicación con un Dockerfile.</p></div></div>
+  </section>
+  <section id="s-1-que-problema-resuelve-docker"><h2>1. ¿Qué problema resuelve Docker?</h2><div class="callout info"><h4>Nota</h4><p><strong>Docker</strong> empaqueta la aplicación con su entorno (versión de Java/Node, librerías, configuración) en un <strong>contenedor</strong> que corre igual en cualquier máquina. Elimina el "en mi equipo funciona" y facilita el despliegue.</p></div></section><section id="s-2-imagen-vs-contenedor"><h2>2. Imagen vs contenedor</h2><div class="callout info"><h4>Nota</h4><p>Una <strong>imagen</strong> es la plantilla (la app + su entorno, congelada). Un <strong>contenedor</strong> es una instancia en ejecución de esa imagen. De una imagen puedes correr muchos contenedores.</p></div><pre class="ascii">Dockerfile  --build--&gt;  Imagen  --run--&gt;  Contenedor (en ejecución)
+ (receta)               (plantilla)        (instancia)</pre></section><section id="s-3-dockerfile"><h2>3. Dockerfile</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-61088-0">Dockerfile (backend Java)</button><button class="tab-btn" data-tab="tab-61088-1">Comandos</button></div><div class="tab-panel active" id="tab-61088-0"><pre class="code">FROM eclipse-temurin:21-jre
+COPY target/app.jar /app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]</pre></div><div class="tab-panel" id="tab-61088-1"><pre class="code">docker build -t tienda-api .      <span class="cm">// construir la imagen</span>
+docker run -p 8080:8080 tienda-api <span class="cm">// correr el contenedor</span></pre></div></div></section><section id="s-4-varios-servicios-juntos"><h2>4. Varios servicios juntos</h2><div class="callout info"><h4>Nota</h4><p>Una app fullstack suele tener frontend, backend y base de datos. <strong>Docker Compose</strong> levanta varios contenedores juntos con un solo archivo (<code>docker-compose.yml</code>), conectándolos entre sí.</p></div><div class="callout tip"><h4>Tip</h4><p>Empaquetar en contenedores hace el <strong>despliegue</strong> (siguiente sesión) mucho más simple: el servidor solo necesita Docker, no instalar Java/Node a mano.</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Confundir imagen (plantilla) con contenedor (instancia).</li><li>No exponer el puerto (<code>EXPOSE</code>/<code>-p</code>) y no poder acceder.</li><li>Meter datos que cambian dentro de la imagen (usar volúmenes).</li><li>Imágenes enormes por no partir de una base adecuada.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Contenedores portables y reproducibles."><div class="stem"><span class="n">Pregunta 1.</span> Docker sirve para...</div><button class="opt" data-c="1">Empaquetar la app con su entorno y correrla igual en cualquier lugar</button><button class="opt" data-c="0">Diseñar la interfaz</button><button class="opt" data-c="0">Escribir SQL</button><div class="feedback"></div></div><div class="q" data-exp="La imagen es la plantilla."><div class="stem"><span class="n">Pregunta 2.</span> Una imagen es...</div><button class="opt" data-c="1">La plantilla (app + entorno) congelada</button><button class="opt" data-c="0">Una instancia en ejecución</button><button class="opt" data-c="0">Una tabla de la BD</button><div class="feedback"></div></div><div class="q" data-exp="Contenedor = imagen corriendo."><div class="stem"><span class="n">Pregunta 3.</span> Un contenedor es...</div><button class="opt" data-c="1">Una instancia en ejecución de una imagen</button><button class="opt" data-c="0">El código fuente</button><button class="opt" data-c="0">Un lenguaje de estilos</button><div class="feedback"></div></div><div class="q" data-exp="Define cómo se arma la imagen."><div class="stem"><span class="n">Pregunta 4.</span> El Dockerfile es...</div><button class="opt" data-c="1">La receta para construir la imagen</button><button class="opt" data-c="0">La base de datos</button><button class="opt" data-c="0">El navegador</button><div class="feedback"></div></div><div class="q" data-exp="Compose orquesta varios contenedores."><div class="stem"><span class="n">Pregunta 5.</span> Para levantar frontend + backend + BD juntos conviene...</div><button class="opt" data-c="1">Docker Compose</button><button class="opt" data-c="0">Un solo contenedor gigante manual</button><button class="opt" data-c="0">No usar Docker</button><div class="feedback"></div></div><div class="q" data-exp="El entorno viaja con la app."><div class="stem"><span class="n">Pregunta 6.</span> "En mi máquina funciona" se evita porque el contenedor...</div><button class="opt" data-c="1">Lleva su propio entorno y corre igual en todos lados</button><button class="opt" data-c="0">Depende de lo instalado en cada equipo</button><button class="opt" data-c="0">No incluye dependencias</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Escribe un Dockerfile para tu backend (o frontend), construye la imagen y corre el contenedor localmente. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 14 · Sesión 1 · Contenedores con Docker</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

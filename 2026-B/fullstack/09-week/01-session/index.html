@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 9 · Documentación y prueba de APIs (OpenAPI/Swagger y Postman) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 9 · Sesión 1 · Documentación y prueba de APIs (OpenAPI/Swagger y Postman)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-por-que-documentar-y-probar">¿Por qué documentar y probar?</a></li><li><a href="#s-2-openapi-swagger">OpenAPI / Swagger</a></li><li><a href="#s-3-postman">Postman</a></li><li><a href="#s-4-codigos-de-estado-http">Códigos de estado HTTP</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Backend · Corte 2</span>
+    <h1>Documentación y prueba de APIs (OpenAPI/Swagger y Postman)</h1>
+    <p class="lead">Una API bien hecha se documenta y se prueba. Con OpenAPI/Swagger tu API se autodescribe y se puede probar desde el navegador; con Postman envías peticiones para verificar cada endpoint antes de conectar el frontend.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Documentar la API con OpenAPI/Swagger.</p></div><div class="objective-card"><span class="num">2</span><p>Probar endpoints con Swagger UI y Postman.</p></div><div class="objective-card"><span class="num">3</span><p>Interpretar códigos de estado HTTP.</p></div></div>
+  </section>
+  <section id="s-1-por-que-documentar-y-probar"><h2>1. ¿Por qué documentar y probar?</h2><div class="callout info"><h4>Nota</h4><p>Documentar una API permite que otros (y tu frontend) sepan <strong>qué endpoints existen, qué reciben y qué devuelven</strong>. Probar antes de integrar evita perder horas depurando por ambos lados a la vez.</p></div></section><section id="s-2-openapi-swagger"><h2>2. OpenAPI / Swagger</h2><div class="callout info"><h4>Nota</h4><p><strong>OpenAPI</strong> es un estándar para describir APIs; <strong>Swagger UI</strong> genera una página interactiva a partir de esa descripción. En Spring Boot se agrega con una dependencia (springdoc) y expone <code>/swagger-ui.html</code>.</p></div><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-5632-0">Dependencia (pom.xml)</button><button class="tab-btn" data-tab="tab-5632-1">Resultado</button></div><div class="tab-panel active" id="tab-5632-0"><pre class="code">&lt;dependency&gt;
+  &lt;groupId&gt;org.springdoc&lt;/groupId&gt;
+  &lt;artifactId&gt;springdoc-openapi-starter-webmvc-ui&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre></div><div class="tab-panel" id="tab-5632-1"><pre class="code"><span class="cm">// Se genera automaticamente:</span>
+<span class="cm">//   /swagger-ui.html   -&gt; UI para probar</span>
+<span class="cm">//   /v3/api-docs       -&gt; descripcion OpenAPI (JSON)</span></pre></div></div></section><section id="s-3-postman"><h2>3. Postman</h2><p>Con <strong>Postman</strong> eliges el método (GET/POST/...), la URL y el cuerpo (JSON), envías y ves la respuesta y su código de estado. Ideal para probar el backend sin frontend.</p><pre class="code">POST http:<span class="cm">//localhost:8080/productos</span>
+Body (JSON):
+{ "nombre": "Teclado", "precio": 80000 }</pre></section><section id="s-4-codigos-de-estado-http"><h2>4. Códigos de estado HTTP</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Código</th><th>Significado</th></tr></thead><tbody><tr><td>200 OK</td><td>Petición correcta</td></tr><tr><td>201 Created</td><td>Recurso creado</td></tr><tr><td>400 Bad Request</td><td>Datos inválidos</td></tr><tr><td>404 Not Found</td><td>No existe</td></tr><tr><td>500 Server Error</td><td>Error del servidor</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p>Devolver el <strong>código correcto</strong> ayuda al frontend a decidir qué mostrar (éxito, error de datos, no encontrado…).</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>No documentar: el frontend no sabe cómo consumir la API.</li><li>Probar solo el "camino feliz" y no los errores (400/404).</li><li>Ignorar los códigos de estado (todo 200).</li><li>Integrar frontend y backend sin haber probado los endpoints.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Genera una UI para documentar/probar."><div class="stem"><span class="n">Pregunta 1.</span> Swagger UI sirve para...</div><button class="opt" data-c="1">Ver y probar la API de forma interactiva</button><button class="opt" data-c="0">Diseñar el logo</button><button class="opt" data-c="0">Guardar backups</button><div class="feedback"></div></div><div class="q" data-exp="Describe la API de forma estándar."><div class="stem"><span class="n">Pregunta 2.</span> OpenAPI es...</div><button class="opt" data-c="1">Un estándar para describir APIs</button><button class="opt" data-c="0">Un lenguaje de estilos</button><button class="opt" data-c="0">Una base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Cliente para probar APIs."><div class="stem"><span class="n">Pregunta 3.</span> Postman se usa para...</div><button class="opt" data-c="1">Enviar peticiones y probar los endpoints</button><button class="opt" data-c="0">Compilar CSS</button><button class="opt" data-c="0">Renderizar la SPA</button><div class="feedback"></div></div><div class="q" data-exp="404 = el recurso no existe."><div class="stem"><span class="n">Pregunta 4.</span> El código HTTP 404 significa...</div><button class="opt" data-c="1">No encontrado</button><button class="opt" data-c="0">Todo correcto</button><button class="opt" data-c="0">Recurso creado</button><div class="feedback"></div></div><div class="q" data-exp="201 Created tras crear."><div class="stem"><span class="n">Pregunta 5.</span> El código 201 se usa cuando...</div><button class="opt" data-c="1">Se creó un recurso (POST exitoso)</button><button class="opt" data-c="0">Hubo un error del servidor</button><button class="opt" data-c="0">La petición fue inválida</button><div class="feedback"></div></div><div class="q" data-exp="Verificar el backend primero."><div class="stem"><span class="n">Pregunta 6.</span> Antes de conectar el frontend conviene...</div><button class="opt" data-c="1">Probar los endpoints (Swagger/Postman)</button><button class="opt" data-c="0">Desplegar en producción</button><button class="opt" data-c="0">Borrar la base de datos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Documenta tu API con Swagger y prueba 3 endpoints con Postman (incluyendo un caso de error). Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 9 · Sesión 1 · Documentación y prueba de APIs (OpenAPI/Swagger y Postman)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

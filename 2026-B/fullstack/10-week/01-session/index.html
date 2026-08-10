@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Fullstack · Semana 10 · Repaso y evaluación del Corte 2 | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Desarrollo Fullstack</span><span class="brand-topic">Semana 10 · Sesión 1 · Repaso y evaluación del Corte 2</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-mapa-del-corte">Mapa del corte</a></li><li><a href="#s-2-puntos-clave-para-el-parcial">Puntos clave para el parcial</a></li><li><a href="#s-3-checklist-de-repaso">Checklist de repaso</a></li><li><a href="#s-4-errores-comunes-a-evitar">Errores comunes a evitar</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Cierre · Corte 2</span>
+    <h1>Repaso y evaluación del Corte 2</h1>
+    <p class="lead">Cierre del Corte 2. Repasamos el backend: Spring Boot y arquitectura en capas, JPA (entity/repository), API REST (service/controller/endpoints) y la documentación/prueba con Swagger y Postman. Preparamos el parcial.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Consolidar el backend y la API REST.</p></div><div class="objective-card"><span class="num">2</span><p>Autoevaluar antes del parcial.</p></div><div class="objective-card"><span class="num">3</span><p>Dejar una API probada lista para integrar.</p></div></div>
+  </section>
+  <section id="s-1-mapa-del-corte"><h2>1. Mapa del corte</h2><pre class="ascii">Spring Boot 3
+   │
+   ├─ Arquitectura en capas: controller → service → repository → entity
+   ├─ JPA: entity (@Entity/@Id) + repository (JpaRepository) = CRUD
+   ├─ API REST: GET/POST/PUT/DELETE, @RestController, @RequestBody
+   └─ Documentar/probar: Swagger UI + Postman + códigos HTTP</pre></section><section id="s-2-puntos-clave-para-el-parcial"><h2>2. Puntos clave para el parcial</h2><div class="callout info"><h4>Nota</h4><p><strong>Capas y su responsabilidad.</strong> <strong>JPA:</strong> cómo se mapea una tabla y qué da <code>JpaRepository</code>. <strong>REST:</strong> método HTTP correcto por acción, URLs con sustantivos, códigos de estado. <strong>Swagger/Postman:</strong> para qué sirven.</p></div></section><section id="s-3-checklist-de-repaso"><h2>3. Checklist de repaso</h2><ul><li>Explico las 4 capas y qué hace cada una.</li><li>Creo una entity y su repository (CRUD sin SQL).</li><li>Diseño endpoints REST correctos (verbo HTTP, no en la URL).</li><li>Documento con Swagger y pruebo con Postman.</li><li>Interpreto 200/201/400/404/500.</li></ul></section><section id="s-4-errores-comunes-a-evitar"><h2>4. Errores comunes a evitar</h2><ul><li>Lógica de negocio en el controller.</li><li>Verbos en las URLs REST.</li><li>No probar los errores (solo el camino feliz).</li><li>Entity sin <code>@Entity</code>/<code>@Id</code>.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="La petición entra por el controller y baja a datos."><div class="stem"><span class="n">Pregunta 1.</span> El orden correcto de las capas es...</div><button class="opt" data-c="1">Controller → Service → Repository → Entity</button><button class="opt" data-c="0">Entity → Controller → Service</button><button class="opt" data-c="0">Repository → Controller → Service</button><div class="feedback"></div></div><div class="q" data-exp="PUT actualiza; POST crea."><div class="stem"><span class="n">Pregunta 2.</span> Para ACTUALIZAR un recurso REST se usa...</div><button class="opt" data-c="1">PUT /recurso/{id}</button><button class="opt" data-c="0">GET /recurso</button><button class="opt" data-c="0">POST /actualizar</button><div class="feedback"></div></div><div class="q" data-exp="Operaciones de datos sin escribir SQL."><div class="stem"><span class="n">Pregunta 3.</span> JpaRepository te da...</div><button class="opt" data-c="1">CRUD básico (save, findAll, findById, deleteById)</button><button class="opt" data-c="0">La interfaz de usuario</button><button class="opt" data-c="0">El despliegue en la nube</button><div class="feedback"></div></div><div class="q" data-exp="Responde datos en JSON."><div class="stem"><span class="n">Pregunta 4.</span> @RestController devuelve...</div><button class="opt" data-c="1">JSON al cliente</button><button class="opt" data-c="0">Páginas HTML completas siempre</button><button class="opt" data-c="0">Archivos binarios por defecto</button><div class="feedback"></div></div><div class="q" data-exp="Problema con la entrada del cliente."><div class="stem"><span class="n">Pregunta 5.</span> El código 400 (Bad Request) indica...</div><button class="opt" data-c="1">Datos inválidos en la petición</button><button class="opt" data-c="0">Éxito</button><button class="opt" data-c="0">Recurso creado</button><div class="feedback"></div></div><div class="q" data-exp="Documentar y probar reduce errores de integración."><div class="stem"><span class="n">Pregunta 6.</span> Antes de integrar con el frontend, la API debe estar...</div><button class="opt" data-c="1">Documentada y probada (Swagger/Postman)</button><button class="opt" data-c="0">Sin documentar</button><button class="opt" data-c="0">Desplegada sin pruebas</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Deja tu <strong>API REST probada y documentada</strong> (CRUD + Swagger) lista para integrarla con el frontend en el Corte 3. La evaluación del corte se realiza en las actividades calificables.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Desarrollo Fullstack</strong> <span class="sep">·</span> Semana 10 · Sesión 1 · Repaso y evaluación del Corte 2</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>
