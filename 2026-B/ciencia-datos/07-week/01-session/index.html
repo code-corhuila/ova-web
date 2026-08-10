@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciencia de Datos · Semana 7 · Herramientas y lenguajes (SQL, NoSQL, Python) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Ciencia de Datos</span><span class="brand-topic">Semana 7 · Sesión 1 · Herramientas y lenguajes (SQL, NoSQL, Python)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería Industrial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-sql-consultar-datos-relacionales">SQL: consultar datos relacionales</a></li><li><a href="#s-2-nosql-consultar-documentos-mongodb">NoSQL: consultar documentos (MongoDB)</a></li><li><a href="#s-3-python-pandas-para-analisis">Python (pandas) para análisis</a></li><li><a href="#s-4-y-dbt">¿Y dbt?</a></li><li><a href="#s-5-que-herramienta-uso">¿Qué herramienta uso?</a></li><li><a href="#s-6-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Modelamiento · Corte 2</span>
+    <h1>Herramientas y lenguajes (SQL, NoSQL, Python)</h1>
+    <p class="lead">Con el modelo listo, toca consultar y manipular datos. Esta sesión introduce SQL para bases relacionales, la idea de consulta en NoSQL (MongoDB) y Python (pandas) para análisis, las herramientas centrales del curso.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Escribir consultas SQL básicas (SELECT, WHERE, JOIN, GROUP BY).</p></div><div class="objective-card"><span class="num">2</span><p>Reconocer una consulta en MongoDB (NoSQL).</p></div><div class="objective-card"><span class="num">3</span><p>Cargar y explorar datos con Python (pandas).</p></div><div class="objective-card"><span class="num">4</span><p>Elegir la herramienta según la tarea.</p></div></div>
+  </section>
+  <section id="s-1-sql-consultar-datos-relacionales"><h2>1. SQL: consultar datos relacionales</h2><div class="callout info"><h4>Nota</h4><p><strong>SQL</strong> es el lenguaje para consultar bases relacionales. Con pocas cláusulas resuelves la mayoría de preguntas.</p></div><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-10592-0">SELECT + WHERE</button><button class="tab-btn" data-tab="tab-10592-1">JOIN (unir tablas)</button><button class="tab-btn" data-tab="tab-10592-2">GROUP BY (agregar)</button></div><div class="tab-panel active" id="tab-10592-0"><pre class="code">SELECT nombre, ciudad
+FROM cliente
+WHERE ciudad = 'Neiva';</pre></div><div class="tab-panel" id="tab-10592-1"><pre class="code">SELECT c.nombre, p.fecha
+FROM cliente c
+JOIN pedido p ON p.id_cliente = c.id_cliente;</pre></div><div class="tab-panel" id="tab-10592-2"><pre class="code">SELECT ciudad, COUNT(*) AS total
+FROM cliente
+GROUP BY ciudad;</pre></div></div><div class="callout info"><h4>Nota</h4><p><code>WHERE</code> filtra filas, <code>JOIN</code> combina tablas por sus claves, <code>GROUP BY</code> agrupa para agregar (<code>COUNT</code>, <code>SUM</code>, <code>AVG</code>).</p></div></section><section id="s-2-nosql-consultar-documentos-mongodb"><h2>2. NoSQL: consultar documentos (MongoDB)</h2><pre class="code">db.clientes.find({ ciudad: "Neiva" })
+db.pedidos.aggregate([{ $group: { _id: "$ciudad", total: { $sum: 1 } } }])</pre><p>En NoSQL los datos son <strong>documentos</strong> (JSON); se consulta por campos y se agrega con pipelines.</p></section><section id="s-3-python-pandas-para-analisis"><h2>3. Python (pandas) para análisis</h2><div class="callout info"><h4>Nota</h4><p><strong>pandas</strong> es la librería de Python para datos tabulares: carga CSV/Excel/SQL y permite filtrar, agrupar y analizar con pocas líneas.</p></div><pre class="code"><span class="kw">import</span> pandas as pd
+df = pd.read_csv("clientes.csv")
+<span class="kw">print</span>(df.head())                 <span class="cm"># primeras filas</span>
+neiva = df[df["ciudad"] == "Neiva"]   <span class="cm"># filtrar</span>
+<span class="kw">print</span>(df.groupby("ciudad").size())    <span class="cm"># agrupar/contar</span></pre></section><section id="s-4-y-dbt"><h2>4. ¿Y dbt?</h2><p><strong>dbt</strong> transforma datos <strong>dentro del almacén</strong> con SQL versionado y probado (aplica transformaciones reproducibles). Es el "T" de ETL hecho con buenas prácticas de ingeniería.</p></section><section id="s-5-que-herramienta-uso"><h2>5. ¿Qué herramienta uso?</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Tarea</th><th>Herramienta</th></tr></thead><tbody><tr><td>Consultar datos relacionales</td><td>SQL</td></tr><tr><td>Datos de documentos flexibles</td><td>MongoDB (NoSQL)</td></tr><tr><td>Analizar/limpiar en profundidad</td><td>Python (pandas)</td></tr><tr><td>Transformar en el almacén</td><td>dbt (SQL)</td></tr></tbody></table></div></section><section id="s-6-errores-comunes"><h2>6. Errores comunes</h2><ul><li>Traer TODA la tabla a Python cuando SQL ya podía filtrar/agrupar.</li><li>Olvidar el <code>ON</code> en un JOIN (produce un producto cartesiano enorme).</li><li>Confundir <code>WHERE</code> (filtra filas) con <code>HAVING</code> (filtra grupos).</li><li>Analizar sin revisar tipos y nulos primero.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="JOIN une tablas; GROUP BY agrupa."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué cláusula SQL combina dos tablas por sus claves?</div><button class="opt" data-c="1">JOIN</button><button class="opt" data-c="0">GROUP BY</button><button class="opt" data-c="0">ORDER BY</button><div class="feedback"></div></div><div class="q" data-exp="GROUP BY + una función de agregación."><div class="stem"><span class="n">Pregunta 2.</span> Para contar clientes por ciudad en SQL se usa...</div><button class="opt" data-c="1">GROUP BY ciudad con COUNT(*)</button><button class="opt" data-c="0">Solo WHERE</button><button class="opt" data-c="0">SELECT *</button><div class="feedback"></div></div><div class="q" data-exp="NoSQL de documentos."><div class="stem"><span class="n">Pregunta 3.</span> MongoDB almacena los datos como...</div><button class="opt" data-c="1">Documentos (JSON)</button><button class="opt" data-c="0">Tablas con esquema fijo</button><button class="opt" data-c="0">Archivos de texto plano</button><div class="feedback"></div></div><div class="q" data-exp="pandas maneja DataFrames."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué librería de Python se usa para datos tabulares?</div><button class="opt" data-c="1">pandas</button><button class="opt" data-c="0">express</button><button class="opt" data-c="0">react</button><div class="feedback"></div></div><div class="q" data-exp="Sin condición de unión, se cruzan todas las filas."><div class="stem"><span class="n">Pregunta 5.</span> Olvidar el ON en un JOIN produce...</div><button class="opt" data-c="1">Un producto cartesiano (todas las combinaciones)</button><button class="opt" data-c="0">Un error de sintaxis siempre</button><button class="opt" data-c="0">Nada</button><div class="feedback"></div></div><div class="q" data-exp="Filtrar en la base evita mover datos innecesarios."><div class="stem"><span class="n">Pregunta 6.</span> ¿Dónde conviene filtrar/agrupar grandes volúmenes?</div><button class="opt" data-c="1">En SQL, antes de traerlo a Python</button><button class="opt" data-c="0">Siempre todo en Python</button><button class="opt" data-c="0">En el dashboard</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Sobre un dataset (o el tuyo), escribe 3 consultas SQL (filtro, JOIN, GROUP BY) y replica una en pandas. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Ciencia de Datos</strong> <span class="sep">·</span> Semana 7 · Sesión 1 · Herramientas y lenguajes (SQL, NoSQL, Python)</p>
+  <p>Ingeniería Industrial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

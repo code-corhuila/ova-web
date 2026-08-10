@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciencia de Datos · Semana 13 · Herramientas de visualización y dashboards | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Ciencia de Datos</span><span class="brand-topic">Semana 13 · Sesión 1 · Herramientas de visualización y dashboards</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería Industrial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-es-un-dashboard">¿Qué es un dashboard?</a></li><li><a href="#s-2-herramientas">Herramientas</a></li><li><a href="#s-3-kpis-e-indicadores">KPIs e indicadores</a></li><li><a href="#s-4-disenar-un-dashboard">Diseñar un dashboard</a></li><li><a href="#s-5-power-bi-en-breve">Power BI en breve</a></li><li><a href="#s-6-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Dashboards · Corte 3</span>
+    <h1>Herramientas de visualización y dashboards</h1>
+    <p class="lead">Un dashboard reúne varios gráficos e indicadores en una sola pantalla para tomar decisiones de un vistazo. Esta sesión compara herramientas (Power BI, Python) y enseña a diseñar un tablero útil.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Comparar herramientas de visualización.</p></div><div class="objective-card"><span class="num">2</span><p>Diseñar la estructura de un dashboard.</p></div><div class="objective-card"><span class="num">3</span><p>Definir KPIs e indicadores clave.</p></div><div class="objective-card"><span class="num">4</span><p>Construir un tablero básico en Power BI.</p></div></div>
+  </section>
+  <section id="s-1-que-es-un-dashboard"><h2>1. ¿Qué es un dashboard?</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>dashboard</strong> (tablero) es una vista que integra gráficos, KPIs y filtros para monitorear un proceso y decidir rápido. Responde: ¿cómo vamos? ¿dónde está el problema?</p></div></section><section id="s-2-herramientas"><h2>2. Herramientas</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Herramienta</th><th>Fortaleza</th><th>Uso típico</th></tr></thead><tbody><tr><td><strong>Power BI</strong></td><td>Fácil, interactivo, empresarial</td><td>Tableros de negocio, DAX</td></tr><tr><td><strong>Python (matplotlib/plotly)</strong></td><td>Flexible, programable</td><td>Análisis a medida, informes</td></tr><tr><td><strong>Excel</strong></td><td>Rápido y accesible</td><td>Reportes simples</td></tr><tr><td><strong>Tableau / Looker</strong></td><td>Potentes en BI</td><td>Grandes organizaciones</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p>Power BI para tableros de negocio interactivos; Python cuando necesitas control total o automatizar.</p></div></section><section id="s-3-kpis-e-indicadores"><h2>3. KPIs e indicadores</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>KPI</strong> (Key Performance Indicator) es una métrica clave que mide el desempeño frente a un objetivo (p. ej. unidades/día, % defectos, OEE). Un buen dashboard destaca pocos KPIs relevantes.</p></div></section><section id="s-4-disenar-un-dashboard"><h2>4. Diseñar un dashboard</h2><ul><li><strong>Arriba:</strong> KPIs principales (números grandes).</li><li><strong>Centro:</strong> tendencias y comparaciones (líneas/barras).</li><li><strong>Filtros:</strong> por fecha, planta, producto.</li><li><strong>Regla:</strong> una historia clara; nada de saturar con 20 gráficos.</li></ul><pre class="ascii">┌──────────────────────────────┐
+│  [KPI]   [KPI]   [KPI]        │  ← indicadores
+│  ┌────────┐   ┌────────┐      │
+│  │ líneas │   │ barras │      │  ← tendencias/comparación
+│  └────────┘   └────────┘      │
+│  filtros: fecha ▾  planta ▾   │
+└──────────────────────────────┘</pre></section><section id="s-5-power-bi-en-breve"><h2>5. Power BI en breve</h2><p>Cargar datos → modelar (relaciones) → crear medidas (DAX) → arrastrar visualizaciones → publicar. Los <strong>filtros/segmentadores</strong> hacen el tablero interactivo.</p></section><section id="s-6-errores-comunes"><h2>6. Errores comunes</h2><ul><li>Saturar el tablero (demasiados gráficos).</li><li>KPIs sin objetivo (número sin contexto).</li><li>Sin filtros ni interactividad.</li><li>Colores sin criterio.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Es una vista de monitoreo y decisión."><div class="stem"><span class="n">Pregunta 1.</span> Un dashboard sirve para...</div><button class="opt" data-c="1">Integrar gráficos y KPIs para decidir de un vistazo</button><button class="opt" data-c="0">Guardar datos crudos</button><button class="opt" data-c="0">Reemplazar la base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Key Performance Indicator."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué es un KPI?</div><button class="opt" data-c="1">Una métrica clave frente a un objetivo</button><button class="opt" data-c="0">Un tipo de gráfico</button><button class="opt" data-c="0">Una base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Power BI es líder en BI de negocio."><div class="stem"><span class="n">Pregunta 3.</span> Para tableros de negocio interactivos con DAX conviene...</div><button class="opt" data-c="1">Power BI</button><button class="opt" data-c="0">Un editor de texto</button><button class="opt" data-c="0">Un PDF</button><div class="feedback"></div></div><div class="q" data-exp="Claridad sobre saturación."><div class="stem"><span class="n">Pregunta 4.</span> Un buen dashboard debe...</div><button class="opt" data-c="1">Destacar pocos KPIs relevantes y contar una historia</button><button class="opt" data-c="0">Mostrar 20 gráficos a la vez</button><button class="opt" data-c="0">Evitar los filtros</button><div class="feedback"></div></div><div class="q" data-exp="Python da flexibilidad programable."><div class="stem"><span class="n">Pregunta 5.</span> Cuando necesitas control total y automatización, conviene...</div><button class="opt" data-c="1">Python (matplotlib/plotly)</button><button class="opt" data-c="0">Solo Excel manual</button><button class="opt" data-c="0">No visualizar</button><div class="feedback"></div></div><div class="q" data-exp="Permiten explorar los datos."><div class="stem"><span class="n">Pregunta 6.</span> Los segmentadores/filtros en un dashboard sirven para...</div><button class="opt" data-c="1">Hacerlo interactivo (filtrar por fecha, planta, etc.)</button><button class="opt" data-c="0">Borrar datos</button><button class="opt" data-c="0">Cambiar el idioma</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Diseña (boceto) un dashboard para un proceso: define 3 KPIs, sus gráficos y filtros. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Ciencia de Datos</strong> <span class="sep">·</span> Semana 13 · Sesión 1 · Herramientas de visualización y dashboards</p>
+  <p>Ingeniería Industrial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

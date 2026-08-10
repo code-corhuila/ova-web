@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciencia de Datos · Semana 10 · Repaso y evaluación del Corte 2 | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Ciencia de Datos</span><span class="brand-topic">Semana 10 · Sesión 1 · Repaso y evaluación del Corte 2</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería Industrial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-mapa-del-corte-2">Mapa del Corte 2</a></li><li><a href="#s-2-sintesis">Síntesis</a></li><li><a href="#s-3-preguntas-tipo-saber-pro-con-razonamiento">Preguntas tipo Saber PRO (con razonamiento)</a></li><li><a href="#s-4-preparacion">Preparación</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#lista-de-preparacion">Lista de preparación</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Cierre de Corte 2</span>
+    <h1>Repaso y evaluación del Corte 2</h1>
+    <p class="lead">Cerramos la Unidad 2. Consolidamos modelamiento de datos, SQL/NoSQL/Python, conexión (APIs/ETL/pipelines) y calidad de datos, con repaso y preguntas tipo Saber PRO.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Consolidar modelamiento y consultas.</p></div><div class="objective-card"><span class="num">2</span><p>Relacionar ETL, pipelines y calidad.</p></div><div class="objective-card"><span class="num">3</span><p>Resolver preguntas tipo Saber PRO.</p></div><div class="objective-card"><span class="num">4</span><p>Autoevaluar la preparación.</p></div></div>
+  </section>
+  <section id="s-1-mapa-del-corte-2"><h2>1. Mapa del Corte 2</h2><pre class="ascii">Semana 6   Modelamiento (ERD, PK/FK, relacional vs NoSQL)
+Semana 7   Herramientas (SQL, MongoDB, pandas, dbt)
+Semana 8   Conexión (APIs, ETL/ELT, pipelines: Airflow/n8n/Kafka)
+Semana 9   Transformación y calidad (limpieza en pandas)
+Semana 10  Repaso + Evaluación Corte 2</pre></section><section id="s-2-sintesis"><h2>2. Síntesis</h2><ul><li><strong>Modelamiento:</strong> entidades, PK/FK, relaciones (1:1, 1:N, N:M), normalización; relacional vs NoSQL.</li><li><strong>Consultas:</strong> SQL (SELECT/WHERE/JOIN/GROUP BY); MongoDB (find/aggregate); pandas (read_csv, filtro, groupby).</li><li><strong>Conexión:</strong> APIs (JSON), ETL/ELT, pipelines; Airflow/n8n orquestan, Kafka transmite en tiempo real.</li><li><strong>Calidad:</strong> faltantes, duplicados, tipos, formatos; dimensiones (completitud, exactitud, consistencia, unicidad, vigencia).</li></ul></section><section id="s-3-preguntas-tipo-saber-pro-con-razonamiento"><h2>3. Preguntas tipo Saber PRO (con razonamiento)</h2><p><strong>1)</strong> ¿Qué cláusula SQL cuenta ventas por ciudad? <em>`GROUP BY ciudad` con `COUNT(</em>)`.*</p><p><strong>2)</strong> ¿Relacional o NoSQL para documentos con estructura variable? <em>NoSQL.</em></p><p><strong>3)</strong> En un pipeline, ¿quién orquesta y quién transmite en tiempo real? <em>Airflow orquesta; Kafka transmite.</em></p><p><strong>4)</strong> ¿Qué revisas antes de analizar un CSV? <em>Nulos, tipos, duplicados, formatos.</em></p><p><strong>5)</strong> Relación Pedidos↔Productos (N:M): ¿cómo se modela? <em>Con una tabla intermedia (Detalle).</em></p><div class="callout warn"><h4>Cuidado</h4><p>En el parcial se evalúa <strong>leer/escribir consultas</strong> y <strong>justificar decisiones</strong>, no solo teoría.</p></div></section><section id="s-4-preparacion"><h2>4. Preparación</h2><ul><li>Modalidad: individual, teórico‑práctica. Temas: semanas 6–9.</li><li>Ten a mano SQL (JOIN/GROUP BY), la idea de ETL/pipeline y las tareas de limpieza en pandas.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="JOIN combina tablas por sus claves."><div class="stem"><span class="n">Pregunta 1.</span> Para unir Cliente y Pedido por su clave se usa...</div><button class="opt" data-c="1">JOIN ... ON p.id_cliente = c.id_cliente</button><button class="opt" data-c="0">GROUP BY</button><button class="opt" data-c="0">Un pipeline de Kafka</button><div class="feedback"></div></div><div class="q" data-exp="La tabla puente resuelve N:M."><div class="stem"><span class="n">Pregunta 2.</span> Una relación muchos a muchos se implementa con...</div><button class="opt" data-c="1">Una tabla intermedia</button><button class="opt" data-c="0">Una clave primaria doble sin tablas</button><button class="opt" data-c="0">NoSQL obligatorio</button><div class="feedback"></div></div><div class="q" data-exp="Es el proceso de preparación de datos."><div class="stem"><span class="n">Pregunta 3.</span> ETL significa...</div><button class="opt" data-c="1">Extraer, Transformar, Cargar</button><button class="opt" data-c="0">Un tipo de gráfico</button><button class="opt" data-c="0">Una base NoSQL</button><div class="feedback"></div></div><div class="q" data-exp="Kafka = streaming de eventos."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué herramienta transmite eventos en tiempo real?</div><button class="opt" data-c="1">Kafka</button><button class="opt" data-c="0">dbt</button><button class="opt" data-c="0">Power BI</button><div class="feedback"></div></div><div class="q" data-exp="Datos limpios = análisis confiable."><div class="stem"><span class="n">Pregunta 5.</span> Antes de analizar, la tarea que más impacta es...</div><button class="opt" data-c="1">La limpieza/calidad de los datos</button><button class="opt" data-c="0">Elegir colores del dashboard</button><button class="opt" data-c="0">Nombrar el archivo</button><div class="feedback"></div></div><div class="q" data-exp="drop_duplicates elimina filas repetidas."><div class="stem"><span class="n">Pregunta 6.</span> En pandas, quitar duplicados es...</div><button class="opt" data-c="1">df.drop_duplicates()</button><button class="opt" data-c="0">df.head()</button><button class="opt" data-c="0">df.join()</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="lista-de-preparacion"><h2>Lista de preparación</h2><ul class="checklist"><li><input type="checkbox"> Diseño un ERD con PK/FK y relaciones.</li><li><input type="checkbox"> Escribo SQL con JOIN y GROUP BY.</li><li><input type="checkbox"> Explico ETL/ELT y el rol de Airflow/Kafka.</li><li><input type="checkbox"> Limpio datos en pandas (nulos, duplicados, tipos).</li><li><input type="checkbox"> Distingo relacional vs NoSQL con criterio.</li></ul></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Ciencia de Datos</strong> <span class="sep">·</span> Semana 10 · Sesión 1 · Repaso y evaluación del Corte 2</p>
+  <p>Ingeniería Industrial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>
