@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 14 · Optimización y testing | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 14 · Sesión 1 · Optimización y testing</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-por-que-optimizar">¿Por qué optimizar?</a></li><li><a href="#s-2-tecnicas-de-optimizacion">Técnicas de optimización</a></li><li><a href="#s-3-tipos-de-pruebas">Tipos de pruebas</a></li><li><a href="#s-4-una-prueba-unitaria-basica">Una prueba unitaria básica</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Experiencia · Corte 3</span>
+    <h1>Optimización y testing</h1>
+    <p class="lead">Antes de publicar, la app debe ser rápida y confiable. Esta sesión cubre optimización de rendimiento y estrategias de pruebas (unitarias, de integración y de interfaz) para entregar con calidad y sin sorpresas.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Reconocer causas comunes de baja de rendimiento.</p></div><div class="objective-card"><span class="num">2</span><p>Aplicar técnicas de optimización en móvil.</p></div><div class="objective-card"><span class="num">3</span><p>Distinguir tipos de pruebas.</p></div><div class="objective-card"><span class="num">4</span><p>Escribir una prueba unitaria básica.</p></div></div>
+  </section>
+  <section id="s-1-por-que-optimizar"><h2>1. ¿Por qué optimizar?</h2><p>En móvil los recursos son limitados (batería, memoria, red). Una app lenta o que consume mucho se desinstala. Optimizar mejora la experiencia y la retención.</p></section><section id="s-2-tecnicas-de-optimizacion"><h2>2. Técnicas de optimización</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Área</th><th>Técnica</th></tr></thead><tbody><tr><td>Listas grandes</td><td>Renderizado eficiente / virtualización; usar <code>key</code></td></tr><tr><td>Imágenes</td><td>Comprimir, tamaños adecuados, carga diferida</td></tr><tr><td>Red</td><td>Cachear, paginar resultados, evitar llamadas repetidas</td></tr><tr><td>Render</td><td>Evitar cálculos y renders innecesarios (memoizar)</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p>Mide antes de optimizar. Usa las herramientas de desempeño del navegador/Android Studio para encontrar el cuello de botella real, no el supuesto.</p></div></section><section id="s-3-tipos-de-pruebas"><h2>3. Tipos de pruebas</h2><div class="callout info"><h4>Nota</h4><p><strong>Unitarias:</strong> prueban una función/componente aislado. <strong>De integración:</strong> varias piezas juntas (p. ej. servicio + API). <strong>De interfaz (E2E):</strong> simulan al usuario navegando la app.</p></div><pre class="ascii">Muchas unitarias  →  algunas de integración  →  pocas E2E   (pirámide de pruebas)</pre></section><section id="s-4-una-prueba-unitaria-basica"><h2>4. Una prueba unitaria básica</h2><pre class="code"><span class="kw">import</span> { conIva } from "./precio";
+
+test("conIva agrega 19%", () =&gt; {
+  expect(conIva(100)).toBe(119);
+});</pre><div class="callout info"><h4>Nota</h4><p>Las pruebas automatizadas son una <strong>red de seguridad</strong>: al cambiar el código, detectan de inmediato si algo se rompió (clave para refactorizar con confianza).</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Optimizar "a ciegas" sin medir el cuello de botella.</li><li>No usar <code>key</code> en listas (renders incorrectos/lentos).</li><li>Cero pruebas → cada cambio es una apuesta.</li><li>Solo pruebas E2E (lentas y frágiles) sin base de unitarias.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Mide primero; optimiza lo que de verdad pesa."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué conviene hacer ANTES de optimizar?</div><button class="opt" data-c="1">Medir para encontrar el cuello de botella real</button><button class="opt" data-c="0">Cambiar todo al azar</button><button class="opt" data-c="0">Publicar y esperar</button><div class="feedback"></div></div><div class="q" data-exp="La unitaria aísla una pieza."><div class="stem"><span class="n">Pregunta 2.</span> Una prueba UNITARIA verifica...</div><button class="opt" data-c="1">Una función o componente aislado</button><button class="opt" data-c="0">Toda la app de punta a punta</button><button class="opt" data-c="0">El diseño visual</button><div class="feedback"></div></div><div class="q" data-exp="Base amplia de unitarias; pocas E2E."><div class="stem"><span class="n">Pregunta 3.</span> La "pirámide de pruebas" sugiere...</div><button class="opt" data-c="1">Muchas unitarias, algunas de integración, pocas E2E</button><button class="opt" data-c="0">Solo pruebas E2E</button><button class="opt" data-c="0">Ninguna prueba</button><div class="feedback"></div></div><div class="q" data-exp="Virtualización/eficiencia y keys correctas."><div class="stem"><span class="n">Pregunta 4.</span> Para listas grandes conviene...</div><button class="opt" data-c="1">Renderizado eficiente y usar key</button><button class="opt" data-c="0">Cargar todo de golpe sin key</button><button class="opt" data-c="0">Evitar listas</button><div class="feedback"></div></div><div class="q" data-exp="Detectan regresiones al modificar."><div class="stem"><span class="n">Pregunta 5.</span> Las pruebas automatizadas sirven como...</div><button class="opt" data-c="1">Red de seguridad al cambiar el código</button><button class="opt" data-c="0">Adorno sin utilidad</button><button class="opt" data-c="0">Reemplazo del diseño</button><div class="feedback"></div></div><div class="q" data-exp="Comprimir y diferir mejora rendimiento."><div class="stem"><span class="n">Pregunta 6.</span> Una técnica de optimización de imágenes es...</div><button class="opt" data-c="1">Comprimir y usar tamaños adecuados / carga diferida</button><button class="opt" data-c="0">Usar siempre la máxima resolución</button><button class="opt" data-c="0">No mostrar imágenes</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Optimiza una lista o pantalla de tu app y escribe 2 pruebas unitarias de una función. Documenta la mejora. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 14 · Sesión 1 · Optimización y testing</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

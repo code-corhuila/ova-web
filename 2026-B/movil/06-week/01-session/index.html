@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 6 · Herramientas de desarrollo móvil | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 6 · Sesión 1 · Herramientas de desarrollo móvil</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-los-entornos-de-desarrollo-ide-sdk">Los entornos de desarrollo (IDE + SDK)</a></li><li><a href="#s-2-emuladores-y-dispositivos">Emuladores y dispositivos</a></li><li><a href="#s-3-node-js-y-el-cli-de-ionic">Node.js y el CLI de Ionic</a></li><li><a href="#s-4-estructura-basica-de-un-proyecto-ionic-react">Estructura básica de un proyecto Ionic React</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Tecnologías · Corte 2</span>
+    <h1>Herramientas de desarrollo móvil</h1>
+    <p class="lead">Empieza la construcción. Antes de programar hay que montar el entorno: SDKs, IDE, emuladores y el gestor de paquetes. Esta sesión prepara tu máquina para desarrollar apps nativas (Android Studio) e híbridas (Node + Ionic), el entorno que usaremos el resto del curso.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Reconocer los entornos Android Studio y Xcode.</p></div><div class="objective-card"><span class="num">2</span><p>Instalar Node.js y el CLI de Ionic.</p></div><div class="objective-card"><span class="num">3</span><p>Usar emuladores/dispositivos para probar.</p></div><div class="objective-card"><span class="num">4</span><p>Entender el rol del SDK y el gestor de paquetes.</p></div></div>
+  </section>
+  <section id="s-1-los-entornos-de-desarrollo-ide-sdk"><h2>1. Los entornos de desarrollo (IDE + SDK)</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>SDK</strong> (Software Development Kit) trae las librerías y herramientas para construir apps de una plataforma. El <strong>IDE</strong> es el editor que integra todo (código, emulador, depurador).</p></div><div class="table-responsive"><table class="styled-table"><thead><tr><th>Plataforma</th><th>IDE</th><th>SDK / lenguaje</th></tr></thead><tbody><tr><td>Android (nativo)</td><td><strong>Android Studio</strong></td><td>Android SDK · Kotlin/Java</td></tr><tr><td>iOS (nativo)</td><td><strong>Xcode</strong> (solo macOS)</td><td>iOS SDK · Swift</td></tr><tr><td>Híbrido</td><td>VS Code + <strong>Node.js</strong></td><td>Ionic / React Native (JS/TS)</td></tr></tbody></table></div></section><section id="s-2-emuladores-y-dispositivos"><h2>2. Emuladores y dispositivos</h2><p>Para probar sin un teléfono físico se usan <strong>emuladores</strong> (Android Virtual Device en Android Studio, Simulator en Xcode). También puedes conectar un <strong>dispositivo real</strong> por USB con la depuración activada.</p><div class="callout tip"><h4>Tip</h4><p>El emulador es cómodo para desarrollar; <strong>siempre</strong> prueba en un dispositivo real antes de entregar: el rendimiento y los gestos se sienten distinto.</p></div></section><section id="s-3-node-js-y-el-cli-de-ionic"><h2>3. Node.js y el CLI de Ionic</h2><p>Para el desarrollo híbrido (nuestro énfasis, <strong>Ionic React</strong>) necesitas <strong>Node.js</strong> (trae <code>npm</code>, el gestor de paquetes) y el CLI de Ionic:</p><pre class="ascii">1. Instala Node.js LTS (incluye npm)
+2. Instala el CLI:      npm install -g @ionic/cli
+3. Crea un proyecto:    ionic start miApp blank --type=react
+4. Ejecútalo:           ionic serve</pre><div class="callout info"><h4>Nota</h4><p><code>npm</code> descarga las <strong>dependencias</strong> (librerías) que declara tu proyecto en <code>package.json</code>. <code>ionic serve</code> levanta la app en el navegador con recarga automática.</p></div></section><section id="s-4-estructura-basica-de-un-proyecto-ionic-react"><h2>4. Estructura básica de un proyecto Ionic React</h2><pre class="ascii">miApp/
+  src/
+    pages/       -&gt; pantallas (componentes React)
+    components/  -&gt; componentes reutilizables
+    App.tsx      -&gt; raíz y rutas
+  package.json   -&gt; dependencias y scripts
+  ionic.config.json</pre></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>No instalar la versión <strong>LTS</strong> de Node (incompatibilidades).</li><li>Olvidar <code>npm install</code> tras clonar un proyecto (faltan dependencias).</li><li>Probar solo en emulador y nunca en dispositivo real.</li><li>Confundir el IDE (editor) con el SDK (herramientas de la plataforma).</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="El SDK provee las herramientas/librerías de la plataforma."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué es un SDK?</div><button class="opt" data-c="1">El conjunto de librerías y herramientas para construir apps de una plataforma</button><button class="opt" data-c="0">Un emulador de teléfonos</button><button class="opt" data-c="0">Un lenguaje de programación</button><div class="feedback"></div></div><div class="q" data-exp="Ionic corre sobre Node/npm con su CLI."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué necesitas para el desarrollo híbrido con Ionic?</div><button class="opt" data-c="1">Node.js (npm) y el CLI de Ionic</button><button class="opt" data-c="0">Solo Xcode</button><button class="opt" data-c="0">Solo un dispositivo físico</button><div class="feedback"></div></div><div class="q" data-exp="Emula un dispositivo para pruebas."><div class="stem"><span class="n">Pregunta 3.</span> ¿Para qué sirve un emulador?</div><button class="opt" data-c="1">Probar la app sin un dispositivo físico</button><button class="opt" data-c="0">Publicar en la tienda</button><button class="opt" data-c="0">Escribir la base de datos</button><div class="feedback"></div></div><div class="q" data-exp="package.json lista dependencias y scripts."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué archivo declara las dependencias de un proyecto Node/Ionic?</div><button class="opt" data-c="1">package.json</button><button class="opt" data-c="0">index.html</button><button class="opt" data-c="0">App.tsx</button><div class="feedback"></div></div><div class="q" data-exp="Android Studio; Xcode es de iOS."><div class="stem"><span class="n">Pregunta 5.</span> El IDE nativo de Android es...</div><button class="opt" data-c="1">Android Studio</button><button class="opt" data-c="0">Xcode</button><button class="opt" data-c="0">Visual Studio para Mac</button><div class="feedback"></div></div><div class="q" data-exp="El dispositivo real revela rendimiento y gestos reales."><div class="stem"><span class="n">Pregunta 6.</span> Buena práctica antes de entregar:</div><button class="opt" data-c="1">Probar en un dispositivo real, no solo en emulador</button><button class="opt" data-c="0">Nunca usar emulador</button><button class="opt" data-c="0">Publicar sin probar</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Instala Node.js + Ionic CLI, crea un proyecto <code>blank</code> de Ionic React y ejecútalo con <code>ionic serve</code>. Captura la pantalla inicial. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 6 · Sesión 1 · Herramientas de desarrollo móvil</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

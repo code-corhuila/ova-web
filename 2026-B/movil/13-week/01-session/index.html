@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 13 · Backend final y conectividad | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 13 · Sesión 1 · Backend final y conectividad</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-autenticacion-con-tokens-jwt">Autenticación con tokens (JWT)</a></li><li><a href="#s-2-consumo-robusto-de-la-api">Consumo robusto de la API</a></li><li><a href="#s-3-conectividad-y-offline">Conectividad y offline</a></li><li><a href="#s-4-separacion-de-responsabilidades">Separación de responsabilidades</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Experiencia · Corte 3</span>
+    <h1>Backend final y conectividad</h1>
+    <p class="lead">Cerramos la integración app–servidor: autenticación con tokens, consumo robusto de la API, manejo de la conectividad y una estrategia offline. Es el pegamento que convierte pantallas y backend en un producto real.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Integrar la app con la API de forma robusta.</p></div><div class="objective-card"><span class="num">2</span><p>Explicar la autenticación con tokens (JWT).</p></div><div class="objective-card"><span class="num">3</span><p>Manejar estados de red y errores.</p></div><div class="objective-card"><span class="num">4</span><p>Diseñar una estrategia offline/sincronización.</p></div></div>
+  </section>
+  <section id="s-1-autenticacion-con-tokens-jwt"><h2>1. Autenticación con tokens (JWT)</h2><div class="callout info"><h4>Nota</h4><p>Tras iniciar sesión, el servidor devuelve un <strong>token</strong> (p. ej. JWT). La app lo <strong>guarda</strong> y lo envía en cada petición protegida (cabecera <code>Authorization</code>). El servidor lo valida sin guardar sesión.</p></div><pre class="code"><span class="kw">const</span> { token } = await (await fetch(API + "/login", {
+  method: "POST", headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ correo, clave })
+})).json();
+
+<span class="kw">const</span> perfil = await fetch(API + "/perfil", {
+  headers: { Authorization: "Bearer " + token }
+});</pre><div class="callout warn"><h4>Cuidado</h4><p>Nunca guardes el token en un lugar inseguro ni lo publiques. Usa el almacenamiento seguro del dispositivo.</p></div></section><section id="s-2-consumo-robusto-de-la-api"><h2>2. Consumo robusto de la API</h2><p>Toda llamada debe manejar: <strong>carga</strong>, <strong>éxito</strong> y <strong>error</strong> (red caída, 401 no autorizado, 500 del servidor).</p><pre class="code">try {
+  <span class="kw">const</span> resp = await fetch(url);
+  <span class="kw">if</span> (!resp.ok) throw <span class="kw">new</span> Error("HTTP " + resp.status);
+  <span class="kw">return</span> await resp.json();
+} catch (e) {
+  <span class="cm">// mostrar mensaje y permitir reintento</span>
+}</pre></section><section id="s-3-conectividad-y-offline"><h2>3. Conectividad y offline</h2><div class="callout info"><h4>Nota</h4><p>En móvil la red <strong>falla</strong>: túneles, datos agotados, wifi intermitente. Una app robusta detecta la conectividad, <strong>cachea</strong> datos localmente y <strong>sincroniza</strong> cuando vuelve la conexión.</p></div><div class="table-responsive"><table class="styled-table"><thead><tr><th>Estrategia</th><th>Idea</th></tr></thead><tbody><tr><td>Caché local</td><td>Guardar la última respuesta para mostrarla offline</td></tr><tr><td>Cola de cambios</td><td>Encolar acciones y enviarlas al reconectar</td></tr><tr><td>Indicador de estado</td><td>Avisar "sin conexión" al usuario</td></tr></tbody></table></div></section><section id="s-4-separacion-de-responsabilidades"><h2>4. Separación de responsabilidades</h2><p>Centraliza el acceso a la API en un <strong>servicio</strong> (una capa), no repartido por las pantallas. Así el manejo de token, errores y URLs vive en un solo lugar (bajo acoplamiento).</p></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Repetir la URL y el manejo de token en cada pantalla (centraliza en un servicio).</li><li>No manejar el <strong>401</strong> (token vencido) → la app "se queda pegada".</li><li>Suponer conexión siempre disponible.</li><li>Guardar el token de forma insegura.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Se envía el token, no la contraseña."><div class="stem"><span class="n">Pregunta 1.</span> Tras el login, ¿qué envía la app en las peticiones protegidas?</div><button class="opt" data-c="1">El token (p. ej. en la cabecera Authorization)</button><button class="opt" data-c="0">La contraseña en cada petición</button><button class="opt" data-c="0">Nada</button><div class="feedback"></div></div><div class="q" data-exp="401 = no autorizado."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué significa el código HTTP 401?</div><button class="opt" data-c="1">No autorizado (token inválido o ausente)</button><button class="opt" data-c="0">Creado</button><button class="opt" data-c="0">Error del servidor</button><div class="feedback"></div></div><div class="q" data-exp="Caché local + sincronización."><div class="stem"><span class="n">Pregunta 3.</span> Una estrategia para funcionar sin conexión es...</div><button class="opt" data-c="1">Cachear datos localmente y sincronizar al reconectar</button><button class="opt" data-c="0">Bloquear la app sin red</button><button class="opt" data-c="0">Ignorar la conectividad</button><div class="feedback"></div></div><div class="q" data-exp="Un servicio centraliza URLs, token y errores."><div class="stem"><span class="n">Pregunta 4.</span> ¿Dónde conviene centralizar el acceso a la API?</div><button class="opt" data-c="1">En una capa/servicio, no repartido en las pantallas</button><button class="opt" data-c="0">En cada componente por separado</button><button class="opt" data-c="0">En el backend únicamente</button><div class="feedback"></div></div><div class="q" data-exp="Los tres estados deben manejarse."><div class="stem"><span class="n">Pregunta 5.</span> Al consumir la API SIEMPRE hay que...</div><button class="opt" data-c="1">Manejar carga, éxito y error</button><button class="opt" data-c="0">Asumir que nunca falla</button><button class="opt" data-c="0">Evitar try/catch</button><div class="feedback"></div></div><div class="q" data-exp="Almacenamiento seguro, nunca expuesto."><div class="stem"><span class="n">Pregunta 6.</span> El token de sesión debe guardarse...</div><button class="opt" data-c="1">De forma segura en el dispositivo</button><button class="opt" data-c="0">En texto plano público</button><button class="opt" data-c="0">En el código fuente</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Agrega login con token a tu app: guárdalo, envíalo en una petición protegida y maneja el 401 y la ausencia de red. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 13 · Sesión 1 · Backend final y conectividad</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

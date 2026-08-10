@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 10 · Repaso y evaluación del Corte 2 | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 10 · Sesión 1 · Repaso y evaluación del Corte 2</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-mapa-del-corte-2">Mapa del Corte 2</a></li><li><a href="#s-2-sintesis">Síntesis</a></li><li><a href="#s-3-ejercicios-tipo-parcial-con-razonamiento">Ejercicios tipo parcial (con razonamiento)</a></li><li><a href="#s-4-preparacion">Preparación</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#lista-de-preparacion">Lista de preparación</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Cierre de Corte 2</span>
+    <h1>Repaso y evaluación del Corte 2</h1>
+    <p class="lead">Cerramos la Unidad 2. Consolidamos entorno, lenguajes, backend y frameworks híbridos (Ionic React) con un repaso y ejercicios tipo parcial, para llegar con seguridad a la evaluación del corte.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Consolidar entorno, lenguajes, backend y frameworks.</p></div><div class="objective-card"><span class="num">2</span><p>Leer y razonar código de Ionic React y Express.</p></div><div class="objective-card"><span class="num">3</span><p>Resolver ejercicios tipo parcial.</p></div><div class="objective-card"><span class="num">4</span><p>Autoevaluar la preparación.</p></div></div>
+  </section>
+  <section id="s-1-mapa-del-corte-2"><h2>1. Mapa del Corte 2</h2><pre class="ascii">Semana 6   Herramientas (Android Studio, Node, Ionic CLI)
+Semana 7   Lenguajes (Kotlin, TypeScript/React)
+Semana 8   Backend básico (Node/Express, API REST, JSON)
+Semana 9   Frameworks híbridos (Ionic React, componentes, useState)
+Semana 10  Repaso + Evaluación Corte 2</pre></section><section id="s-2-sintesis"><h2>2. Síntesis</h2><ul><li><strong>Entorno:</strong> SDK + IDE; Android Studio (nativo), Node + Ionic CLI (híbrido); emuladores y dispositivo real.</li><li><strong>Lenguajes:</strong> Kotlin (nativo, null‑safe, <code>val</code>/<code>var</code>); TypeScript/React (Ionic).</li><li><strong>Backend:</strong> API REST (GET/POST/PUT/DELETE), JSON, Express (<code>express.json</code>, <code>res.json</code>).</li><li><strong>Frameworks:</strong> Ionic vs React Native vs Flutter; Ionic React = componentes + <code>useState</code> + rutas + Capacitor.</li></ul></section><section id="s-3-ejercicios-tipo-parcial-con-razonamiento"><h2>3. Ejercicios tipo parcial (con razonamiento)</h2><p><strong>1)</strong> ¿Qué método HTTP y ruta usarías para actualizar el producto 5? <em>`PUT /productos/5`.</em></p><p><strong>2)</strong> En Kotlin, ¿por qué <code>val</code> en vez de <code>var</code> cuando el dato no cambia? <em>Inmutabilidad → menos errores.</em></p><p><strong>3)</strong> ¿Qué imprime este componente al pulsar 3 veces?</p><pre class="code"><span class="kw">const</span> [n, setN] = useState(0);
+&lt;IonButton onClick={() =&gt; setN(n + 1)}&gt;Clics: {n}&lt;/IonButton&gt;</pre><p><em>Muestra "Clics: 3" tras 3 pulsaciones (el estado redibuja).</em></p><p><strong>4)</strong> ¿Por qué la app debe manejar errores al hacer <code>fetch</code>? <em>La red puede fallar; hay que avisar al usuario.</em></p><p><strong>5)</strong> Menciona una ventaja de Ionic React frente a hacer dos apps nativas. <em>Una sola base de código → menor costo/tiempo.</em></p><div class="callout warn"><h4>Cuidado</h4><p>En el parcial se evalúa <strong>leer y razonar código</strong>, no solo teoría.</p></div></section><section id="s-4-preparacion"><h2>4. Preparación</h2><ul><li>Modalidad: individual, teórico‑práctica. Temas: semanas 6–9.</li><li>Ten claro el flujo app ↔ API (fetch → JSON) y los componentes básicos de Ionic React.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="GET lee recursos."><div class="stem"><span class="n">Pregunta 1.</span> Para LEER la lista de productos de una API se usa...</div><button class="opt" data-c="1">GET /productos</button><button class="opt" data-c="0">POST /productos</button><button class="opt" data-c="0">DELETE /productos</button><div class="feedback"></div></div><div class="q" data-exp="useState es el hook de estado."><div class="stem"><span class="n">Pregunta 2.</span> En Ionic React, el estado que redibuja la UI se maneja con...</div><button class="opt" data-c="1">useState</button><button class="opt" data-c="0">express.json()</button><button class="opt" data-c="0">val</button><div class="feedback"></div></div><div class="q" data-exp="Kotlin = Android; Swift = iOS; Express = Node/JS."><div class="stem"><span class="n">Pregunta 3.</span> Kotlin es el lenguaje principal de...</div><button class="opt" data-c="1">Android nativo</button><button class="opt" data-c="0">iOS nativo</button><button class="opt" data-c="0">El backend Express</button><div class="feedback"></div></div><div class="q" data-exp="JSON es el formato de respuesta habitual."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué devuelve normalmente una API REST?</div><button class="opt" data-c="1">Datos en formato JSON</button><button class="opt" data-c="0">Un archivo .apk</button><button class="opt" data-c="0">Código Kotlin</button><div class="feedback"></div></div><div class="q" data-exp="Comparte código multiplataforma."><div class="stem"><span class="n">Pregunta 5.</span> Una ventaja de un framework híbrido es...</div><button class="opt" data-c="1">Una sola base de código para varias plataformas</button><button class="opt" data-c="0">Máximo rendimiento siempre</button><button class="opt" data-c="0">No necesitar pruebas</button><div class="feedback"></div></div><div class="q" data-exp="`ionic serve` sirve la app en desarrollo."><div class="stem"><span class="n">Pregunta 6.</span> ¿Qué herramienta levanta la app Ionic con recarga automática?</div><button class="opt" data-c="1">ionic serve</button><button class="opt" data-c="0">npm uninstall</button><button class="opt" data-c="0">git push</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="lista-de-preparacion"><h2>Lista de preparación</h2><ul class="checklist"><li><input type="checkbox"> Configuro el entorno (Node, Ionic CLI) y ejecuto un proyecto.</li><li><input type="checkbox"> Leo código Kotlin básico (val/var, null‑safety).</li><li><input type="checkbox"> Explico una API REST y sus métodos.</li><li><input type="checkbox"> Construyo una pantalla con componentes y <code>useState</code>.</li><li><input type="checkbox"> Comparo Ionic, React Native y Flutter.</li></ul></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 10 · Sesión 1 · Repaso y evaluación del Corte 2</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

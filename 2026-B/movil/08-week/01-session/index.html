@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 8 · Backend básico para aplicaciones móviles | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 8 · Sesión 1 · Backend básico para aplicaciones móviles</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-es-una-api-rest">¿Qué es una API REST?</a></li><li><a href="#s-2-un-backend-minimo-con-express">Un backend mínimo con Express</a></li><li><a href="#s-3-json-el-idioma-entre-app-y-servidor">JSON: el idioma entre app y servidor</a></li><li><a href="#s-4-consumir-la-api-desde-la-app-ionic-react">Consumir la API desde la app (Ionic React)</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Tecnologías · Corte 2</span>
+    <h1>Backend básico para aplicaciones móviles</h1>
+    <p class="lead">Las apps rara vez viven solas: consultan y guardan datos en un servidor. Esta sesión introduce un backend sencillo con Node.js y Express que expone una API REST, y cómo la app móvil la consume con peticiones HTTP en formato JSON.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Explicar qué es una API REST y sus métodos HTTP.</p></div><div class="objective-card"><span class="num">2</span><p>Crear endpoints básicos con Node.js y Express.</p></div><div class="objective-card"><span class="num">3</span><p>Intercambiar datos en formato JSON.</p></div><div class="objective-card"><span class="num">4</span><p>Consumir la API desde la app (fetch).</p></div></div>
+  </section>
+  <section id="s-1-que-es-una-api-rest"><h2>1. ¿Qué es una API REST?</h2><div class="callout info"><h4>Nota</h4><p>Una <strong>API REST</strong> expone recursos (usuarios, productos…) mediante <strong>URLs</strong> y <strong>métodos HTTP</strong>. La app cliente pide datos al servidor y este responde, normalmente en <strong>JSON</strong>.</p></div><div class="table-responsive"><table class="styled-table"><thead><tr><th>Método</th><th>Acción (CRUD)</th><th>Ejemplo</th></tr></thead><tbody><tr><td>GET</td><td>Leer</td><td><code>GET /productos</code></td></tr><tr><td>POST</td><td>Crear</td><td><code>POST /productos</code></td></tr><tr><td>PUT</td><td>Actualizar</td><td><code>PUT /productos/5</code></td></tr><tr><td>DELETE</td><td>Eliminar</td><td><code>DELETE /productos/5</code></td></tr></tbody></table></div></section><section id="s-2-un-backend-minimo-con-express"><h2>2. Un backend mínimo con Express</h2><pre class="code"><span class="kw">const</span> express = require("express");
+<span class="kw">const</span> app = express();
+app.use(express.json());
+
+<span class="kw">let</span> productos = [{ id: 1, nombre: "Café" }];
+
+app.get("/productos", (req, res) =&gt; res.json(productos));
+app.post("/productos", (req, res) =&gt; {
+  <span class="kw">const</span> nuevo = { id: productos.length + 1, nombre: req.body.nombre };
+  productos.push(nuevo);
+  res.status(201).json(nuevo);
+});
+
+app.listen(3000, () =&gt; console.log("API en http:<span class="cm">//localhost:3000"));</span></pre><div class="callout info"><h4>Nota</h4><p><code>express.json()</code> permite leer el cuerpo JSON de las peticiones. <code>res.json(...)</code> responde en JSON. El código 201 significa "creado".</p></div></section><section id="s-3-json-el-idioma-entre-app-y-servidor"><h2>3. JSON: el idioma entre app y servidor</h2><div class="callout info"><h4>Nota</h4><p><strong>JSON</strong> (JavaScript Object Notation) es un formato de texto para intercambiar datos: pares clave‑valor, listas y objetos anidados.</p></div><pre class="ascii">{ "id": 1, "nombre": "Café", "precio": 3500 }</pre></section><section id="s-4-consumir-la-api-desde-la-app-ionic-react"><h2>4. Consumir la API desde la app (Ionic React)</h2><pre class="code">async <span class="kw">function</span> cargarProductos() {
+  <span class="kw">const</span> resp = await fetch("http:<span class="cm">//localhost:3000/productos");</span>
+  <span class="kw">const</span> datos = await resp.json();
+  <span class="kw">return</span> datos; <span class="cm">// lista de productos</span>
+}</pre><div class="callout tip"><h4>Tip</h4><p>En producción, la URL no es <code>localhost</code> sino la del servidor desplegado; y las peticiones deben manejar <strong>errores</strong> (try/catch) y estados de carga.</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Olvidar <code>express.json()</code> y no poder leer <code>req.body</code>.</li><li>No manejar <strong>errores</strong> de red en la app (la petición puede fallar).</li><li>Mezclar responsabilidades: la app NO debe tener la lógica del servidor.</li><li>Exponer datos sensibles sin autenticación.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="POST crea; GET lee; DELETE elimina."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué método HTTP se usa para CREAR un recurso?</div><button class="opt" data-c="1">POST</button><button class="opt" data-c="0">GET</button><button class="opt" data-c="0">DELETE</button><div class="feedback"></div></div><div class="q" data-exp="JSON es el formato estándar de intercambio."><div class="stem"><span class="n">Pregunta 2.</span> ¿En qué formato suelen intercambiar datos app y servidor?</div><button class="opt" data-c="1">JSON</button><button class="opt" data-c="0">PDF</button><button class="opt" data-c="0">Un archivo .exe</button><div class="feedback"></div></div><div class="q" data-exp="Habilita el parseo de JSON entrante."><div class="stem"><span class="n">Pregunta 3.</span> En Express, ¿qué hace <code>app.use(express.json())</code>?</div><button class="opt" data-c="1">Permite leer el cuerpo JSON de las peticiones (req.body)</button><button class="opt" data-c="0">Inicia la base de datos</button><button class="opt" data-c="0">Publica la app en la tienda</button><div class="feedback"></div></div><div class="q" data-exp="201 = creado; 404 = no encontrado; 500 = error del servidor."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué código HTTP indica "creado"?</div><button class="opt" data-c="1">201</button><button class="opt" data-c="0">404</button><button class="opt" data-c="0">500</button><div class="feedback"></div></div><div class="q" data-exp="La app consume la API con peticiones HTTP."><div class="stem"><span class="n">Pregunta 5.</span> Para pedir datos al servidor desde la app se usa...</div><button class="opt" data-c="1">Una petición HTTP (p. ej. fetch)</button><button class="opt" data-c="0">Un archivo local</button><button class="opt" data-c="0">La consola del navegador</button><div class="feedback"></div></div><div class="q" data-exp="Las peticiones pueden fallar; hay que manejarlo."><div class="stem"><span class="n">Pregunta 6.</span> Buena práctica al consumir una API:</div><button class="opt" data-c="1">Manejar errores de red y estados de carga</button><button class="opt" data-c="0">Confiar en que la red nunca falla</button><button class="opt" data-c="0">Poner la lógica del servidor en la app</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Crea una API REST mínima con Express (GET y POST de una entidad) y consúmela desde una función <code>fetch</code>. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 8 · Sesión 1 · Backend básico para aplicaciones móviles</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

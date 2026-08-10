@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 7 · Lenguajes de programación móviles (Kotlin y TypeScript) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 7 · Sesión 1 · Lenguajes de programación móviles (Kotlin y TypeScript)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-panorama-de-lenguajes">Panorama de lenguajes</a></li><li><a href="#s-2-kotlin-en-5-minutos">Kotlin en 5 minutos</a></li><li><a href="#s-3-seguridad-ante-null-kotlin">Seguridad ante null (Kotlin)</a></li><li><a href="#s-4-typescript-react-para-ionic">TypeScript/React para Ionic</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Tecnologías · Corte 2</span>
+    <h1>Lenguajes de programación móviles (Kotlin y TypeScript)</h1>
+    <p class="lead">Cada plataforma tiene su lenguaje: Kotlin en Android nativo, Swift en iOS, y TypeScript/JavaScript en el mundo híbrido. Esta sesión da una base de Kotlin (para entender lo nativo) y de TypeScript/React (que usaremos en Ionic).</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Escribir variables, funciones y clases en Kotlin.</p></div><div class="objective-card"><span class="num">2</span><p>Reconocer la seguridad ante null de Kotlin.</p></div><div class="objective-card"><span class="num">3</span><p>Relacionar Kotlin/Swift con el desarrollo nativo.</p></div><div class="objective-card"><span class="num">4</span><p>Leer componentes básicos en TypeScript/React (Ionic).</p></div></div>
+  </section>
+  <section id="s-1-panorama-de-lenguajes"><h2>1. Panorama de lenguajes</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Plataforma</th><th>Lenguaje</th><th>Notas</th></tr></thead><tbody><tr><td>Android nativo</td><td><strong>Kotlin</strong> (o Java)</td><td>Moderno, conciso, null‑safe</td></tr><tr><td>iOS nativo</td><td><strong>Swift</strong></td><td>Moderno, seguro</td></tr><tr><td>Híbrido (Ionic/React Native)</td><td><strong>TypeScript/JavaScript</strong></td><td>Una base, varias plataformas</td></tr></tbody></table></div></section><section id="s-2-kotlin-en-5-minutos"><h2>2. Kotlin en 5 minutos</h2><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-72320-0">Variables y funciones</button><button class="tab-btn" data-tab="tab-72320-1">Clase y objeto</button></div><div class="tab-panel active" id="tab-72320-0"><pre class="code">val nombre = "Ana"      <span class="cm">// val: inmutable</span>
+<span class="kw">var</span> edad = 20           <span class="cm">// var: mutable</span>
+fun saludar(n: String): String {
+    <span class="kw">return</span> "Hola, $n"   <span class="cm">// interpolación con $</span>
+}</pre></div><div class="tab-panel" id="tab-72320-1"><pre class="code"><span class="kw">class</span> Usuario(val nombre: String, <span class="kw">var</span> activo: Boolean) {
+    fun describir() = "$nombre (activo=$activo)"
+}
+val u = Usuario("Luis", <span class="kw">true</span>)
+<span class="kw">println</span>(u.describir())</pre></div></div><div class="callout info"><h4>Nota</h4><p>Kotlin es <strong>conciso</strong> (menos código que Java) y moderno: infiere tipos, tiene interpolación de cadenas y clases compactas.</p></div></section><section id="s-3-seguridad-ante-null-kotlin"><h2>3. Seguridad ante null (Kotlin)</h2><div class="callout info"><h4>Nota</h4><p>En Kotlin, un tipo normal <strong>no puede</strong> ser null; para permitirlo se usa <code>?</code>. Así el compilador evita muchos <code>NullPointerException</code>.</p></div><pre class="code"><span class="kw">var</span> texto: String = "hola"   <span class="cm">// no admite null</span>
+<span class="kw">var</span> opcional: String? = <span class="kw">null</span> <span class="cm">// sí admite null</span>
+<span class="kw">println</span>(opcional?.length)    <span class="cm">// llamada segura: no falla si es null</span></pre></section><section id="s-4-typescript-react-para-ionic"><h2>4. TypeScript/React para Ionic</h2><p>Como el énfasis del curso es <strong>Ionic React</strong>, usaremos <strong>TypeScript</strong> (JavaScript con tipos) y componentes de React. Un componente es una función que devuelve la interfaz:</p><pre class="code"><span class="kw">const</span> Saludo: React.FC = () =&gt; {
+  <span class="kw">const</span> nombre = "Ana";
+  <span class="kw">return</span> &lt;IonContent&gt;Hola, {nombre}&lt;/IonContent&gt;;
+};</pre><div class="callout tip"><h4>Tip</h4><p>Kotlin y TypeScript comparten ideas: tipos, funciones, inmutabilidad (<code>val</code>/<code>const</code>). Entender una te ayuda con la otra.</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Usar <code>var</code> para todo en Kotlin (prefiere <code>val</code> si no cambia).</li><li>Ignorar la nulabilidad (<code>?</code>) y provocar errores en ejecución.</li><li>Confundir <code>=</code> (asignar) con <code>==</code> (comparar).</li><li>En TS, olvidar los tipos y perder la ayuda del compilador.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="val es inmutable; var es mutable."><div class="stem"><span class="n">Pregunta 1.</span> En Kotlin, ¿qué declara un valor inmutable?</div><button class="opt" data-c="1">val</button><button class="opt" data-c="0">var</button><button class="opt" data-c="0">let</button><div class="feedback"></div></div><div class="q" data-exp="`String?` admite null; el tipo normal no."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué permite el operador <code>?</code> en un tipo de Kotlin?</div><button class="opt" data-c="1">Que la variable pueda ser null (tipo anulable)</button><button class="opt" data-c="0">Que sea constante</button><button class="opt" data-c="0">Que sea privada</button><div class="feedback"></div></div><div class="q" data-exp="Kotlin (o Java) en Android; Swift es iOS."><div class="stem"><span class="n">Pregunta 3.</span> El lenguaje nativo moderno de Android es...</div><button class="opt" data-c="1">Kotlin</button><button class="opt" data-c="0">Swift</button><button class="opt" data-c="0">TypeScript</button><div class="feedback"></div></div><div class="q" data-exp="Ionic React usa TS/JS y componentes React."><div class="stem"><span class="n">Pregunta 4.</span> Para Ionic React se programa en...</div><button class="opt" data-c="1">TypeScript/JavaScript con componentes React</button><button class="opt" data-c="0">Kotlin puro</button><button class="opt" data-c="0">Swift</button><div class="feedback"></div></div><div class="q" data-exp="`$n` interpola el valor de la variable."><div class="stem"><span class="n">Pregunta 5.</span> ¿Qué imprime <code>val n = "Ana"; println("Hola, $n")</code>?</div><button class="opt" data-c="1">Hola, Ana</button><button class="opt" data-c="0">Hola, $n</button><button class="opt" data-c="0">Error</button><div class="feedback"></div></div><div class="q" data-exp="El compilador obliga a manejar la nulabilidad."><div class="stem"><span class="n">Pregunta 6.</span> Una ventaja de la seguridad ante null de Kotlin es...</div><button class="opt" data-c="1">Reduce los NullPointerException en ejecución</button><button class="opt" data-c="0">Hace la app más lenta</button><button class="opt" data-c="0">Elimina las variables</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Escribe en Kotlin una clase <code>Producto</code> con validación simple y pruébala; y crea un componente de saludo en Ionic React. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 7 · Sesión 1 · Lenguajes de programación móviles (Kotlin y TypeScript)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

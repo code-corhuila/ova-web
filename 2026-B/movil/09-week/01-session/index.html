@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 9 · Frameworks móviles híbridos (Ionic React) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 9 · Sesión 1 · Frameworks móviles híbridos (Ionic React)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-comparativa-de-hibridos">Comparativa de híbridos</a></li><li><a href="#s-2-un-componente-de-pagina-en-ionic-react">Un componente de página en Ionic React</a></li><li><a href="#s-3-estado-con-hooks-usestate">Estado con hooks (useState)</a></li><li><a href="#s-4-navegacion-entre-paginas">Navegación entre páginas</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Tecnologías · Corte 2</span>
+    <h1>Frameworks móviles híbridos (Ionic React)</h1>
+    <p class="lead">Los frameworks híbridos permiten una sola base de código para Android e iOS. Comparamos Ionic, Flutter y React Native, y profundizamos en Ionic React —el énfasis del curso— construyendo pantallas con sus componentes y navegación.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Comparar Ionic, Flutter y React Native.</p></div><div class="objective-card"><span class="num">2</span><p>Construir una pantalla con componentes de Ionic React.</p></div><div class="objective-card"><span class="num">3</span><p>Manejar estado con hooks (useState).</p></div><div class="objective-card"><span class="num">4</span><p>Navegar entre páginas.</p></div></div>
+  </section>
+  <section id="s-1-comparativa-de-hibridos"><h2>1. Comparativa de híbridos</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Framework</th><th>Lenguaje</th><th>Enfoque</th></tr></thead><tbody><tr><td><strong>Ionic</strong></td><td>Web (React/Angular/Vue) + Capacitor</td><td>Web components sobre WebView; muy productivo</td></tr><tr><td><strong>React Native</strong></td><td>JavaScript/TypeScript (React)</td><td>Componentes nativos reales</td></tr><tr><td><strong>Flutter</strong></td><td>Dart</td><td>Motor de render propio, UI muy fluida</td></tr></tbody></table></div><div class="callout info"><h4>Nota</h4><p>Los tres logran multiplataforma. En el curso usamos <strong>Ionic React</strong>: aprovechas React + componentes listos (<code>IonButton</code>, <code>IonList</code>…) y <strong>Capacitor</strong> para acceder al hardware.</p></div></section><section id="s-2-un-componente-de-pagina-en-ionic-react"><h2>2. Un componente de página en Ionic React</h2><pre class="code"><span class="kw">const</span> HomePage: React.FC = () =&gt; (
+  &lt;IonPage&gt;
+    &lt;IonHeader&gt;&lt;IonToolbar&gt;&lt;IonTitle&gt;Inicio&lt;/IonTitle&gt;&lt;/IonToolbar&gt;&lt;/IonHeader&gt;
+    &lt;IonContent className="ion-padding"&gt;
+      &lt;IonButton expand="block"&gt;Comenzar&lt;/IonButton&gt;
+    &lt;/IonContent&gt;
+  &lt;/IonPage&gt;
+);</pre><div class="callout info"><h4>Nota</h4><p>Todo se construye con <strong>componentes</strong>: piezas reutilizables (<code>IonPage</code>, <code>IonHeader</code>, <code>IonButton</code>) que se combinan como bloques.</p></div></section><section id="s-3-estado-con-hooks-usestate"><h2>3. Estado con hooks (useState)</h2><div class="callout info"><h4>Nota</h4><p>Un <strong>hook</strong> <code>useState</code> guarda datos que cambian y provocan que la pantalla se <strong>redibuje</strong> al actualizarse.</p></div><pre class="code"><span class="kw">const</span> Contador: React.FC = () =&gt; {
+  <span class="kw">const</span> [n, setN] = useState(0);
+  <span class="kw">return</span> &lt;IonButton onClick={() =&gt; setN(n + 1)}&gt;Clics: {n}&lt;/IonButton&gt;;
+};</pre></section><section id="s-4-navegacion-entre-paginas"><h2>4. Navegación entre páginas</h2><p>Ionic React usa rutas (React Router). Se define qué componente muestra cada ruta y se navega con enlaces o programáticamente:</p><pre class="ascii">/ (Home)  →  /detalle/:id  →  /perfil</pre></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Manipular el DOM directamente en vez de usar el <strong>estado</strong> (React re‑renderiza solo).</li><li>Olvidar la <strong>key</strong> al renderizar listas.</li><li>Poner toda la app en un solo componente gigante (divide en componentes).</li><li>No probar en dispositivo real con Capacitor.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Lo híbrido comparte una base multiplataforma."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué caracteriza a un framework híbrido?</div><button class="opt" data-c="1">Una sola base de código para varias plataformas</button><button class="opt" data-c="0">Código distinto para cada sistema operativo</button><button class="opt" data-c="0">Solo funciona en la web</button><div class="feedback"></div></div><div class="q" data-exp="Se combinan componentes reutilizables."><div class="stem"><span class="n">Pregunta 2.</span> En Ionic React, la interfaz se construye con...</div><button class="opt" data-c="1">Componentes (IonPage, IonButton, ...)</button><button class="opt" data-c="0">Consultas SQL</button><button class="opt" data-c="0">Archivos PDF</button><div class="feedback"></div></div><div class="q" data-exp="useState maneja estado y dispara el re‑render."><div class="stem"><span class="n">Pregunta 3.</span> ¿Para qué sirve <code>useState</code>?</div><button class="opt" data-c="1">Guardar datos que cambian y redibujar la pantalla</button><button class="opt" data-c="0">Conectarse a la base de datos</button><button class="opt" data-c="0">Definir rutas</button><div class="feedback"></div></div><div class="q" data-exp="Flutter usa Dart; Ionic/RN usan JS/TS."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué framework híbrido usa el lenguaje Dart?</div><button class="opt" data-c="1">Flutter</button><button class="opt" data-c="0">Ionic</button><button class="opt" data-c="0">React Native</button><div class="feedback"></div></div><div class="q" data-exp="Capacitor da acceso a funciones nativas."><div class="stem"><span class="n">Pregunta 5.</span> ¿Qué permite Capacitor en Ionic?</div><button class="opt" data-c="1">Acceder al hardware del dispositivo (cámara, GPS…)</button><button class="opt" data-c="0">Compilar Kotlin</button><button class="opt" data-c="0">Diseñar la base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Componetizar y usar estado es el modelo de React."><div class="stem"><span class="n">Pregunta 6.</span> Buena práctica en React:</div><button class="opt" data-c="1">Dividir la UI en componentes y usar estado (no tocar el DOM a mano)</button><button class="opt" data-c="0">Un único componente gigante</button><button class="opt" data-c="0">Modificar el DOM directamente</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Crea en Ionic React una pantalla con una lista (<code>IonList</code>) y un contador con <code>useState</code>, y navega a una segunda página. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 9 · Sesión 1 · Frameworks móviles híbridos (Ionic React)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>

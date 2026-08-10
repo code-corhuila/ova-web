@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación Móvil · Semana 12 · Plugins y componentes avanzados (cámara, GPS) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=25b67570">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Programación Móvil</span><span class="brand-topic">Semana 12 · Sesión 1 · Plugins y componentes avanzados (cámara, GPS)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-capacitor-y-los-plugins">Capacitor y los plugins</a></li><li><a href="#s-2-camara">Cámara</a></li><li><a href="#s-3-geolocalizacion-gps">Geolocalización (GPS)</a></li><li><a href="#s-4-permisos">Permisos</a></li><li><a href="#s-5-almacenamiento-en-el-dispositivo">Almacenamiento en el dispositivo</a></li><li><a href="#s-6-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#actividad-de-la-semana">Actividad de la semana</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Experiencia · Corte 3</span>
+    <h1>Plugins y componentes avanzados (cámara, GPS)</h1>
+    <p class="lead">Las apps móviles brillan cuando usan el hardware: cámara, ubicación, almacenamiento. Con Capacitor, Ionic accede a estas capacidades nativas mediante plugins. Esta sesión enseña a integrar cámara y GPS, y a manejar permisos correctamente.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Explicar qué es Capacitor y un plugin.</p></div><div class="objective-card"><span class="num">2</span><p>Integrar la cámara y la geolocalización.</p></div><div class="objective-card"><span class="num">3</span><p>Solicitar y manejar permisos.</p></div><div class="objective-card"><span class="num">4</span><p>Guardar datos con almacenamiento del dispositivo.</p></div></div>
+  </section>
+  <section id="s-1-capacitor-y-los-plugins"><h2>1. Capacitor y los plugins</h2><div class="callout info"><h4>Nota</h4><p><strong>Capacitor</strong> es el puente de Ionic hacia el hardware. Un <strong>plugin</strong> expone una función nativa (cámara, GPS, archivos) con una API de JavaScript, para usarla igual en Android e iOS.</p></div><pre class="ascii">Tu código (JS/TS) → Plugin de Capacitor → API nativa (Android/iOS) → Hardware</pre></section><section id="s-2-camara"><h2>2. Cámara</h2><pre class="code"><span class="kw">import</span> { Camera, CameraResultType } from "@capacitor/camera";
+
+async <span class="kw">function</span> tomarFoto() {
+  <span class="kw">const</span> foto = await Camera.getPhoto({
+    quality: 80,
+    resultType: CameraResultType.Uri,
+  });
+  <span class="kw">return</span> foto.webPath; <span class="cm">// ruta para mostrar la imagen</span>
+}</pre></section><section id="s-3-geolocalizacion-gps"><h2>3. Geolocalización (GPS)</h2><pre class="code"><span class="kw">import</span> { Geolocation } from "@capacitor/geolocation";
+
+async <span class="kw">function</span> ubicacion() {
+  <span class="kw">const</span> pos = await Geolocation.getCurrentPosition();
+  <span class="kw">return</span> { lat: pos.coords.latitude, lng: pos.coords.longitude };
+}</pre></section><section id="s-4-permisos"><h2>4. Permisos</h2><div class="callout warn"><h4>Cuidado</h4><p>Cámara, ubicación y otros recursos requieren <strong>permiso del usuario</strong>. Hay que declararlos en la configuración de la plataforma y <strong>solicitarlos en tiempo de ejecución</strong>; si el usuario los niega, la app debe seguir funcionando con una alternativa o un mensaje claro.</p></div></section><section id="s-5-almacenamiento-en-el-dispositivo"><h2>5. Almacenamiento en el dispositivo</h2><p>Para guardar datos localmente (preferencias, caché) se usan plugins como <strong>Preferences</strong> (clave‑valor) o una base local (SQLite). Útil para funcionar <strong>offline</strong> y recordar la sesión.</p></section><section id="s-6-errores-comunes"><h2>6. Errores comunes</h2><ul><li>No declarar/solicitar <strong>permisos</strong> → la función falla en el dispositivo.</li><li>Asumir que el permiso siempre se concede (manejar la negativa).</li><li>Probar cámara/GPS solo en el navegador (requiere <strong>dispositivo real</strong>).</li><li>Guardar datos sensibles sin cifrar.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Capacitor conecta el código web con las APIs nativas."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué es Capacitor en Ionic?</div><button class="opt" data-c="1">El puente que da acceso al hardware nativo mediante plugins</button><button class="opt" data-c="0">Un lenguaje de programación</button><button class="opt" data-c="0">Una base de datos</button><div class="feedback"></div></div><div class="q" data-exp="Los recursos sensibles requieren permiso en ejecución."><div class="stem"><span class="n">Pregunta 2.</span> Antes de usar la cámara o el GPS, la app debe...</div><button class="opt" data-c="1">Solicitar el permiso del usuario y manejar la negativa</button><button class="opt" data-c="0">Nada, funcionan siempre</button><button class="opt" data-c="0">Publicarse en la tienda</button><div class="feedback"></div></div><div class="q" data-exp="Geolocation da la posición (GPS)."><div class="stem"><span class="n">Pregunta 3.</span> ¿Qué plugin obtiene la ubicación del dispositivo?</div><button class="opt" data-c="1">Geolocation</button><button class="opt" data-c="0">Camera</button><button class="opt" data-c="0">Preferences</button><div class="feedback"></div></div><div class="q" data-exp="Preferences/SQLite guardan datos locales."><div class="stem"><span class="n">Pregunta 4.</span> Para guardar preferencias sencillas de forma local se usa...</div><button class="opt" data-c="1">Un almacenamiento clave-valor (Preferences) o SQLite</button><button class="opt" data-c="0">La cámara</button><button class="opt" data-c="0">Un servidor remoto obligatorio</button><div class="feedback"></div></div><div class="q" data-exp="El hardware se prueba en dispositivo real."><div class="stem"><span class="n">Pregunta 5.</span> La cámara y el GPS conviene probarlos en...</div><button class="opt" data-c="1">Un dispositivo real</button><button class="opt" data-c="0">Solo el navegador</button><button class="opt" data-c="0">La consola de Node</button><div class="feedback"></div></div><div class="q" data-exp="Debe degradar con elegancia, no romperse."><div class="stem"><span class="n">Pregunta 6.</span> Si el usuario NIEGA un permiso, la app debe...</div><button class="opt" data-c="1">Seguir funcionando con una alternativa o mensaje claro</button><button class="opt" data-c="0">Cerrarse</button><button class="opt" data-c="0">Ignorar el problema</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="actividad-de-la-semana" class="activity-section"><h2>Actividad de la semana</h2><p>Integra en tu app un plugin de Capacitor (cámara o geolocalización) con manejo de permisos. Entrega opcional por GitHub (ver optional-activity).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Programación Móvil</strong> <span class="sep">·</span> Semana 12 · Sesión 1 · Plugins y componentes avanzados (cámara, GPS)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=25b67570"></script>
+</body>
+</html>
