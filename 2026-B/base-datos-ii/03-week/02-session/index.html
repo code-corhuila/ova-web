@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base de Datos II · Semana 3 · Vistas, CTE y consultas recursivas | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Base de Datos II</span><span class="brand-topic">Semana 3 · Sesión 2 · Vistas, CTE y consultas recursivas</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-cte-dale-nombre-a-cada-paso">CTE: dale nombre a cada paso</a></li><li><a href="#s-2-vistas-encapsular-y-proteger">Vistas: encapsular y proteger</a></li><li><a href="#s-3-cte-recursiva-recorrer-jerarquias">CTE recursiva: recorrer jerarquías</a></li><li><a href="#s-4-un-camino-que-enfrentaras-en-la-vida-real">Un camino que enfrentarás en la vida real</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Consultas · Corte 1</span>
+    <h1>Vistas, CTE y consultas recursivas</h1>
+    <p class="lead">Una consulta compleja no tiene por qué ser ilegible. Las CTE (WITH) dividen un problema grande en pasos con nombre; las vistas encapsulan lógica reutilizable y controlan el acceso; y las CTE recursivas recorren jerarquías (organigramas, categorías, grafos) que el SQL "plano" no puede. Escribir consultas mantenibles es tan importante como que devuelvan lo correcto.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Usar CTE (WITH) para estructurar consultas legibles por pasos.</p></div><div class="objective-card"><span class="num">2</span><p>Diferenciar vistas de vistas materializadas y sus usos.</p></div><div class="objective-card"><span class="num">3</span><p>Escribir una CTE recursiva para recorrer una jerarquía.</p></div><div class="objective-card"><span class="num">4</span><p>Aplicar vistas para reutilización y control de acceso.</p></div></div>
+  </section>
+  <section id="s-1-cte-dale-nombre-a-cada-paso"><h2>1. CTE: dale nombre a cada paso</h2><div class="callout info"><h4>Nota</h4><p>Una <strong>CTE</strong> (<code>WITH nombre AS (...)</code>) es una subconsulta con nombre que vive durante la consulta. Convierte una consulta anidada ilegible en una secuencia de pasos claros. No cambia el rendimiento por sí sola (el optimizador la integra), pero cambia radicalmente la <strong>mantenibilidad</strong>.</p></div><pre class="code">WITH ventas_cliente AS (
+  SELECT id_cliente, SUM(total) AS gasto
+  FROM factura GROUP BY id_cliente
+),
+promedio AS (
+  SELECT AVG(gasto) AS media FROM ventas_cliente
+)
+SELECT v.id_cliente, v.gasto
+FROM ventas_cliente v, promedio p
+WHERE v.gasto &gt; p.media;     -- clientes por encima del promedio, en pasos legibles</pre></section><section id="s-2-vistas-encapsular-y-proteger"><h2>2. Vistas: encapsular y proteger</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 140" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vistas">
+  <style>.d_svg1{fill:#0b5f5e}.v_svg1{fill:#0e7c7b}.u_svg1{fill:#3f7d20}.t_svg1{font:11px Roboto,Arial;fill:#fff}.g_svg1{font:10px Roboto,Arial;fill:#555}</style>
+  <rect x="30" y="45" width="130" height="46" rx="6" class="d_svg1"/><text x="95" y="72" class="t_svg1" text-anchor="middle">Tablas base</text>
+  <rect x="250" y="45" width="130" height="46" rx="6" class="v_svg1"/><text x="315" y="66" class="t_svg1" text-anchor="middle">VISTA</text><text x="315" y="82" class="t_svg1" text-anchor="middle" font-size="9">consulta guardada</text>
+  <rect x="470" y="45" width="130" height="46" rx="6" class="u_svg1"/><text x="535" y="72" class="t_svg1" text-anchor="middle">Usuario/App</text>
+  <line x1="160" y1="68" x2="250" y2="68" stroke="#999" stroke-width="2"/><line x1="380" y1="68" x2="470" y2="68" stroke="#999" stroke-width="2"/>
+  <text x="30" y="120" class="g_svg1">La app ve solo la vista (columnas/filas permitidas); las tablas base quedan protegidas.</text>
+</svg></figure><div class="callout tip"><h4>Tip</h4><p>Una <strong>vista</strong> es una consulta guardada que se usa como si fuera una tabla: reutiliza lógica y <strong>controla acceso</strong> (expones solo ciertas columnas/filas). Una <strong>vista materializada</strong> guarda el <strong>resultado</strong> en disco (rápida de leer, pero hay que <strong>refrescarla</strong>): úsala para agregaciones caras que se consultan mucho y toleran cierto desfase.</p></div></section><section id="s-3-cte-recursiva-recorrer-jerarquias"><h2>3. CTE recursiva: recorrer jerarquías</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 130" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jerarquia recursiva">
+  <style>.n_svg2{fill:#0e7c7b}.w_svg2{font:10px Roboto,Arial;fill:#fff}.g_svg2{font:10px Roboto,Arial;fill:#555}</style>
+  <rect x="270" y="12" width="80" height="26" rx="4" class="n_svg2"/><text x="310" y="29" class="w_svg2" text-anchor="middle">Gerente</text>
+  <rect x="160" y="58" width="80" height="26" rx="4" class="n_svg2"/><text x="200" y="75" class="w_svg2" text-anchor="middle">Líder A</text>
+  <rect x="380" y="58" width="80" height="26" rx="4" class="n_svg2"/><text x="420" y="75" class="w_svg2" text-anchor="middle">Líder B</text>
+  <rect x="120" y="98" width="70" height="24" rx="4" class="n_svg2"/><text x="155" y="114" class="w_svg2" text-anchor="middle">Dev</text>
+  <rect x="210" y="98" width="70" height="24" rx="4" class="n_svg2"/><text x="245" y="114" class="w_svg2" text-anchor="middle">Dev</text>
+  <line x1="310" y1="38" x2="200" y2="58" stroke="#999"/><line x1="310" y1="38" x2="420" y2="58" stroke="#999"/><line x1="200" y1="84" x2="155" y2="98" stroke="#999"/><line x1="200" y1="84" x2="245" y2="98" stroke="#999"/>
+  <text x="470" y="100" class="g_svg2">WITH RECURSIVE recorre nivel a nivel.</text>
+</svg></figure><pre class="code">WITH RECURSIVE cadena AS (
+  SELECT id, nombre, jefe_id, 1 AS nivel
+  FROM empleado WHERE jefe_id IS NULL          -- caso base (raíz)
+  UNION ALL
+  SELECT e.id, e.nombre, e.jefe_id, c.nivel + 1
+  FROM empleado e JOIN cadena c ON e.jefe_id = c.id   -- paso recursivo
+)
+SELECT * FROM cadena ORDER BY nivel;</pre></section><section id="s-4-un-camino-que-enfrentaras-en-la-vida-real"><h2>4. Un camino que enfrentarás en la vida real</h2><div class="callout warn"><h4>Cuidado</h4><p><strong>Escenario — "el dashboard de totales tarda 30 s".</strong> Un panel ejecuta una agregación pesada (millones de filas) en cada carga. Normalizar la consulta no basta: el cálculo es intrínsecamente caro y se pide muchas veces con datos que cambian una vez al día. <strong>Fix:</strong> una <strong>vista materializada</strong> con el agregado, refrescada de noche (o tras la carga). Las consultas del panel pasan de 30 s a milisegundos. Trade‑off consciente: los datos tienen hasta 24 h de desfase, aceptable para ese panel. <em>La vista materializada cambia "recalcular siempre" por "leer un resultado precomputado".</em></p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Anidar subconsultas ilegibles en vez de usar CTE con nombres claros.</li><li>Creer que una vista "normal" acelera (no guarda resultado; se recalcula).</li><li>Olvidar <strong>refrescar</strong> una vista materializada → datos obsoletos.</li><li>CTE recursiva sin caso base o sin condición de término → recursión infinita.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Legibilidad/estructura; el optimizador la integra."><div class="stem"><span class="n">Pregunta 1.</span> Una CTE (WITH) sirve sobre todo para...</div><button class="opt" data-c="1">Estructurar una consulta compleja en pasos legibles</button><button class="opt" data-c="0">Guardar el resultado en disco</button><button class="opt" data-c="0">Acelerar siempre la consulta</button><div class="feedback"></div></div><div class="q" data-exp="Materializada = resultado en disco + refresco."><div class="stem"><span class="n">Pregunta 2.</span> Una vista materializada se diferencia de una vista normal en que...</div><button class="opt" data-c="1">Guarda el resultado precomputado y debe refrescarse</button><button class="opt" data-c="0">No se puede consultar</button><button class="opt" data-c="0">Siempre está actualizada sin costo</button><div class="feedback"></div></div><div class="q" data-exp="Recursiva: caso base + paso recursivo."><div class="stem"><span class="n">Pregunta 3.</span> Para recorrer un organigrama (jerarquía) uso...</div><button class="opt" data-c="1">Una CTE recursiva (WITH RECURSIVE)</button><button class="opt" data-c="0">Un GROUP BY</button><button class="opt" data-c="0">Un CROSS JOIN</button><div class="feedback"></div></div><div class="q" data-exp="Encapsula y limita lo visible."><div class="stem"><span class="n">Pregunta 4.</span> Una vista ayuda al control de acceso porque...</div><button class="opt" data-c="1">Expone solo las columnas/filas permitidas, ocultando las tablas base</button><button class="opt" data-c="0">Cifra los datos</button><button class="opt" data-c="0">Elimina la necesidad de permisos</button><div class="feedback"></div></div><div class="q" data-exp="Necesita base y término."><div class="stem"><span class="n">Pregunta 5.</span> El riesgo de una CTE recursiva mal escrita es...</div><button class="opt" data-c="1">Recursión infinita (sin caso base/término)</button><button class="opt" data-c="0">Que sea más legible</button><button class="opt" data-c="0">Que no compile nunca</button><div class="feedback"></div></div><div class="q" data-exp="Precomputar paga con lecturas frecuentes + desfase tolerable."><div class="stem"><span class="n">Pregunta 6.</span> Una vista materializada conviene cuando...</div><button class="opt" data-c="1">La agregación es cara, se consulta mucho y tolera cierto desfase</button><button class="opt" data-c="0">Los datos cambian cada segundo y deben ser exactos</button><button class="opt" data-c="0">La tabla es pequeñísima</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Las <strong>CTE</strong> hacen legibles las consultas complejas y <strong>recursivas</strong> recorren jerarquías; las <strong>vistas</strong> reutilizan lógica y controlan acceso, y las <strong>materializadas</strong> cambian recálculo por lectura rápida (con refresco). <strong>Semana 4:</strong> integridad y programabilidad — llevar reglas de negocio al servidor con constraints, procedimientos y triggers.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Base de Datos II</strong> <span class="sep">·</span> Semana 3 · Sesión 2 · Vistas, CTE y consultas recursivas</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

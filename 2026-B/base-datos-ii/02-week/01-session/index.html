@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base de Datos II · Semana 2 · SQL avanzado — subconsultas y JOINs | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Base de Datos II</span><span class="brand-topic">Semana 2 · Sesión 1 · SQL avanzado — subconsultas y JOINs</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-el-join-correcto-para-la-pregunta-correcta">El JOIN correcto para la pregunta correcta</a></li><li><a href="#s-2-subconsultas-una-consulta-dentro-de-otra">Subconsultas: una consulta dentro de otra</a></li><li><a href="#s-3-exists-vs-in-y-el-problema-de-los-null">EXISTS vs IN (y el problema de los NULL)</a></li><li><a href="#s-4-un-camino-que-enfrentaras-en-la-vida-real">Un camino que enfrentarás en la vida real</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Consultas · Corte 1</span>
+    <h1>SQL avanzado — subconsultas y JOINs</h1>
+    <p class="lead">Consultar bien es una habilidad de ingeniería, no de memoria. En esta sesión dominarás las herramientas que resuelven el 80% de las preguntas difíciles del mundo real: los distintos JOINs y las subconsultas (incluidas las correlacionadas). El objetivo no es "que devuelva algo", sino escribir consultas correctas, legibles y que el optimizador pueda ejecutar rápido.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Elegir el JOIN correcto (INNER, LEFT/RIGHT, FULL, self-join) según la pregunta.</p></div><div class="objective-card"><span class="num">2</span><p>Escribir subconsultas escalares, de lista (IN) y correlacionadas.</p></div><div class="objective-card"><span class="num">3</span><p>Distinguir EXISTS de IN y sus implicaciones de rendimiento y NULLs.</p></div><div class="objective-card"><span class="num">4</span><p>Traducir una pregunta de negocio ambigua en una consulta precisa.</p></div></div>
+  </section>
+  <section id="s-1-el-join-correcto-para-la-pregunta-correcta"><h2>1. El JOIN correcto para la pregunta correcta</h2><div class="callout info"><h4>Nota</h4><p>Un JOIN combina filas de dos tablas según una condición. El error típico no es de sintaxis: es elegir el JOIN equivocado y obtener silenciosamente filas de más o de menos. La pregunta guía: <em>¿quiero solo las coincidencias (INNER) o también las filas sin pareja (LEFT/FULL)?</em></p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 140" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tipos de JOIN">
+  <style>.a_svg1{fill:#0e7c7b;opacity:0.75}.b_svg1{fill:#3f7d20;opacity:0.75}.t_svg1{font:11px Roboto,Arial;fill:#333}.w_svg1{font:11px Roboto,Arial;fill:#fff}</style>
+  <text x="70" y="18" class="t_svg1" text-anchor="middle">INNER</text>
+  <circle cx="55" cy="70" r="34" class="a_svg1"/><circle cx="90" cy="70" r="34" class="b_svg1"/>
+  <text x="230" y="18" class="t_svg1" text-anchor="middle">LEFT</text>
+  <circle cx="215" cy="70" r="34" class="a_svg1"/><circle cx="250" cy="70" r="34" class="b_svg1"/><circle cx="215" cy="70" r="34" fill="#0e7c7b"/>
+  <text x="400" y="18" class="t_svg1" text-anchor="middle">FULL</text>
+  <circle cx="385" cy="70" r="34" fill="#0e7c7b" opacity="0.6"/><circle cx="420" cy="70" r="34" fill="#3f7d20" opacity="0.6"/>
+  <text x="545" y="18" class="t_svg1" text-anchor="middle">SELF</text>
+  <circle cx="545" cy="70" r="30" class="a_svg1"/><text x="545" y="74" class="w_svg1" text-anchor="middle">A↔A</text>
+  <text x="10" y="128" class="t_svg1">INNER: solo coincidencias · LEFT: todo A + coincidencias · FULL: todo · SELF: la tabla consigo misma (jerarquías).</text>
+</svg></figure><pre class="code">-- Clientes y su total facturado, INCLUYENDO los que nunca compraron (LEFT):
+SELECT c.nombre, COALESCE(SUM(f.total), 0) AS facturado
+FROM cliente c
+LEFT JOIN factura f ON f.id_cliente = c.id
+GROUP BY c.nombre;</pre></section><section id="s-2-subconsultas-una-consulta-dentro-de-otra"><h2>2. Subconsultas: una consulta dentro de otra</h2><div class="callout tip"><h4>Tip</h4><p>Tres sabores: <strong>escalar</strong> (devuelve un valor, útil en <code>SELECT</code>/<code>WHERE</code>), <strong>de lista</strong> (<code>WHERE x IN (SELECT ...)</code>), y <strong>correlacionada</strong> (la subconsulta referencia la fila externa, se evalúa por cada fila). La correlacionada es potente pero puede ser cara: entiéndela antes de abusar de ella.</p></div><pre class="code">-- Correlacionada: clientes cuya última compra supera su propio promedio
+SELECT f.id_cliente, f.total
+FROM factura f
+WHERE f.total &gt; (SELECT AVG(f2.total)
+                 FROM factura f2
+                 WHERE f2.id_cliente = f.id_cliente);   -- referencia la fila externa</pre></section><section id="s-3-exists-vs-in-y-el-problema-de-los-null"><h2>3. EXISTS vs IN (y el problema de los NULL)</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 120" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EXISTS vs IN">
+  <style>.b_svg2{fill:#0e7c7b}.g_svg2{fill:#3f7d20}.t_svg2{font:11px Roboto,Arial;fill:#fff}.k_svg2{font:10px Roboto,Arial;fill:#555}</style>
+  <rect x="20" y="20" width="270" height="34" rx="6" class="b_svg2"/><text x="35" y="42" class="t_svg2">EXISTS: ¿hay al menos una fila? (corta rápido)</text>
+  <rect x="20" y="64" width="270" height="34" rx="6" class="g_svg2"/><text x="35" y="86" class="t_svg2">IN: compara contra una lista de valores</text>
+  <text x="310" y="40" class="k_svg2">EXISTS suele ganar con subconsultas grandes</text>
+  <text x="310" y="82" class="k_svg2">IN + NULL en la lista → resultados sorpresa (NOT IN)</text>
+</svg></figure><div class="callout warn"><h4>Cuidado</h4><p><code>NOT IN (SELECT col ...)</code> donde <code>col</code> puede ser <strong>NULL</strong> devuelve resultados vacíos/incorrectos silenciosamente (lógica de tres valores). Usa <code>NOT EXISTS</code> cuando haya posibilidad de NULLs. Este es uno de los bugs de SQL más difíciles de detectar porque <em>no lanza error</em>.</p></div></section><section id="s-4-un-camino-que-enfrentaras-en-la-vida-real"><h2>4. Un camino que enfrentarás en la vida real</h2><div class="callout warn"><h4>Cuidado</h4><p><strong>Escenario — "faltan clientes en el reporte".</strong> Un <code>INNER JOIN</code> entre <code>cliente</code> y <code>factura</code> deja fuera a los clientes sin facturas → el reporte de "todos los clientes y su gasto" muestra 0 clientes nuevos. El negocio pide "todos". <strong>Fix:</strong> <code>LEFT JOIN</code> + <code>COALESCE(SUM(...),0)</code>. Segundo caso: un <code>NOT IN</code> con una subconsulta que trae NULLs devuelve vacío; se cambia a <code>NOT EXISTS</code>. Ninguno de los dos daba error: daban la respuesta equivocada. <em>Elegir el JOIN/predicado correcto ES la corrección.</em></p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Usar <code>INNER JOIN</code> cuando la pregunta incluye "todos" (pierde filas sin pareja).</li><li>Multiplicar filas por un JOIN a una tabla con duplicados (revisa la cardinalidad).</li><li><code>NOT IN</code> con posibles NULL → usa <code>NOT EXISTS</code>.</li><li>Subconsultas correlacionadas innecesarias donde un JOIN + GROUP BY es más claro y rápido.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="LEFT conserva los clientes sin factura."><div class="stem"><span class="n">Pregunta 1.</span> Para "todos los clientes y su gasto (incluidos los que no compraron)" uso...</div><button class="opt" data-c="1">LEFT JOIN + COALESCE</button><button class="opt" data-c="0">INNER JOIN</button><button class="opt" data-c="0">CROSS JOIN</button><div class="feedback"></div></div><div class="q" data-exp="Depende de la fila externa."><div class="stem"><span class="n">Pregunta 2.</span> Una subconsulta correlacionada...</div><button class="opt" data-c="1">Referencia la fila externa y se evalúa por cada fila</button><button class="opt" data-c="0">Se ejecuta una sola vez</button><button class="opt" data-c="0">No puede usar WHERE</button><div class="feedback"></div></div><div class="q" data-exp="NULL rompe la lógica de NOT IN."><div class="stem"><span class="n">Pregunta 3.</span> <code>NOT IN</code> es riesgoso cuando la subconsulta...</div><button class="opt" data-c="1">Puede devolver NULLs</button><button class="opt" data-c="0">Devuelve muchas filas</button><button class="opt" data-c="0">Usa un índice</button><div class="feedback"></div></div><div class="q" data-exp="EXISTS corta al primer match."><div class="stem"><span class="n">Pregunta 4.</span> EXISTS conviene sobre IN típicamente cuando...</div><button class="opt" data-c="1">La subconsulta es grande y basta con saber si "hay alguna"</button><button class="opt" data-c="0">Siempre da igual</button><button class="opt" data-c="0">La tabla es pequeña y sin índices</button><div class="feedback"></div></div><div class="q" data-exp="Revisa la cardinalidad de la relación."><div class="stem"><span class="n">Pregunta 5.</span> Un JOIN que "duplica" filas suele deberse a...</div><button class="opt" data-c="1">Cardinalidad: la tabla unida tiene varias filas por clave</button><button class="opt" data-c="0">Un error de sintaxis</button><button class="opt" data-c="0">Falta de COALESCE</button><div class="feedback"></div></div><div class="q" data-exp="El error silencioso es el peligroso."><div class="stem"><span class="n">Pregunta 6.</span> El mayor riesgo de elegir mal un JOIN es que...</div><button class="opt" data-c="1">Devuelve un resultado incorrecto sin lanzar error</button><button class="opt" data-c="0">Siempre falla la consulta</button><button class="opt" data-c="0">Borra datos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Elegir el <strong>JOIN</strong> correcto y dominar las <strong>subconsultas</strong> (con el cuidado de <code>EXISTS</code>/NULLs) es lo que separa una consulta que "devuelve algo" de una <strong>correcta</strong>. <strong>Sesión 2:</strong> agregación, <code>GROUP BY</code>/<code>HAVING</code> y operaciones de conjuntos para responder preguntas analíticas.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Base de Datos II</strong> <span class="sep">·</span> Semana 2 · Sesión 1 · SQL avanzado — subconsultas y JOINs</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

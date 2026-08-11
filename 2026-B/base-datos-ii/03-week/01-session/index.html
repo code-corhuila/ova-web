@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base de Datos II · Semana 3 · Funciones de ventana (window functions) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Base de Datos II</span><span class="brand-topic">Semana 3 · Sesión 1 · Funciones de ventana (window functions)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería de Sistemas · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-agregar-sin-perder-el-detalle">Agregar sin perder el detalle</a></li><li><a href="#s-2-ranking-y-agregados-de-ventana">Ranking y agregados de ventana</a></li><li><a href="#s-3-acumulados-y-promedios-moviles">Acumulados y promedios móviles</a></li><li><a href="#s-4-un-camino-que-enfrentaras-en-la-vida-real">Un camino que enfrentarás en la vida real</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Consultas · Corte 1</span>
+    <h1>Funciones de ventana (window functions)</h1>
+    <p class="lead">Las funciones de ventana son la herramienta que muchos ingenieros descubren tarde y luego no sueltan: permiten calcular rankings, acumulados y comparaciones "contra el grupo" sin colapsar las filas ni recurrir a subconsultas correlacionadas costosas. Rankings, top-N por categoría, promedios móviles y diferencias periodo a periodo salen limpios y rápidos.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Explicar qué es una ventana (OVER, PARTITION BY, ORDER BY) y por qué no colapsa filas.</p></div><div class="objective-card"><span class="num">2</span><p>Aplicar ranking (ROW_NUMBER, RANK, DENSE_RANK) y agregados de ventana.</p></div><div class="objective-card"><span class="num">3</span><p>Resolver "top-N por grupo" y acumulados/promedios móviles.</p></div><div class="objective-card"><span class="num">4</span><p>Elegir entre GROUP BY y funciones de ventana según la pregunta.</p></div></div>
+  </section>
+  <section id="s-1-agregar-sin-perder-el-detalle"><h2>1. Agregar sin perder el detalle</h2><div class="callout info"><h4>Nota</h4><p>Un <code>GROUP BY</code> colapsa las filas de cada grupo en una. Una <strong>función de ventana</strong> calcula un valor "mirando un conjunto de filas relacionadas" (la <em>ventana</em>) <strong>pero conserva cada fila</strong>. Así puedes ver, en la misma consulta, el dato individual <strong>y</strong> su posición/acumulado dentro del grupo.</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 150" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Window vs group by">
+  <style>.r_svg1{fill:#e7f1f0;stroke:#0e7c7b}.b_svg1{fill:#0e7c7b}.t_svg1{font:10px Roboto,Arial;fill:#0e7c7b}.w_svg1{font:10px Roboto,Arial;fill:#fff}.g_svg1{font:10px Roboto,Arial;fill:#555}</style>
+  <text x="90" y="16" class="g_svg1" text-anchor="middle">GROUP BY (colapsa)</text>
+  <rect x="30" y="26" width="120" height="18" class="r_svg1"/><text x="36" y="39" class="t_svg1">Neiva → 400</text>
+  <rect x="30" y="46" width="120" height="18" class="r_svg1"/><text x="36" y="59" class="t_svg1">Pitalito → 80</text>
+  <text x="430" y="16" class="g_svg1" text-anchor="middle">WINDOW (conserva)</text>
+  <rect x="360" y="26" width="230" height="16" class="b_svg1"/><text x="366" y="38" class="w_svg1">Neiva·100 | total_ciudad=400 | rank=3</text>
+  <rect x="360" y="44" width="230" height="16" class="b_svg1"/><text x="366" y="56" class="w_svg1">Neiva·250 | total_ciudad=400 | rank=1</text>
+  <rect x="360" y="62" width="230" height="16" class="b_svg1"/><text x="366" y="74" class="w_svg1">Pitalito·80 | total_ciudad=80 | rank=1</text>
+  <text x="30" y="110" class="g_svg1">La ventana añade columnas de contexto (total, rank) sin borrar las filas originales.</text>
+</svg></figure></section><section id="s-2-ranking-y-agregados-de-ventana"><h2>2. Ranking y agregados de ventana</h2><pre class="code">-- Top 3 productos más vendidos POR categoría (top-N por grupo):
+SELECT * FROM (
+  SELECT categoria, producto, ventas,
+         ROW_NUMBER() OVER (PARTITION BY categoria ORDER BY ventas DESC) AS pos
+  FROM resumen_ventas
+) t
+WHERE pos &lt;= 3;</pre><div class="callout tip"><h4>Tip</h4><p><code>ROW_NUMBER</code> siempre da posiciones únicas (1,2,3…); <code>RANK</code> deja huecos ante empates (1,1,3); <code>DENSE_RANK</code> no (1,1,2). Elige según cómo quieras tratar los empates. <code>PARTITION BY</code> define el grupo; <code>ORDER BY</code> dentro del <code>OVER</code> define el orden para ranking/acumulados.</p></div></section><section id="s-3-acumulados-y-promedios-moviles"><h2>3. Acumulados y promedios móviles</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 120" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Acumulado y media movil">
+  <style>.b_svg2{fill:#3f7d20}.l_svg2{stroke:#0e7c7b;stroke-width:3;fill:none}.g_svg2{font:10px Roboto,Arial;fill:#555}</style>
+  <rect x="30" y="70" width="20" height="24" class="b_svg2"/><rect x="70" y="55" width="20" height="39" class="b_svg2"/><rect x="110" y="60" width="20" height="34" class="b_svg2"/><rect x="150" y="40" width="20" height="54" class="b_svg2"/>
+  <polyline points="40,88 80,74 120,64 160,50" class="l_svg2"/>
+  <text x="20" y="112" class="g_svg2">SUM(...) OVER (ORDER BY fecha) = acumulado · AVG(...) OVER (ORDER BY fecha ROWS 2 PRECEDING) = media móvil</text>
+</svg></figure><div class="callout info"><h4>Nota</h4><p>Con <code>OVER (ORDER BY fecha)</code> obtienes un <strong>running total</strong>. Con un <strong>marco</strong> (<code>ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</code>) defines una ventana deslizante para <strong>promedios móviles</strong> — el pan de cada día de los reportes de tendencia.</p></div></section><section id="s-4-un-camino-que-enfrentaras-en-la-vida-real"><h2>4. Un camino que enfrentarás en la vida real</h2><div class="callout warn"><h4>Cuidado</h4><p><strong>Escenario — "necesito el 2.º pedido de cada cliente".</strong> Con subconsultas correlacionadas la consulta es larga, frágil y lenta (se reevalúa por cada fila). Con ventana: <code>ROW_NUMBER() OVER (PARTITION BY cliente ORDER BY fecha)</code> y filtras <code>pos = 2</code>. Una línea, un solo escaneo, y el optimizador lo resuelve eficientemente. <em>Cuando veas "por cada grupo, el N‑ésimo / el acumulado / comparar con el anterior", piensa ventana antes que subconsulta correlacionada.</em></p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Intentar filtrar por el resultado de la ventana en el mismo <code>WHERE</code> (no se puede; usa subconsulta/CTE).</li><li>Olvidar <code>PARTITION BY</code> y rankear sobre toda la tabla sin querer.</li><li>Confundir <code>RANK</code> (con huecos) y <code>DENSE_RANK</code>/<code>ROW_NUMBER</code>.</li><li>Definir mal el marco (<code>ROWS</code>/<code>RANGE</code>) y obtener acumulados incorrectos.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="La ventana no colapsa filas."><div class="stem"><span class="n">Pregunta 1.</span> A diferencia de GROUP BY, una función de ventana...</div><button class="opt" data-c="1">Calcula sobre un conjunto relacionado pero conserva cada fila</button><button class="opt" data-c="0">Siempre colapsa las filas</button><button class="opt" data-c="0">No admite ORDER BY</button><div class="feedback"></div></div><div class="q" data-exp="Ranking particionado + filtro por posición."><div class="stem"><span class="n">Pregunta 2.</span> Para "top 3 por categoría" uso...</div><button class="opt" data-c="1">ROW_NUMBER() OVER (PARTITION BY categoria ORDER BY ventas DESC) y filtro &lt;=3</button><button class="opt" data-c="0">GROUP BY categoria</button><button class="opt" data-c="0">DISTINCT</button><div class="feedback"></div></div><div class="q" data-exp="DENSE_RANK es continua; RANK deja huecos."><div class="stem"><span class="n">Pregunta 3.</span> Ante empates, ¿cuál NO deja huecos en la numeración?</div><button class="opt" data-c="1">DENSE_RANK (1,1,2)</button><button class="opt" data-c="0">RANK (1,1,3)</button><button class="opt" data-c="0">Ninguna numera empates</button><div class="feedback"></div></div><div class="q" data-exp="OVER + ORDER BY acumula."><div class="stem"><span class="n">Pregunta 4.</span> Un "running total" se logra con...</div><button class="opt" data-c="1">SUM(x) OVER (ORDER BY fecha)</button><button class="opt" data-c="0">SUM(x) sin OVER</button><button class="opt" data-c="0">COUNT(*)</button><div class="feedback"></div></div><div class="q" data-exp="La ventana no se filtra en su propio WHERE."><div class="stem"><span class="n">Pregunta 5.</span> Para filtrar por el valor de una ventana necesitas...</div><button class="opt" data-c="1">Envolverla en una subconsulta o CTE y filtrar afuera</button><button class="opt" data-c="0">Ponerla en el WHERE directamente</button><button class="opt" data-c="0">Usar HAVING</button><div class="feedback"></div></div><div class="q" data-exp="El marco define la ventana deslizante."><div class="stem"><span class="n">Pregunta 6.</span> Una media móvil de 3 periodos usa...</div><button class="opt" data-c="1">Un marco ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</button><button class="opt" data-c="0">PARTITION BY sin ORDER BY</button><button class="opt" data-c="0">DISTINCT</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Las funciones de ventana <strong>agregan sin colapsar</strong>: rankings, top‑N por grupo, acumulados y medias móviles con un solo escaneo y sin subconsultas frágiles. <strong>Sesión 2:</strong> vistas, CTE y consultas recursivas para estructurar consultas complejas y recorrer jerarquías.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Base de Datos II</strong> <span class="sep">·</span> Semana 3 · Sesión 1 · Funciones de ventana (window functions)</p>
+  <p>Ingeniería de Sistemas <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>
