@@ -25,27 +25,27 @@
     <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Map the domain into bounded contexts (context map).</p></div><div class="objective-card"><span class="num">2</span><p>Choose an architecture with an explicit decision path.</p></div><div class="objective-card"><span class="num">3</span><p>Write ADR-001 with alternatives and consequences.</p></div><div class="objective-card"><span class="num">4</span><p>Turn the decision into backlog items for the sprint.</p></div></div>
   </section>
   <section id="s-1-how-planning-works-here"><h2>1. How planning works here</h2><div class="callout info"><h4>Note</h4><p>Planning converts learning into <strong>committed work</strong>. The loop: <strong>refine</strong> the backlog → <strong>decide</strong> (architecture, boundaries, contracts) → <strong>record</strong> the decision (ADR) → <strong>slice</strong> it into user stories with <strong>testable acceptance criteria</strong> for the sprint. A decision without an ADR is a rumor; a story without acceptance criteria is a wish.</p></div></section><section id="s-2-map-the-domain-bounded-contexts-first"><h2>2. Map the domain: bounded contexts first</h2><div class="callout info"><h4>Note</h4><p>Before choosing services, map your <strong>domain</strong> into <strong>bounded contexts</strong> — areas with their own language and rules. Draw a <strong>context map</strong>: the contexts and how they relate (who calls whom, who owns what data). Service boundaries, if any, will follow these lines.</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 200" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Context map">
-  <style>.c{fill:#e7f1f0;stroke:#0e7c7b;stroke-width:2}.t{font:600 13px Roboto,Arial;fill:#0e7c7b}.s{font:11px Roboto,Arial;fill:#555}.r{stroke:#3f7d20;stroke-width:2;fill:none}</style>
-  <rect x="30" y="40" width="150" height="60" rx="8" class="c"/><text x="52" y="66" class="t">Orders</text><text x="52" y="86" class="s">cart, checkout</text>
-  <rect x="240" y="20" width="150" height="60" rx="8" class="c"/><text x="262" y="46" class="t">Payments</text><text x="262" y="66" class="s">charge, refund</text>
-  <rect x="240" y="120" width="150" height="60" rx="8" class="c"/><text x="262" y="146" class="t">Inventory</text><text x="262" y="166" class="s">stock, reserve</text>
-  <rect x="450" y="70" width="150" height="60" rx="8" class="c"/><text x="472" y="96" class="t">Shipping</text><text x="472" y="116" class="s">deliver, track</text>
-  <path class="r" d="M180,66 C210,60 215,50 240,50"/><text x="188" y="44" class="s">places</text>
-  <path class="r" d="M180,80 C210,110 215,140 240,148"/><text x="185" y="118" class="s">reserves</text>
-  <path class="r" d="M390,150 C420,140 425,120 450,110"/><text x="398" y="140" class="s">ships</text>
-  <text x="30" y="192" class="s">Boundaries follow language and data ownership - not database tables or UI screens.</text>
+  <style>.c_svg1{fill:#e7f1f0;stroke:#0e7c7b;stroke-width:2}.t_svg1{font:600 13px Roboto,Arial;fill:#0e7c7b}.s_svg1{font:11px Roboto,Arial;fill:#555}.r_svg1{stroke:#3f7d20;stroke-width:2;fill:none}</style>
+  <rect x="30" y="40" width="150" height="60" rx="8" class="c_svg1"/><text x="52" y="66" class="t_svg1">Orders</text><text x="52" y="86" class="s_svg1">cart, checkout</text>
+  <rect x="240" y="20" width="150" height="60" rx="8" class="c_svg1"/><text x="262" y="46" class="t_svg1">Payments</text><text x="262" y="66" class="s_svg1">charge, refund</text>
+  <rect x="240" y="120" width="150" height="60" rx="8" class="c_svg1"/><text x="262" y="146" class="t_svg1">Inventory</text><text x="262" y="166" class="s_svg1">stock, reserve</text>
+  <rect x="450" y="70" width="150" height="60" rx="8" class="c_svg1"/><text x="472" y="96" class="t_svg1">Shipping</text><text x="472" y="116" class="s_svg1">deliver, track</text>
+  <path class="r_svg1" d="M180,66 C210,60 215,50 240,50"/><text x="188" y="44" class="s_svg1">places</text>
+  <path class="r_svg1" d="M180,80 C210,110 215,140 240,148"/><text x="185" y="118" class="s_svg1">reserves</text>
+  <path class="r_svg1" d="M390,150 C420,140 425,120 450,110"/><text x="398" y="140" class="s_svg1">ships</text>
+  <text x="30" y="192" class="s_svg1">Boundaries follow language and data ownership - not database tables or UI screens.</text>
 </svg></figure></section><section id="s-3-choose-the-architecture-with-a-decision-path"><h2>3. Choose the architecture with a decision path</h2><div class="callout tip"><h4>Tip</h4><p>Do not start at "microservices". Walk a path:</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 210" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture decision path">
-  <style>.q{fill:#fff;stroke:#0e7c7b;stroke-width:2}.a{fill:#3f7d20}.t{font:12px Roboto,Arial;fill:#333}.w{font:12px Roboto,Arial;fill:#fff}.y{font:11px Roboto,Arial;fill:#0e7c7b}</style>
-  <rect x="180" y="10" width="260" height="40" rx="8" class="q"/><text x="200" y="35" class="t">Do parts need to scale / deploy independently?</text>
-  <line x1="240" y1="50" x2="150" y2="80" stroke="#999"/><text x="150" y="72" class="y">no</text>
-  <line x1="380" y1="50" x2="470" y2="80" stroke="#999"/><text x="450" y="72" class="y">yes</text>
-  <rect x="40" y="80" width="220" height="40" rx="8" class="q"/><text x="60" y="105" class="t">Modular monolith (start here)</text>
-  <rect x="360" y="80" width="240" height="40" rx="8" class="q"/><text x="380" y="105" class="t">Are the boundaries real (bounded ctx)?</text>
-  <line x1="480" y1="120" x2="420" y2="150" stroke="#999"/><text x="410" y="142" class="y">no</text>
-  <line x1="540" y1="120" x2="560" y2="150" stroke="#999"/><text x="545" y="142" class="y">yes</text>
-  <rect x="300" y="150" width="170" height="40" rx="8" class="q"/><text x="318" y="175" class="t">Refactor modules first</text>
-  <rect x="490" y="150" width="120" height="40" rx="8" class="a"/><text x="505" y="175" class="w">Extract service</text>
-  <text x="40" y="205" class="t">Rule: extract a service only when a real boundary AND a real scaling/deploy need coincide.</text>
+  <style>.q_svg2{fill:#fff;stroke:#0e7c7b;stroke-width:2}.a_svg2{fill:#3f7d20}.t_svg2{font:12px Roboto,Arial;fill:#333}.w_svg2{font:12px Roboto,Arial;fill:#fff}.y_svg2{font:11px Roboto,Arial;fill:#0e7c7b}</style>
+  <rect x="180" y="10" width="260" height="40" rx="8" class="q_svg2"/><text x="200" y="35" class="t_svg2">Do parts need to scale / deploy independently?</text>
+  <line x1="240" y1="50" x2="150" y2="80" stroke="#999"/><text x="150" y="72" class="y_svg2">no</text>
+  <line x1="380" y1="50" x2="470" y2="80" stroke="#999"/><text x="450" y="72" class="y_svg2">yes</text>
+  <rect x="40" y="80" width="220" height="40" rx="8" class="q_svg2"/><text x="60" y="105" class="t_svg2">Modular monolith (start here)</text>
+  <rect x="360" y="80" width="240" height="40" rx="8" class="q_svg2"/><text x="380" y="105" class="t_svg2">Are the boundaries real (bounded ctx)?</text>
+  <line x1="480" y1="120" x2="420" y2="150" stroke="#999"/><text x="410" y="142" class="y_svg2">no</text>
+  <line x1="540" y1="120" x2="560" y2="150" stroke="#999"/><text x="545" y="142" class="y_svg2">yes</text>
+  <rect x="300" y="150" width="170" height="40" rx="8" class="q_svg2"/><text x="318" y="175" class="t_svg2">Refactor modules first</text>
+  <rect x="490" y="150" width="120" height="40" rx="8" class="a_svg2"/><text x="505" y="175" class="w_svg2">Extract service</text>
+  <text x="40" y="205" class="t_svg2">Rule: extract a service only when a real boundary AND a real scaling/deploy need coincide.</text>
 </svg></figure></section><section id="s-4-record-it-the-adr"><h2>4. Record it: the ADR</h2><div class="callout info"><h4>Note</h4><p>An <strong>ADR</strong> (Architecture Decision Record) is a short file (<code>docs/adr/adr-001-architecture.md</code>) with: <strong>Context</strong> (the forces), <strong>Decision</strong> (what you chose), <strong>Alternatives considered</strong> (and why rejected), <strong>Consequences</strong> (good and bad). It is immutable once accepted; a change is a new ADR that supersedes it.</p></div><pre class="code"><span class="cm"># ADR-001: Initial architecture</span>
 Status: Accepted   Date: 2026-08
 Context: 4 bounded contexts; only Catalog needs independent scale (spikes).
