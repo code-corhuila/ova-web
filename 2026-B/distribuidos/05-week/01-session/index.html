@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distributed Systems · Week 5 · Containerization with Docker | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Distributed Systems</span><span class="brand-topic">Week 5 · Session 1 · Containerization with Docker</span></div>
+    <div class="brand-meta">CORHUILA<br>Systems Engineering · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Show sections" aria-expanded="false">☰ Sections</button><ul><li><a href="#introduccion" class="active">Home</a></li><li><a href="#s-1-why-containers-in-one-line">Why containers, in one line</a></li><li><a href="#s-2-image-vs-container-vs-registry">Image vs container vs registry</a></li><li><a href="#s-3-a-good-dockerfile-multi-stage">A good Dockerfile (multi-stage)</a></li><li><a href="#s-4-many-services-at-once-docker-compose">Many services at once: Docker Compose</a></li><li><a href="#s-5-config-and-data-the-two-things-that-ruin-images">Config and data: the two things that ruin images</a></li><li><a href="#s-6-a-path-you-will-face-in-real-life">A path you will face in real life</a></li><li><a href="#s-7-common-mistakes">Common mistakes</a></li><li><a href="#self-check">Self-check</a></li><li><a href="#this-week">This week</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unit 2 · Weekly · Corte 1</span>
+    <h1>Containerization with Docker</h1>
+    <p class="lead">A distributed system is many services that must run the same way everywhere. Containers make that possible. This weekly session covers images vs containers, writing a good Dockerfile, running multi-service systems with Docker Compose, and the config/volume basics you need to package your services for the MVP 1 release.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Distinguish image, container and registry.</p></div><div class="objective-card"><span class="num">2</span><p>Write a small, correct Dockerfile.</p></div><div class="objective-card"><span class="num">3</span><p>Run multiple services with Docker Compose.</p></div><div class="objective-card"><span class="num">4</span><p>Handle config (env) and data (volumes) correctly.</p></div></div>
+  </section>
+  <section id="s-1-why-containers-in-one-line"><h2>1. Why containers, in one line</h2><div class="callout info"><h4>Note</h4><p>A <strong>container</strong> packages your service with everything it needs (runtime, libraries, config) so it runs identically on any machine. It ends "it works on my machine" and makes a distributed system reproducible — the same artifact runs in dev, qa and prod.</p></div></section><section id="s-2-image-vs-container-vs-registry"><h2>2. Image vs container vs registry</h2><div class="callout info"><h4>Note</h4><p>A <strong>Dockerfile</strong> is the recipe; building it produces an <strong>image</strong> (an immutable template); running an image gives a <strong>container</strong> (a live instance). A <strong>registry</strong> (Docker Hub, GHCR) stores images so any environment can pull the exact same one.</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 140" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dockerfile to image to container">
+  <style>.b{rx:8}.f{fill:#eee;stroke:#999}.i{fill:#0e7c7b}.c{fill:#3f7d20}.reg{fill:#0b5f5e}.t{font:12px Roboto,Arial;fill:#333}.w{font:12px Roboto,Arial;fill:#fff}.g{font:11px Roboto,Arial;fill:#555}</style>
+  <rect x="20" y="45" width="120" height="44" rx="8" class="f"/><text x="40" y="72" class="t">Dockerfile</text>
+  <rect x="200" y="45" width="120" height="44" rx="8" class="i"/><text x="228" y="72" class="w">Image</text>
+  <rect x="380" y="20" width="120" height="40" rx="8" class="c"/><text x="398" y="45" class="w">Container</text>
+  <rect x="380" y="80" width="120" height="40" rx="8" class="c"/><text x="398" y="105" class="w">Container</text>
+  <rect x="540" y="45" width="70" height="44" rx="8" class="reg"/><text x="548" y="72" class="w" font-size="11">registry</text>
+  <line x1="140" y1="67" x2="200" y2="67" stroke="#999" stroke-width="2"/><text x="150" y="60" class="g">build</text>
+  <line x1="320" y1="60" x2="380" y2="40" stroke="#999" stroke-width="2"/><line x1="320" y1="74" x2="380" y2="100" stroke="#999" stroke-width="2"/><text x="330" y="55" class="g">run</text>
+  <line x1="320" y1="67" x2="540" y2="67" stroke="#0b5f5e" stroke-width="2" stroke-dasharray="4,4"/><text x="450" y="60" class="g">push / pull</text>
+</svg></figure></section><section id="s-3-a-good-dockerfile-multi-stage"><h2>3. A good Dockerfile (multi-stage)</h2><div class="callout info"><h4>Note</h4><p>Build in one stage, ship a small runtime in another. Order layers from least-to-most changing so caching helps; never bake secrets into the image.</p></div><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-99488-0">Dockerfile (Java, multi-stage)</button><button class="tab-btn" data-tab="tab-99488-1">Dockerfile (Go, multi-stage)</button></div><div class="tab-panel active" id="tab-99488-0"><pre class="code">FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY pom.xml . &amp;&amp; mvn -q dependency:go-offline   <span class="cm"># cached layer</span>
+COPY src ./src &amp;&amp; mvn -q clean <span class="kw">package</span> -DskipTests
+FROM eclipse-temurin:21-jre                       <span class="cm"># small runtime image</span>
+COPY --from=build /app/target/app.jar /app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app.jar"]</pre></div><div class="tab-panel" id="tab-99488-1"><pre class="code">FROM golang:1.22 AS build
+WORKDIR /src
+COPY go.mod go.sum ./ &amp;&amp; go mod download          <span class="cm"># cached layer</span>
+COPY . . &amp;&amp; CGO_ENABLED=0 go build -o /app ./cmd/api
+FROM gcr.io/distroless/<span class="kw">static</span>                      <span class="cm"># tiny, no shell</span>
+COPY --from=build /app /app
+ENTRYPOINT ["/app"]</pre></div></div></section><section id="s-4-many-services-at-once-docker-compose"><h2>4. Many services at once: Docker Compose</h2><div class="callout info"><h4>Note</h4><p>A distributed system is several containers that must start together and talk. <strong>Docker Compose</strong> declares them in one <code>docker-compose.yml</code>, on a shared network, with dependencies and env.</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 150" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Docker Compose network">
+  <style>.net{fill:#eef6f5;stroke:#0e7c7b;stroke-dasharray:5,4}.s{fill:#0e7c7b}.db{fill:#0b5f5e}.w{font:11px Roboto,Arial;fill:#fff}.g{font:11px Roboto,Arial;fill:#555}</style>
+  <rect x="20" y="20" width="580" height="100" rx="10" class="net"/><text x="30" y="38" class="g">docker network: appnet</text>
+  <rect x="50" y="55" width="120" height="40" rx="6" class="s"/><text x="66" y="80" class="w">orders-api</text>
+  <rect x="220" y="55" width="120" height="40" rx="6" class="s"/><text x="230" y="80" class="w">inventory-api</text>
+  <rect x="390" y="55" width="90" height="40" rx="6" class="db"/><text x="400" y="80" class="w">postgres</text>
+  <rect x="500" y="55" width="80" height="40" rx="6" class="db"/><text x="512" y="80" class="w">redis</text>
+  <line x1="170" y1="75" x2="220" y2="75" stroke="#3f7d20" stroke-width="2"/><line x1="340" y1="75" x2="390" y2="75" stroke="#3f7d20" stroke-width="2"/><line x1="480" y1="75" x2="500" y2="75" stroke="#3f7d20" stroke-width="2"/>
+  <text x="60" y="138" class="g">Services reach each other by name (http://inventory-api:8080), not by IP.</text>
+</svg></figure></section><section id="s-5-config-and-data-the-two-things-that-ruin-images"><h2>5. Config and data: the two things that ruin images</h2><div class="callout warn"><h4>Caution</h4><p><strong>Config is not baked in</strong> — pass it via <strong>environment variables</strong> (DB URL, secrets, the other services' hostnames). <strong>Data is not stored in the container</strong> — a container is disposable; persist databases in <strong>volumes</strong>. Bake config or data into the image and you get insecure, non-portable, data-losing deployments.</p></div></section><section id="s-6-a-path-you-will-face-in-real-life"><h2>6. A path you will face in real life</h2><div class="callout tip"><h4>Tip</h4><p><strong>Scenario — the 1.2 GB image that leaks secrets.</strong> A team <code>COPY . .</code> everything (including <code>.env</code> and the whole build toolchain) into a single-stage image. It is huge, slow to ship, and the secret is now inside a layer anyone can extract. <strong>Fix:</strong> multi-stage build (ship only the JRE + jar), a <code>.dockerignore</code> (exclude <code>.env</code>, <code>.git</code>, <code>node_modules</code>), config via env at run time, and secrets never in the image. Small, clean, safe.</p></div></section><section id="s-7-common-mistakes"><h2>7. Common mistakes</h2><ul><li>Single-stage images that ship the whole build toolchain (huge, slow).</li><li>Secrets/<code>.env</code> copied into the image.</li><li>Storing the database inside the container (data lost on restart).</li><li>Hard-coding IPs instead of using service names on the compose network.</li></ul></section><section id="self-check"><h2>Self-check</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> of 6 answered</div><div class="q" data-exp="You run an image to get a container."><div class="stem"><span class="n">Question 1.</span> An image versus a container is...</div><button class="opt" data-c="1">Image = immutable template; container = running instance of it</button><button class="opt" data-c="0">Image runs; container is the file</button><button class="opt" data-c="0">They are the same</button><div class="feedback"></div></div><div class="q" data-exp="It keeps images small and free of build tools."><div class="stem"><span class="n">Question 2.</span> A multi-stage Dockerfile is used to...</div><button class="opt" data-c="1">Build in one stage and ship a small runtime image in another</button><button class="opt" data-c="0">Run two apps at once</button><button class="opt" data-c="0">Store the database</button><div class="feedback"></div></div><div class="q" data-exp="Config via env keeps images portable and safe."><div class="stem"><span class="n">Question 3.</span> Configuration (DB URL, secrets) should be provided via...</div><button class="opt" data-c="1">Environment variables at run time</button><button class="opt" data-c="0">Hard-coded in the image</button><button class="opt" data-c="0">The Dockerfile FROM line</button><div class="feedback"></div></div><div class="q" data-exp="Volumes survive container restarts."><div class="stem"><span class="n">Question 4.</span> Persistent database data belongs in...</div><button class="opt" data-c="1">A volume (containers are disposable)</button><button class="opt" data-c="0">The container's writable layer</button><button class="opt" data-c="0">The image</button><div class="feedback"></div></div><div class="q" data-exp="Compose provides name-based networking."><div class="stem"><span class="n">Question 5.</span> In Docker Compose, services reach each other by...</div><button class="opt" data-c="1">Service name on the shared network (http://inventory-api:8080)</button><button class="opt" data-c="0">A hard-coded IP address</button><button class="opt" data-c="0">The host's public IP</button><div class="feedback"></div></div><div class="q" data-exp="Multi-stage + .dockerignore + env config is the fix."><div class="stem"><span class="n">Question 6.</span> Copying <code>.env</code> and the whole toolchain into a single-stage image...</div><button class="opt" data-c="1">Makes it huge and leaks secrets (use multi-stage + .dockerignore)</button><button class="opt" data-c="0">Is the recommended approach</button><button class="opt" data-c="0">Improves security</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Your score</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="this-week"><h2>This week</h2><p>Containerize your services: a multi-stage <strong>Dockerfile</strong> each, a <strong>`.dockerignore`</strong>, and a <strong>`docker-compose.yml`</strong> that brings up all services + the database on one network, with config via env and data in a volume. This is the runtime base for the MVP 1 release (Session 2).</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Distributed Systems</strong> <span class="sep">·</span> Week 5 · Session 1 · Containerization with Docker</p>
+  <p>Systems Engineering <span class="sep">·</span> Faculty of Engineering <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Back to top" aria-label="Back to top">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>
