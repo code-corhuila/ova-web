@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 6 · Fundamentos del aprendizaje automático | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 6 · Sesión 1 · Fundamentos del aprendizaje automático</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-un-cambio-de-paradigma">Un cambio de paradigma</a></li><li><a href="#s-2-tres-grandes-tipos-de-aprendizaje">Tres grandes tipos de aprendizaje</a></li><li><a href="#s-3-flujo-estandar-de-un-proyecto-ml">Flujo estándar de un proyecto ML</a></li><li><a href="#s-4-entrenamiento-vs-generalizacion">Entrenamiento vs. generalización</a></li><li><a href="#s-5-errores-comunes-al-empezar">Errores comunes al empezar</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Fundamentos del aprendizaje automático</h1>
+    <p class="lead">La IA tradicional codificaba reglas a mano; el aprendizaje automático invierte el proceso: le damos ejemplos y el sistema descubre las reglas por sí solo. Este cambio de paradigma es el motor de casi todo lo que hoy llamamos IA moderna.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Distinguir el paradigma ML del de programación clásica.</p></div><div class="objective-card"><span class="num">2</span><p>Clasificar problemas en supervisado, no supervisado y por refuerzo.</p></div><div class="objective-card"><span class="num">3</span><p>Describir el flujo general de un proyecto ML (datos → modelo → evaluación).</p></div><div class="objective-card"><span class="num">4</span><p>Identificar la diferencia entre entrenamiento y generalización.</p></div></div>
+  </section>
+  <section id="s-1-un-cambio-de-paradigma"><h2>1. Un cambio de paradigma</h2><div class="callout info"><h4>Nota</h4><p><strong>Programación clásica:</strong> reglas + datos → respuesta. <strong>Machine Learning:</strong> datos + respuestas → reglas. El sistema <em>aprende</em> los patrones a partir de ejemplos.</p></div><p>El aprendizaje automático (ML) no reemplaza la lógica; la <em>descubre</em> automáticamente cuando las reglas son demasiado complejas o desconocidas para escribirlas a mano.</p></section><section id="s-2-tres-grandes-tipos-de-aprendizaje"><h2>2. Tres grandes tipos de aprendizaje</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Tipo</th><th>Etiquetas en los datos</th><th>Objetivo</th><th>Ejemplo</th></tr></thead><tbody><tr><td><strong>Supervisado</strong></td><td>Sí</td><td>Predecir etiqueta nueva</td><td>Clasificar correo spam</td></tr><tr><td><strong>No supervisado</strong></td><td>No</td><td>Encontrar estructura</td><td>Agrupar clientes</td></tr><tr><td><strong>Por refuerzo</strong></td><td>No directas</td><td>Maximizar recompensa</td><td>Jugar ajedrez</td></tr></tbody></table></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 580 140" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.b_svg1{rx:8;ry:8;fill:#0e7c7b}.t_svg1{font:13px Roboto,Arial;fill:#fff;text-anchor:middle}.s_svg1{font:11px Roboto,Arial;fill:#ddd;text-anchor:middle}</style>
+  <rect x="20" y="30" width="160" height="80" class="b_svg1"/>
+  <text x="100" y="62" class="t_svg1">Supervisado</text>
+  <text x="100" y="82" class="s_svg1">datos con etiquetas</text>
+  <rect x="210" y="30" width="160" height="80" class="b_svg1"/>
+  <text x="290" y="62" class="t_svg1">No supervisado</text>
+  <text x="290" y="82" class="s_svg1">sin etiquetas</text>
+  <rect x="400" y="30" width="160" height="80" class="b_svg1"/>
+  <text x="480" y="62" class="t_svg1">Por refuerzo</text>
+  <text x="480" y="82" class="s_svg1">agente + recompensa</text>
+</svg></figure></section><section id="s-3-flujo-estandar-de-un-proyecto-ml"><h2>3. Flujo estándar de un proyecto ML</h2><ol><li><strong>Recolectar datos</strong> — cantidad y calidad determinan el techo del modelo.</li><li><strong>Explorar y limpiar</strong> — valores faltantes, outliers, normalización.</li><li><strong>Elegir modelo</strong> — lineal, árbol, red neuronal…</li><li><strong>Entrenar</strong> — el modelo ajusta sus parámetros a los datos de entrenamiento.</li><li><strong>Evaluar</strong> — medir desempeño en datos <strong>no vistos</strong> (conjunto de prueba).</li><li><strong>Desplegar y monitorear</strong> — el mundo cambia, el modelo puede degradarse.</li></ol><pre class="code">from sklearn.model_selection <span class="kw">import</span> train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+modelo.fit(X_train, y_train)          <span class="cm"># aprender de los datos de entrenamiento</span>
+score = modelo.score(X_test, y_test)  <span class="cm"># evaluar en datos no vistos</span>
+<span class="kw">print</span>(f"Exactitud: {score:.2%}")</pre></section><section id="s-4-entrenamiento-vs-generalizacion"><h2>4. Entrenamiento vs. generalización</h2><div class="callout warn"><h4>Cuidado</h4><p>Un modelo que memoriza los datos de entrenamiento (overfitting) falla con datos nuevos. El objetivo real es <strong>generalizar</strong>, no memorizar.</p></div><ul><li><strong>Underfitting:</strong> modelo demasiado simple, no captura el patrón.</li><li><strong>Overfitting:</strong> modelo demasiado complejo, memoriza el ruido.</li><li><strong>Balance correcto:</strong> buena precisión en entrenamiento <em>y</em> en prueba.</li></ul></section><section id="s-5-errores-comunes-al-empezar"><h2>5. Errores comunes al empezar</h2><ul><li>Usar todos los datos para entrenamiento (sin conjunto de prueba).</li><li>Elegir el modelo antes de entender los datos.</li><li>Ignorar el balance de clases en clasificación.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="El &quot;supervisor&quot; son las etiquetas que guían el aprendizaje."><div class="stem"><span class="n">Pregunta 1.</span> En ML supervisado, ¿qué tienen los datos de entrenamiento que los no supervisados no tienen?</div><button class="opt" data-c="1">Etiquetas o respuestas correctas</button><button class="opt" data-c="0">Más filas</button><button class="opt" data-c="0">Variables numéricas</button><div class="feedback"></div></div><div class="q" data-exp="Evaluar en datos vistos infla artificialmente el rendimiento."><div class="stem"><span class="n">Pregunta 2.</span> ¿Cuál es la diferencia clave entre entrenamiento y evaluación?</div><button class="opt" data-c="1">La evaluación usa datos que el modelo nunca vio</button><button class="opt" data-c="0">La evaluación usa los mismos datos del entrenamiento</button><button class="opt" data-c="0">El entrenamiento mide la exactitud final</button><div class="feedback"></div></div><div class="q" data-exp="Memoriza el ruido en vez de aprender el patrón general."><div class="stem"><span class="n">Pregunta 3.</span> Un modelo que se ajusta perfectamente al entrenamiento pero falla en producción sufre de...</div><button class="opt" data-c="1">Overfitting</button><button class="opt" data-c="0">Underfitting</button><button class="opt" data-c="0">Normalización incorrecta</button><div class="feedback"></div></div><div class="q" data-exp="Los datos sucios o insuficientes bloquean todo lo demás."><div class="stem"><span class="n">Pregunta 4.</span> ¿Cuál paso del flujo ML suele consumir más tiempo en proyectos reales?</div><button class="opt" data-c="1">Recolección y limpieza de datos</button><button class="opt" data-c="0">Entrenamiento del modelo</button><button class="opt" data-c="0">Despliegue</button><div class="feedback"></div></div><div class="q" data-exp="No hay etiquetas directas; el feedback es la señal de recompensa."><div class="stem"><span class="n">Pregunta 5.</span> El aprendizaje por refuerzo se distingue porque el agente aprende a través de...</div><button class="opt" data-c="1">Recompensas y penalizaciones por sus acciones</button><button class="opt" data-c="0">Etiquetas en cada ejemplo</button><button class="opt" data-c="0">Agrupaciones previas de los datos</button><div class="feedback"></div></div><div class="q" data-exp="Sin etiquetas; el algoritmo descubre estructura propia."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál de los siguientes es un ejemplo de problema NO supervisado?</div><button class="opt" data-c="1">Agrupar clientes por comportamiento de compra</button><button class="opt" data-c="0">Predecir si un email es spam</button><button class="opt" data-c="0">Clasificar imágenes de perros y gatos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>ML invierte el paradigma clásico: los datos generan las reglas. Hay tres tipos (supervisado, no supervisado, refuerzo) y un flujo fijo de seis pasos donde la generalización —no la memorización— es el objetivo. <strong>Semana 6 Vie:</strong> construimos el primer modelo completo de regresión lineal.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 6 · Sesión 1 · Fundamentos del aprendizaje automático</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 11 · Redes neuronales artificiales — fundamentos | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 11 · Sesión 1 · Redes neuronales artificiales — fundamentos</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-la-neurona-artificial">La neurona artificial</a></li><li><a href="#s-2-perceptron-multicapa-mlp">Perceptrón multicapa (MLP)</a></li><li><a href="#s-3-funciones-de-activacion">Funciones de activación</a></li><li><a href="#s-4-retropropagacion-en-tres-pasos">Retropropagación en tres pasos</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Deep Learning · Corte 3</span>
+    <h1>Redes neuronales artificiales — fundamentos</h1>
+    <p class="lead">Las redes neuronales son el motor del deep learning moderno. Inspiradas en el cerebro biológico, apilan capas de neuronas artificiales que aprenden representaciones progresivamente más abstractas de los datos.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Describir la estructura de una neurona artificial (pesos, sesgo, activación).</p></div><div class="objective-card"><span class="num">2</span><p>Explicar el perceptrón multicapa (MLP) y el rol de las capas ocultas.</p></div><div class="objective-card"><span class="num">3</span><p>Entender la retropropagación como mecanismo de aprendizaje.</p></div><div class="objective-card"><span class="num">4</span><p>Identificar las funciones de activación más comunes (ReLU, sigmoide, tanh).</p></div></div>
+  </section>
+  <section id="s-1-la-neurona-artificial"><h2>1. La neurona artificial</h2><div class="callout info"><h4>Nota</h4><p>Una neurona recibe entradas x₁…xₙ, las pondera con w₁…wₙ, suma un sesgo b y pasa el resultado por una <strong>función de activación</strong>: y = f(w·x + b). Apilando miles de neuronas en capas emerge la capacidad de aprender funciones complejas.</p></div></section><section id="s-2-perceptron-multicapa-mlp"><h2>2. Perceptrón multicapa (MLP)</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 520 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.n_svg1{fill:#0e7c7b}.o_svg1{fill:#e07b39}.ln_svg1{stroke:#555;stroke-width:0.8}.t_svg1{font:10px Roboto,Arial;fill:#ccc;text-anchor:middle}</style>
+  <!-- Capa entrada -->
+  <circle cx="60"  cy="60"  r="14" class="n_svg1"/><text x="60"  y="64"  class="t_svg1">x₁</text>
+  <circle cx="60"  cy="110" r="14" class="n_svg1"/><text x="60"  y="114" class="t_svg1">x₂</text>
+  <circle cx="60"  cy="160" r="14" class="n_svg1"/><text x="60"  y="164" class="t_svg1">x₃</text>
+  <!-- Capa oculta 1 -->
+  <circle cx="200" cy="50"  r="14" class="n_svg1"/>
+  <circle cx="200" cy="100" r="14" class="n_svg1"/>
+  <circle cx="200" cy="150" r="14" class="n_svg1"/>
+  <!-- Capa oculta 2 -->
+  <circle cx="340" cy="75"  r="14" class="n_svg1"/>
+  <circle cx="340" cy="125" r="14" class="n_svg1"/>
+  <!-- Salida -->
+  <circle cx="460" cy="100" r="14" class="o_svg1"/><text x="460" y="104" class="t_svg1">ŷ</text>
+  <!-- Conexiones parciales -->
+  <line x1="74" y1="60"  x2="186" y2="50"  class="ln_svg1"/>
+  <line x1="74" y1="110" x2="186" y2="100" class="ln_svg1"/>
+  <line x1="74" y1="160" x2="186" y2="150" class="ln_svg1"/>
+  <line x1="214" y1="50"  x2="326" y2="75"  class="ln_svg1"/>
+  <line x1="214" y1="100" x2="326" y2="100" class="ln_svg1"/>
+  <line x1="214" y1="150" x2="326" y2="125" class="ln_svg1"/>
+  <line x1="354" y1="75"  x2="446" y2="100" class="ln_svg1"/>
+  <line x1="354" y1="125" x2="446" y2="100" class="ln_svg1"/>
+  <text x="60"  y="185" class="t_svg1">Entrada</text>
+  <text x="200" y="175" class="t_svg1">Oculta 1</text>
+  <text x="340" y="150" class="t_svg1">Oculta 2</text>
+  <text x="460" y="125" class="t_svg1">Salida</text>
+</svg></figure></section><section id="s-3-funciones-de-activacion"><h2>3. Funciones de activación</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Función</th><th>Fórmula</th><th>Uso típico</th></tr></thead><tbody><tr><td><strong>ReLU</strong></td><td>max(0, z)</td><td>Capas ocultas (evita gradiente evanescente)</td></tr><tr><td><strong>Sigmoide</strong></td><td>1/(1+e⁻ᶻ)</td><td>Salida binaria</td></tr><tr><td><strong>Softmax</strong></td><td>eᶻⁱ/Σeᶻʲ</td><td>Salida multiclase</td></tr><tr><td><strong>Tanh</strong></td><td>(eᶻ-e⁻ᶻ)/(eᶻ+e⁻ᶻ)</td><td>Centrada en 0</td></tr></tbody></table></div></section><section id="s-4-retropropagacion-en-tres-pasos"><h2>4. Retropropagación en tres pasos</h2><pre class="code"><span class="cm"># Con Keras/TensorFlow (simplificado)</span>
+<span class="kw">import</span> tensorflow as tf
+
+modelo = tf.keras.Sequential([
+    tf.keras.layers.Dense(64, activation='relu', input_shape=(n_features,)),
+    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(1,  activation='sigmoid'),
+])
+modelo.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+modelo.fit(X_train, y_train, epochs=50, validation_split=0.2)</pre><div class="callout tip"><h4>Tip</h4><p><strong>Adam</strong> combina momentum y tasa de aprendizaje adaptativa — es el optimizador por defecto en la mayoría de redes modernas.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Sin activación no lineal, una red de varias capas equivale a una sola capa lineal."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué función cumple la función de activación en una neurona?</div><button class="opt" data-c="1">Introduce no linealidad, permitiendo al modelo aprender patrones complejos</button><button class="opt" data-c="0">Calcula el error del modelo</button><button class="opt" data-c="0">Normaliza los pesos</button><div class="feedback"></div></div><div class="q" data-exp="Sigmoide satura en los extremos → gradientes cercanos a 0 → aprendizaje lento en capas profundas."><div class="stem"><span class="n">Pregunta 2.</span> ¿Por qué ReLU es preferida sobre sigmoide en capas ocultas profundas?</div><button class="opt" data-c="1">Evita el problema del gradiente evanescente al no saturarse para valores positivos</button><button class="opt" data-c="0">Es más rápida de calcular</button><button class="opt" data-c="0">Da probabilidades en [0,1]</button><div class="feedback"></div></div><div class="q" data-exp="Backprop aplica la regla de la cadena desde la salida hacia la entrada."><div class="stem"><span class="n">Pregunta 3.</span> La retropropagación calcula...</div><button class="opt" data-c="1">El gradiente del error respecto a cada peso para actualizar con descenso por gradiente</button><button class="opt" data-c="0">Las predicciones del modelo en el conjunto de prueba</button><button class="opt" data-c="0">El número óptimo de capas</button><div class="feedback"></div></div><div class="q" data-exp="Softmax normaliza las salidas a distribución de probabilidad (suman 1)."><div class="stem"><span class="n">Pregunta 4.</span> ¿Para qué se usa Softmax en la capa de salida?</div><button class="opt" data-c="1">Convertir puntuaciones en probabilidades para clasificación multiclase</button><button class="opt" data-c="0">Reducir el overfitting</button><button class="opt" data-c="0">Inicializar los pesos</button><div class="feedback"></div></div><div class="q" data-exp="El teorema de aproximación universal garantiza capacidad expresiva con suficientes neuronas."><div class="stem"><span class="n">Pregunta 5.</span> Un MLP con una sola capa oculta puede aproximar...</div><button class="opt" data-c="1">Cualquier función continua (teorema de aproximación universal)</button><button class="opt" data-c="0">Solo funciones lineales</button><button class="opt" data-c="0">Solo funciones de clasificación binaria</button><div class="feedback"></div></div><div class="q" data-exp="Learning rate demasiado alto = divergencia; demasiado bajo = convergencia lenta."><div class="stem"><span class="n">Pregunta 6.</span> ¿Qué hiperparámetro controla la velocidad de actualización de pesos en descenso por gradiente?</div><button class="opt" data-c="1">El learning rate (tasa de aprendizaje)</button><button class="opt" data-c="0">El número de épocas</button><button class="opt" data-c="0">La función de pérdida</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Las redes neuronales apilan neuronas con funciones de activación no lineales. La retropropagación calcula cómo ajustar cada peso para reducir el error. <strong>Semana 11 Vie:</strong> panorama del deep learning — CNN, RNN y transformers en contexto.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 11 · Sesión 1 · Redes neuronales artificiales — fundamentos</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

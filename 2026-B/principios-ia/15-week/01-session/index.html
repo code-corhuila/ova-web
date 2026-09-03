@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 15 · Integración end-to-end — de datos crudos al modelo desplegado | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 15 · Sesión 1 · Integración end-to-end — de datos crudos al modelo desplegado</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-el-flujo-completo">El flujo completo</a></li><li><a href="#s-2-exponer-el-modelo-como-api-con-fastapi">Exponer el modelo como API con FastAPI</a></li><li><a href="#s-3-tarjeta-de-modelo-model-card">Tarjeta de modelo (Model Card)</a></li><li><a href="#s-4-monitoreo-en-produccion">Monitoreo en producción</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Integración · Corte 3 (Presencial)</span>
+    <h1>Integración end-to-end — de datos crudos al modelo desplegado</h1>
+    <p class="lead">Los proyectos de IA del mundo real no son notebooks aislados. Son pipelines que van de datos crudos a predicciones servidas por una API, con monitoreo, documentación y código reproducible. Esta sesión integra todo el semestre en un flujo completo.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Describir el ciclo completo de un proyecto de ML en producción.</p></div><div class="objective-card"><span class="num">2</span><p>Exponer un modelo como API REST con FastAPI.</p></div><div class="objective-card"><span class="num">3</span><p>Documentar un modelo con una tarjeta de modelo (Model Card).</p></div><div class="objective-card"><span class="num">4</span><p>Identificar señales de degradación del modelo en producción.</p></div></div>
+  </section>
+  <section id="s-1-el-flujo-completo"><h2>1. El flujo completo</h2><pre class="ascii">Datos crudos → EDA → Preprocesamiento → Entrenamiento → Evaluación
+                                                              ↓
+              Monitoreo ← Despliegue ← Empaquetado ← Selección de modelo</pre><p>Cada etapa produce artefactos: datos limpios, modelos .pkl, métricas, APIs, dashboards.</p></section><section id="s-2-exponer-el-modelo-como-api-con-fastapi"><h2>2. Exponer el modelo como API con FastAPI</h2><pre class="code">from fastapi <span class="kw">import</span> FastAPI
+from pydantic <span class="kw">import</span> BaseModel
+<span class="kw">import</span> joblib, numpy as np
+
+app   = FastAPI(title="Predictor IA", version="1.0")
+model = joblib.load("modelo_titanic.pkl")
+
+<span class="kw">class</span> Pasajero(BaseModel):
+    pclass: <span class="kw">int</span>; age: <span class="kw">float</span>; sibsp: <span class="kw">int</span>; parch: <span class="kw">int</span>; fare: <span class="kw">float</span>
+
+@app.post("/predict")
+<span class="kw">def</span> predict(p: Pasajero):
+    X = np.array([[p.pclass, p.age, p.sibsp, p.parch, p.fare]])
+    pred  = <span class="kw">int</span>(model.predict(X)[0])
+    proba = <span class="kw">float</span>(model.predict_proba(X)[0, 1])
+    <span class="kw">return</span> {"sobrevive": bool(pred), "probabilidad": round(proba, 3)}
+
+<span class="cm"># Ejecutar: uvicorn main:app --reload</span>
+<span class="cm"># Documentación automática: http://localhost:8000/docs</span></pre><div class="callout tip"><h4>Tip</h4><p>FastAPI genera documentación interactiva (Swagger UI) automáticamente. Puedes probar el endpoint desde el browser en <code>/docs</code>.</p></div></section><section id="s-3-tarjeta-de-modelo-model-card"><h2>3. Tarjeta de modelo (Model Card)</h2><p>Un estándar de Google para documentar modelos de forma responsable:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Sección</th><th>Contenido</th></tr></thead><tbody><tr><td>Detalles del modelo</td><td>Algoritmo, versión, fecha, autores</td></tr><tr><td>Uso previsto</td><td>Para qué se diseñó y para qué NO</td></tr><tr><td>Factores</td><td>Variables demográficas evaluadas</td></tr><tr><td>Métricas</td><td>Por subgrupos, no solo global</td></tr><tr><td>Limitaciones</td><td>Qué casos puede fallar</td></tr><tr><td>Consideraciones éticas</td><td>Riesgos identificados</td></tr></tbody></table></div></section><section id="s-4-monitoreo-en-produccion"><h2>4. Monitoreo en producción</h2><div class="callout warn"><h4>Cuidado</h4><p>Los modelos se degradan con el tiempo. Si la distribución de los datos cambia (data drift) o los patrones del mundo cambian (concept drift), la exactitud cae. Se requiere monitoreo continuo y re-entrenamiento periódico.</p></div><p>Señales de alerta: aumento de tasa de error, distribución de predicciones cambiada, quejas de usuarios.</p></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Una API REST desacopla el modelo del cliente — web, móvil, otro backend pueden consultarla."><div class="stem"><span class="n">Pregunta 1.</span> ¿Por qué se recomienda exponer un modelo como API REST en lugar de un notebook?</div><button class="opt" data-c="1">Una API es consumible por cualquier aplicación sin depender del entorno Python del notebook</button><button class="opt" data-c="0">Las APIs son más precisas</button><button class="opt" data-c="0">Los notebooks no pueden hacer predicciones</button><div class="feedback"></div></div><div class="q" data-exp="Si el perfil de los usuarios o el contexto cambia, el modelo ve datos diferentes a los que entrenó."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué es el "data drift" en producción?</div><button class="opt" data-c="1">Los datos que llegan al modelo en producción cambian respecto a los de entrenamiento</button><button class="opt" data-c="0">El modelo se sobreajusta con el tiempo</button><button class="opt" data-c="0">Los servidores se caen</button><div class="feedback"></div></div><div class="q" data-exp="La documentación responsable permite auditar el modelo y tomar decisiones informadas."><div class="stem"><span class="n">Pregunta 3.</span> Una tarjeta de modelo (Model Card) es útil porque...</div><button class="opt" data-c="1">Documenta para qué sirve el modelo, sus limitaciones y métricas por subgrupo</button><button class="opt" data-c="0">Acelera el entrenamiento</button><button class="opt" data-c="0">Reduce el overfitting</button><div class="feedback"></div></div><div class="q" data-exp="FastAPI usa las anotaciones de tipo y Pydantic para generar docs sin escribirlas."><div class="stem"><span class="n">Pregunta 4.</span> FastAPI genera automáticamente...</div><button class="opt" data-c="1">Documentación interactiva (Swagger UI) en /docs a partir del código Python</button><button class="opt" data-c="0">El modelo de ML</button><button class="opt" data-c="0">Los datos de entrenamiento</button><div class="feedback"></div></div><div class="q" data-exp="El monitoreo continuo detecta degradación; el re-entrenamiento la corrige."><div class="stem"><span class="n">Pregunta 5.</span> ¿Cuándo se debe re-entrenar un modelo en producción?</div><button class="opt" data-c="1">Cuando la distribución de los datos cambia o el desempeño cae por debajo de un umbral</button><button class="opt" data-c="0">Solo cuando falla el servidor</button><button class="opt" data-c="0">Una vez al año, independientemente del desempeño</button><div class="feedback"></div></div><div class="q" data-exp="El modelo serializado es el &quot;ejecutable&quot; de ML — se carga en producción sin reentrenar."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál es el artefacto que conecta el entrenamiento con el despliegue?</div><button class="opt" data-c="1">El archivo serializado del modelo (.pkl, .joblib, .onnx)</button><button class="opt" data-c="0">El notebook de entrenamiento</button><button class="opt" data-c="0">El dataset de prueba</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Un proyecto de ML completo va de datos a API con documentación, monitoreo y reproducibilidad. La tarjeta de modelo cierra el ciclo de responsabilidad. <strong>Semana 15 Vie (presencial):</strong> asesoría y avance de proyectos finales — resolución de dudas individuales.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 15 · Sesión 1 · Integración end-to-end — de datos crudos al modelo desplegado</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

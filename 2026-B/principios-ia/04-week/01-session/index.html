@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 4 · Búsqueda informada y A* | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 4 · Sesión 1 · Búsqueda informada y A*</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-anadir-conocimiento-la-heuristica">Añadir conocimiento: la heurística</a></li><li><a href="#s-2-greedy-best-first-rapido-pero-miope">Greedy best-first: rápido pero miope</a></li><li><a href="#s-3-a-lo-mejor-de-dos-mundos">A\*: lo mejor de dos mundos</a></li><li><a href="#s-4-greedy-vs-a-en-una-frase">Greedy vs. A\* en una frase</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Búsqueda · Corte 1</span>
+    <h1>Búsqueda informada y A*</h1>
+    <p class="lead">La búsqueda no informada explora a ciegas. Si el agente tiene una pista de "qué tan cerca está de la meta" (una heurística), puede dirigir la exploración y ser muchísimo más eficiente. A* combina costo real y heurística, y es uno de los algoritmos más usados de toda la IA.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Diferenciar búsqueda no informada de informada (heurística).</p></div><div class="objective-card"><span class="num">2</span><p>Explicar la función f(n) = g(n) + h(n) de A*.</p></div><div class="objective-card"><span class="num">3</span><p>Ejecutar A* sobre un ejemplo sencillo.</p></div><div class="objective-card"><span class="num">4</span><p>Comparar Greedy best-first con A* y entender el papel de la heurística.</p></div></div>
+  </section>
+  <section id="s-1-anadir-conocimiento-la-heuristica"><h2>1. Añadir conocimiento: la heurística</h2><div class="callout info"><h4>Nota</h4><p>Una <strong>heurística h(n)</strong> estima el <strong>costo restante</strong> desde el nodo n hasta la meta (nunca lo mide exacto: lo <em>estima</em> de forma barata). Ejemplo clásico: en un mapa, la <strong>distancia en línea recta</strong> a la meta. Una buena heurística <strong>guía</strong> la búsqueda hacia la meta y evita explorar zonas inútiles.</p></div></section><section id="s-2-greedy-best-first-rapido-pero-miope"><h2>2. Greedy best-first: rápido pero miope</h2><p>La búsqueda <strong>voraz</strong> expande el nodo con <strong>menor h(n)</strong> (el que <em>parece</em> más cercano). Es rápida pero <strong>no es óptima</strong>: puede lanzarse por un atajo aparente que resulta caro.</p></section><section id="s-3-a-lo-mejor-de-dos-mundos"><h2>3. A\*: lo mejor de dos mundos</h2><div class="callout tip"><h4>Tip</h4><p><strong>A\</strong><em> expande el nodo que minimiza </em><em>f(n) = g(n) + h(n)</em><em>, donde </em><em>g(n)</em><em> es el costo real ya recorrido y </em><em>h(n)</em><em> la estimación de lo que falta. Así equilibra "lo que llevo gastado" con "lo que me falta". Con una heurística </em><em>admisible</em><em>, A\</em> es <strong>óptimo</strong>.</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 120" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="f = g + h">
+  <style>.b_svg1{fill:#0e7c7b}.g_svg1{fill:#3f7d20}.k_svg1{fill:#0b5f5e}.w_svg1{font:13px Roboto,Arial;fill:#fff}.t_svg1{font:11px Roboto,Arial;fill:#555}</style>
+  <rect x="60" y="40" width="140" height="44" rx="8" class="b_svg1"/><text x="130" y="67" class="w_svg1" text-anchor="middle">g(n): costo real</text>
+  <text x="230" y="68" class="t_svg1" text-anchor="middle">+</text>
+  <rect x="260" y="40" width="150" height="44" rx="8" class="g_svg1"/><text x="335" y="67" class="w_svg1" text-anchor="middle">h(n): estimación</text>
+  <text x="440" y="68" class="t_svg1" text-anchor="middle">=</text>
+  <rect x="470" y="40" width="110" height="44" rx="8" class="k_svg1"/><text x="525" y="67" class="w_svg1" text-anchor="middle">f(n)</text>
+</svg></figure><pre class="code"><span class="kw">import</span> heapq
+
+<span class="kw">def</span> a_estrella(inicio, es_meta, vecinos, costo, h):
+    frontera = [(h(inicio), 0, inicio)]     <span class="cm"># (f, g, nodo)</span>
+    mejor_g = {inicio: 0}
+    padres = {inicio: None}
+    <span class="kw">while</span> frontera:
+        f, g, n = heapq.heappop(frontera)
+        <span class="kw">if</span> es_meta(n):
+            <span class="kw">return</span> reconstruir(padres, n)
+        <span class="kw">for</span> v in vecinos(n):
+            ng = g + costo(n, v)
+            <span class="kw">if</span> v not in mejor_g or ng &lt; mejor_g[v]:
+                mejor_g[v] = ng
+                padres[v] = n
+                heapq.heappush(frontera, (ng + h(v), ng, v))
+    <span class="kw">return</span> None</pre></section><section id="s-4-greedy-vs-a-en-una-frase"><h2>4. Greedy vs. A\* en una frase</h2><p><strong>Greedy</strong> mira solo <em>lo que falta</em> (h) → rápido, no óptimo. <strong>A\</strong><em> mira </em>lo gastado + lo que falta<em> (g+h) → óptimo con heurística admisible, algo más de trabajo. Si h(n)=0, A\</em> se convierte en <strong>costo uniforme</strong>.</p></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Usar Greedy y esperar rutas óptimas.</li><li>Elegir una heurística que <strong>sobreestima</strong> (rompe la optimalidad de A\* — lo vemos en la sesión 2).</li><li>Olvidar g(n): sin el costo real, no hay garantía de óptimo.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Costo real más estimación del restante."><div class="stem"><span class="n">Pregunta 1.</span> En A*, la función de evaluación es...</div><button class="opt" data-c="1">f(n) = g(n) + h(n)</button><button class="opt" data-c="0">f(n) = h(n) únicamente</button><button class="opt" data-c="0">f(n) = g(n) únicamente</button><div class="feedback"></div></div><div class="q" data-exp="Estima lo que falta."><div class="stem"><span class="n">Pregunta 2.</span> Una heurística h(n) representa...</div><button class="opt" data-c="1">Una estimación del costo restante hasta la meta</button><button class="opt" data-c="0">El costo ya recorrido</button><button class="opt" data-c="0">El número total de nodos</button><div class="feedback"></div></div><div class="q" data-exp="Se guía solo por h(n); puede equivocarse."><div class="stem"><span class="n">Pregunta 3.</span> La búsqueda voraz (greedy best-first)...</div><button class="opt" data-c="1">Es rápida pero no garantiza optimalidad</button><button class="opt" data-c="0">Siempre es óptima</button><button class="opt" data-c="0">No usa heurística</button><div class="feedback"></div></div><div class="q" data-exp="Sin estimación, solo cuenta g(n)."><div class="stem"><span class="n">Pregunta 4.</span> Si en A<em> la heurística h(n) = 0 para todo n, A</em> equivale a...</div><button class="opt" data-c="1">Búsqueda de costo uniforme</button><button class="opt" data-c="0">DFS</button><button class="opt" data-c="0">Greedy best-first</button><div class="feedback"></div></div><div class="q" data-exp="La admisibilidad garantiza optimalidad (sesión 2)."><div class="stem"><span class="n">Pregunta 5.</span> A* es óptimo cuando la heurística es...</div><button class="opt" data-c="1">Admisible (no sobreestima el costo real)</button><button class="opt" data-c="0">Cualquiera, siempre</button><button class="opt" data-c="0">Igual a cero obligatoriamente</button><div class="feedback"></div></div><div class="q" data-exp="La heurística enfoca la búsqueda."><div class="stem"><span class="n">Pregunta 6.</span> La ventaja de A* frente a búsqueda no informada es...</div><button class="opt" data-c="1">Explora dirigido por la meta, con menos nodos expandidos</button><button class="opt" data-c="0">Usa menos código</button><button class="opt" data-c="0">No necesita costos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>La <strong>heurística</strong> convierte la búsqueda a ciegas en búsqueda <strong>dirigida</strong>; <strong>A\</strong><em> combina costo real g y estimación h en </em><em>f = g + h</em><em> y es óptimo con heurísticas admisibles. </em><em>Sesión 2:</em><em> cómo </em><em>diseñar</em>* buenas heurísticas (admisibilidad, consistencia, dominancia) con el 8-puzzle.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 4 · Sesión 1 · Búsqueda informada y A*</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

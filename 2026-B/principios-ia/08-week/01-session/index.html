@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 8 · k-Vecinos más cercanos (kNN) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 8 · Sesión 1 · k-Vecinos más cercanos (kNN)</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-la-idea-votar-entre-vecinos">La idea: votar entre vecinos</a></li><li><a href="#s-2-distancias-comunes">Distancias comunes</a></li><li><a href="#s-3-efecto-de-k">Efecto de k</a></li><li><a href="#s-4-implementacion">Implementación</a></li><li><a href="#s-5-maldicion-de-la-dimensionalidad">Maldición de la dimensionalidad</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>k-Vecinos más cercanos (kNN)</h1>
+    <p class="lead">kNN es el algoritmo más intuitivo de ML: para clasificar un punto nuevo, mira los k puntos más cercanos en el espacio de entrenamiento y vota. Sin entrenamiento explícito, sin parámetros que ajustar — todo el trabajo ocurre al predecir.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Explicar la lógica de clasificación por vecindad.</p></div><div class="objective-card"><span class="num">2</span><p>Seleccionar k y la métrica de distancia apropiadas.</p></div><div class="objective-card"><span class="num">3</span><p>Describir la maldición de la dimensionalidad y su efecto en kNN.</p></div><div class="objective-card"><span class="num">4</span><p>Aplicar kNN con scikit-learn e interpretar el resultado.</p></div></div>
+  </section>
+  <section id="s-1-la-idea-votar-entre-vecinos"><h2>1. La idea: votar entre vecinos</h2><div class="callout info"><h4>Nota</h4><p>kNN no aprende un modelo explícito. Guarda todos los datos de entrenamiento y, al recibir un nuevo punto, calcula las distancias a todos, selecciona los k más cercanos y retorna la clase mayoritaria (o el promedio en regresión).</p></div></section><section id="s-2-distancias-comunes"><h2>2. Distancias comunes</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Métrica</th><th>Fórmula</th><th>Cuándo usarla</th></tr></thead><tbody><tr><td><strong>Euclidiana</strong></td><td>√Σ(xᵢ-yᵢ)²</td><td>Variables continuas</td></tr><tr><td><strong>Manhattan</strong></td><td>Σ\</td><td>xᵢ-yᵢ\</td><td></td><td>Datos con outliers</td></tr><tr><td><strong>Coseno</strong></td><td>1 - (x·y)/(‖x‖‖y‖)</td><td>Texto / vectores de alta dim</td></tr></tbody></table></div></section><section id="s-3-efecto-de-k"><h2>3. Efecto de k</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 520 160" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.b_svg1{fill:#0e7c7b;opacity:.7}.r_svg1{fill:#e07b39;opacity:.7}.q_svg1{fill:none;stroke:#fff;stroke-width:2}.t_svg1{font:12px Roboto,Arial;fill:#eee;text-anchor:middle}</style>
+  <rect x="10" y="10" width="240" height="140" fill="#1a1a2e" rx="6"/>
+  <rect x="270" y="10" width="240" height="140" fill="#1a1a2e" rx="6"/>
+  <text x="130" y="160" class="t_svg1">k = 1 (overfitting)</text>
+  <text x="390" y="160" class="t_svg1">k = 7 (más suave)</text>
+  <circle cx="80"  cy="60" r="8" class="b_svg1"/>
+  <circle cx="110" cy="80" r="8" class="b_svg1"/>
+  <circle cx="60"  cy="90" r="8" class="b_svg1"/>
+  <circle cx="170" cy="60" r="8" class="r_svg1"/>
+  <circle cx="190" cy="90" r="8" class="r_svg1"/>
+  <circle cx="145" cy="110" r="10" fill="#fff" stroke="#f0c" stroke-width="2"/>
+  <circle cx="340" cy="60" r="8" class="b_svg1"/>
+  <circle cx="370" cy="80" r="8" class="b_svg1"/>
+  <circle cx="320" cy="90" r="8" class="b_svg1"/>
+  <circle cx="430" cy="60" r="8" class="r_svg1"/>
+  <circle cx="450" cy="90" r="8" class="r_svg1"/>
+  <circle cx="405" cy="110" r="10" fill="#fff" stroke="#f0c" stroke-width="2"/>
+  <circle cx="405" cy="110" r="60" class="q_svg1"/>
+</svg></figure></section><section id="s-4-implementacion"><h2>4. Implementación</h2><pre class="code">from sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier
+from sklearn.preprocessing <span class="kw">import</span> StandardScaler
+
+<span class="cm"># kNN es sensible a la escala — SIEMPRE normalizar</span>
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s  = scaler.transform(X_test)
+
+knn = KNeighborsClassifier(n_neighbors=5, metric='euclidean')
+knn.fit(X_train_s, y_train)
+<span class="kw">print</span>(knn.score(X_test_s, y_test))</pre></section><section id="s-5-maldicion-de-la-dimensionalidad"><h2>5. Maldición de la dimensionalidad</h2><div class="callout warn"><h4>Cuidado</h4><p>En espacios de alta dimensión, todos los puntos tienden a estar igual de "lejos" entre sí. kNN pierde efectividad con muchas variables — es clave reducir dimensiones o seleccionar features antes.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="kNN es un algoritmo &quot;perezoso&quot;: no construye un modelo; calcula distancias al predecir."><div class="stem"><span class="n">Pregunta 1.</span> ¿Cuándo ocurre la fase de "entrenamiento" en kNN?</div><button class="opt" data-c="1">kNN no entrena en el sentido tradicional; memoriza todos los datos</button><button class="opt" data-c="0">Durante fit(), ajusta pesos internos</button><button class="opt" data-c="0">Solo al cambiar k</button><div class="feedback"></div></div><div class="q" data-exp="k=1 clasifica según el vecino más cercano, copiando el ruido."><div class="stem"><span class="n">Pregunta 2.</span> Un k muy pequeño (k=1) tiende a producir...</div><button class="opt" data-c="1">Overfitting — fronteras irregulares sensibles al ruido</button><button class="opt" data-c="0">Underfitting</button><button class="opt" data-c="0">Un modelo más lento de predecir</button><div class="feedback"></div></div><div class="q" data-exp="Una variable en miles domina sobre otra en decimales si no se normaliza."><div class="stem"><span class="n">Pregunta 3.</span> ¿Por qué es obligatorio escalar las variables antes de usar kNN?</div><button class="opt" data-c="1">Porque variables de distinto rango dominan el cálculo de distancia</button><button class="opt" data-c="0">Para reducir el tiempo de predicción</button><button class="opt" data-c="0">Para aumentar k automáticamente</button><div class="feedback"></div></div><div class="q" data-exp="En alta dimensión, las distancias pierden significado discriminativo."><div class="stem"><span class="n">Pregunta 4.</span> La maldición de la dimensionalidad afecta a kNN porque...</div><button class="opt" data-c="1">Con muchas variables, todos los puntos quedan equidistantes</button><button class="opt" data-c="0">El algoritmo no puede calcular distancias en más de 3 dimensiones</button><button class="opt" data-c="0">Aumenta la exactitud artificialmente</button><div class="feedback"></div></div><div class="q" data-exp="Para regresión, kNN promedia; para clasificación, vota."><div class="stem"><span class="n">Pregunta 5.</span> En un problema de regresión, kNN devuelve...</div><button class="opt" data-c="1">El promedio de los valores de los k vecinos</button><button class="opt" data-c="0">La clase más frecuente entre los k vecinos</button><button class="opt" data-c="0">El vecino más cercano solo</button><div class="feedback"></div></div><div class="q" data-exp="El coseno mide orientación, no magnitud — ideal para vectores de alta dimensión como textos."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál métrica de distancia es más adecuada para comparar documentos de texto?</div><button class="opt" data-c="1">Similitud coseno</button><button class="opt" data-c="0">Distancia euclidiana</button><button class="opt" data-c="0">Distancia Manhattan</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>kNN clasifica por mayoría de votos entre los k vecinos más cercanos. Es simple e interpretable pero lento en predicción y sensible a la escala y a la dimensionalidad. <strong>Semana 9:</strong> evaluación sistemática — validación cruzada, sesgo-varianza y regularización.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 8 · Sesión 1 · k-Vecinos más cercanos (kNN)</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

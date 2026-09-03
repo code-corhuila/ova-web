@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 10 · Clustering y K-Means | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 10 · Sesión 1 · Clustering y K-Means</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-aprendizaje-no-supervisado">Aprendizaje no supervisado</a></li><li><a href="#s-2-k-means-paso-a-paso">K-Means paso a paso</a></li><li><a href="#s-3-metodo-del-codo-para-elegir-k">Método del codo para elegir k</a></li><li><a href="#s-4-metrica-de-silueta">Métrica de silueta</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Clustering y K-Means</h1>
+    <p class="lead">Sin etiquetas no hay supervisión, pero sí hay estructura oculta en los datos. El clustering descubre grupos naturales — clientes con comportamiento similar, documentos del mismo tema, genes con expresión parecida — sin necesitar que nadie los haya etiquetado antes.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Distinguir el aprendizaje no supervisado del supervisado.</p></div><div class="objective-card"><span class="num">2</span><p>Ejecutar el algoritmo K-Means paso a paso.</p></div><div class="objective-card"><span class="num">3</span><p>Usar el método del codo para elegir el número de clusters.</p></div><div class="objective-card"><span class="num">4</span><p>Evaluar clusters con la métrica de silueta.</p></div></div>
+  </section>
+  <section id="s-1-aprendizaje-no-supervisado"><h2>1. Aprendizaje no supervisado</h2><div class="callout info"><h4>Nota</h4><p>No hay etiquetas. El algoritmo encuentra estructura por sí solo: grupos (clustering), representaciones compactas (reducción de dimensiones) o reglas (asociación).</p></div><p>Aplicaciones: segmentación de clientes, detección de anomalías, compresión de datos.</p></section><section id="s-2-k-means-paso-a-paso"><h2>2. K-Means paso a paso</h2><ol><li>Elegir k centroides aleatoriamente.</li><li>Asignar cada punto al centroide más cercano.</li><li>Recalcular cada centroide como la media de sus puntos.</li><li>Repetir 2-3 hasta convergencia.</li></ol><pre class="code">from sklearn.cluster <span class="kw">import</span> KMeans
+<span class="kw">import</span> matplotlib.pyplot as plt
+
+km = KMeans(n_clusters=3, random_state=42, n_init=10)
+km.fit(X)
+etiquetas = km.labels_
+centroides = km.cluster_centers_
+
+plt.scatter(X[:,0], X[:,1], c=etiquetas, cmap='tab10', alpha=0.6)
+plt.scatter(centroides[:,0], centroides[:,1], marker='X', s=200, c='red')
+plt.title("Clusters K-Means"); plt.show()</pre></section><section id="s-3-metodo-del-codo-para-elegir-k"><h2>3. Método del codo para elegir k</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 480 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.ax_svg1{stroke:#666}.cv_svg1{stroke:#0e7c7b;stroke-width:2.5;fill:none}.el_svg1{stroke:#e07b39;stroke-dasharray:5}.t_svg1{font:11px Roboto,Arial;fill:#aaa;text-anchor:middle}</style>
+  <line x1="60" y1="170" x2="440" y2="170" class="ax_svg1"/>
+  <line x1="60" y1="20"  x2="60"  y2="170" class="ax_svg1"/>
+  <path d="M80,40 C110,50 140,80 200,130 S300,158 380,165 S420,167 430,168" class="cv_svg1"/>
+  <line x1="200" y1="20" x2="200" y2="170" class="el_svg1"/>
+  <text x="200" y="185" class="t_svg1">k=3 (codo)</text>
+  <text x="250" y="30" font-size="12" fill="#0e7c7b">← inercia baja rápido</text>
+  <text x="350" y="155" font-size="12" fill="#666">meseta →</text>
+</svg></figure><pre class="code">inercias = []
+<span class="kw">for</span> k in range(1, 11):
+    inercias.append(KMeans(n_clusters=k, n_init=10).fit(X).inertia_)
+plt.plot(range(1, 11), inercias, 'o-'); plt.xlabel("k"); plt.ylabel("Inercia"); plt.show()</pre></section><section id="s-4-metrica-de-silueta"><h2>4. Métrica de silueta</h2><div class="callout tip"><h4>Tip</h4><p>El coeficiente de silueta mide qué tan bien encaja cada punto en su cluster (1=perfecto, 0=en el borde, -1=mal asignado). Se usa para validar objetivamente la calidad del clustering.</p></div><pre class="code">from sklearn.metrics <span class="kw">import</span> silhouette_score
+<span class="kw">print</span>(f"Silueta: {silhouette_score(X, km.labels_):.3f}")</pre></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="K-Means es no supervisado; la regresión logística es supervisada."><div class="stem"><span class="n">Pregunta 1.</span> ¿Cuál es la principal diferencia entre K-Means y regresión logística?</div><button class="opt" data-c="1">K-Means no usa etiquetas; regresión logística sí las requiere</button><button class="opt" data-c="0">K-Means es más lento</button><button class="opt" data-c="0">Regresión logística agrupa datos</button><div class="feedback"></div></div><div class="q" data-exp="Inercia = suma de varianzas intra-cluster; queremos minimizarla."><div class="stem"><span class="n">Pregunta 2.</span> En K-Means, ¿qué representa la inercia?</div><button class="opt" data-c="1">La suma de distancias cuadradas de cada punto a su centroide</button><button class="opt" data-c="0">El número de clusters</button><button class="opt" data-c="0">El error de clasificación</button><div class="feedback"></div></div><div class="q" data-exp="Más clusters siempre reduce inercia; el codo marca el punto de rendimientos decrecientes."><div class="stem"><span class="n">Pregunta 3.</span> ¿Cómo indica el método del codo el k óptimo?</div><button class="opt" data-c="1">El punto donde la inercia deja de bajar significativamente (el "codo")</button><button class="opt" data-c="0">El k con inercia mínima absoluta</button><button class="opt" data-c="0">El k más grande posible</button><div class="feedback"></div></div><div class="q" data-exp="Silueta negativa = el punto pertenece mejor a un cluster vecino."><div class="stem"><span class="n">Pregunta 4.</span> Un coeficiente de silueta cercano a -1 indica que...</div><button class="opt" data-c="1">El punto está mal asignado — más cerca de otro cluster que del suyo</button><button class="opt" data-c="0">El punto está en el centro exacto de su cluster</button><button class="opt" data-c="0">El clustering es perfecto</button><div class="feedback"></div></div><div class="q" data-exp="K-Means asume clusters esféricos del mismo tamaño; otras formas lo confunden."><div class="stem"><span class="n">Pregunta 5.</span> K-Means puede fallar cuando los clusters tienen...</div><button class="opt" data-c="1">Formas no esféricas o tamaños muy distintos</button><button class="opt" data-c="0">Muchos puntos</button><button class="opt" data-c="0">Alta dimensionalidad</button><div class="feedback"></div></div><div class="q" data-exp="Sin etiquetas previas de fraude, la detección de anomalías es no supervisada."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál aplicación es típicamente NO supervisada?</div><button class="opt" data-c="1">Detectar transacciones anómalas sin tener ejemplos previos de fraude</button><button class="opt" data-c="0">Predecir si un email es spam basándose en miles de emails etiquetados</button><button class="opt" data-c="0">Clasificar imágenes de tumores como malignos/benignos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>K-Means agrupa datos sin etiquetas asignando puntos al centroide más cercano e iterando hasta convergencia. El método del codo y la silueta guían la elección de k. <strong>Semana 10 Vie:</strong> PCA y cierre de Corte 2 — integración de ML.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 10 · Sesión 1 · Clustering y K-Means</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 10 · Análisis de Componentes Principales (PCA) — reducción de dimensiones | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 10 · Sesión 2 · Análisis de Componentes Principales (PCA) — reducción de dimensiones</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-hace-pca">¿Qué hace PCA?</a></li><li><a href="#s-2-implementacion">Implementación</a></li><li><a href="#s-3-elegir-el-numero-de-componentes">Elegir el número de componentes</a></li><li><a href="#s-4-pca-antes-de-entrenar">PCA antes de entrenar</a></li><li><a href="#s-5-cuando-no-usar-pca">Cuándo NO usar PCA</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Análisis de Componentes Principales (PCA) — reducción de dimensiones</h1>
+    <p class="lead">Más variables no siempre significa más información. PCA comprime datos de alta dimensión en unas pocas componentes que capturan la mayor varianza, reduciendo ruido, tiempo de cómputo y el efecto de la maldición de la dimensionalidad.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Explicar qué busca PCA (dirección de máxima varianza).</p></div><div class="objective-card"><span class="num">2</span><p>Aplicar PCA con scikit-learn y visualizar los datos comprimidos.</p></div><div class="objective-card"><span class="num">3</span><p>Elegir cuántas componentes conservar usando la varianza explicada acumulada.</p></div><div class="objective-card"><span class="num">4</span><p>Distinguir cuándo usar PCA antes de entrenar un modelo.</p></div></div>
+  </section>
+  <section id="s-1-que-hace-pca"><h2>1. ¿Qué hace PCA?</h2><div class="callout info"><h4>Nota</h4><p>PCA rota el espacio de variables para encontrar las <strong>componentes principales</strong> — nuevas variables ortogonales que capturan la máxima varianza. Las primeras componentes retienen la mayor información; las últimas (ruido) se descartan.</p></div><p>No se pierde información si se conservan todas las componentes; la ganancia viene de descartar las que aportan poco.</p></section><section id="s-2-implementacion"><h2>2. Implementación</h2><pre class="code">from sklearn.decomposition <span class="kw">import</span> PCA
+from sklearn.preprocessing <span class="kw">import</span> StandardScaler
+
+<span class="cm"># PCA requiere datos escalados</span>
+X_s = StandardScaler().fit_transform(X)
+
+pca = PCA(n_components=2)
+X_2d = pca.fit_transform(X_s)
+
+<span class="kw">print</span>("Varianza explicada:", pca.explained_variance_ratio_)
+<span class="cm"># e.g. [0.72, 0.15] → 87% de la varianza en 2 componentes</span></pre></section><section id="s-3-elegir-el-numero-de-componentes"><h2>3. Elegir el número de componentes</h2><pre class="code">pca_full = PCA().fit(X_s)
+varianza_acum = pca_full.explained_variance_ratio_.cumsum()
+
+<span class="kw">import</span> matplotlib.pyplot as plt
+plt.plot(range(1, len(varianza_acum)+1), varianza_acum, 'o-')
+plt.axhline(0.95, linestyle='--', color='red', label='95%')
+plt.xlabel("Número de componentes"); plt.ylabel("Varianza acumulada")
+plt.legend(); plt.show()
+<span class="cm"># Elegir el número mínimo que supera el umbral (p.ej. 95%)</span></pre></section><section id="s-4-pca-antes-de-entrenar"><h2>4. PCA antes de entrenar</h2><div class="callout tip"><h4>Tip</h4><p>PCA como preprocesamiento reduce dimensiones, elimina correlaciones y acelera el entrenamiento — especialmente útil antes de kNN o SVM en datos de alta dimensión.</p></div><p>Pero: las componentes no son interpretables en términos de las variables originales.</p></section><section id="s-5-cuando-no-usar-pca"><h2>5. Cuándo NO usar PCA</h2><ul><li>Cuando la interpretabilidad de las variables importa (e.g., modelos regulatorios).</li><li>Cuando las variables ya son pocas y no correlacionadas.</li><li>Como sustituto de selección de features con significado.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Cada componente es la dirección de máxima varianza ortogonal a las anteriores."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué maximizan las componentes principales de PCA?</div><button class="opt" data-c="1">La varianza de los datos proyectados en cada dirección</button><button class="opt" data-c="0">La correlación entre variables originales</button><button class="opt" data-c="0">El número de clusters</button><div class="feedback"></div></div><div class="q" data-exp="Sin escalar, la componente 1 simplemente captura la variable de mayor escala."><div class="stem"><span class="n">Pregunta 2.</span> ¿Por qué es obligatorio escalar antes de PCA?</div><button class="opt" data-c="1">Variables con mayor rango dominan la varianza y sesgan las componentes</button><button class="opt" data-c="0">PCA no funciona sin escalar</button><button class="opt" data-c="0">Para reducir el número de componentes</button><div class="feedback"></div></div><div class="q" data-exp="La varianza explicada indica cuánta información retiene la representación reducida."><div class="stem"><span class="n">Pregunta 3.</span> Si las dos primeras componentes explican el 90% de la varianza, ¿qué significa?</div><button class="opt" data-c="1">El 90% de la información está preservada en 2 dimensiones</button><button class="opt" data-c="0">El 10% de los datos se pierde permanentemente</button><button class="opt" data-c="0">El modelo tendrá 10% de error</button><div class="feedback"></div></div><div class="q" data-exp="Correlación implica redundancia; PCA la comprime eliminando componentes de baja varianza."><div class="stem"><span class="n">Pregunta 4.</span> PCA es más útil cuando las variables originales están...</div><button class="opt" data-c="1">Altamente correlacionadas entre sí</button><button class="opt" data-c="0">Completamente independientes</button><button class="opt" data-c="0">Todas en el mismo rango de valores</button><div class="feedback"></div></div><div class="q" data-exp="Componente 1 no es &quot;el área&quot; ni &quot;el precio&quot;; es una combinación lineal de variables."><div class="stem"><span class="n">Pregunta 5.</span> ¿Cuál es la desventaja principal de usar PCA como preprocesamiento?</div><button class="opt" data-c="1">Las componentes no tienen interpretación directa en términos del dominio</button><button class="opt" data-c="0">Siempre mejora el rendimiento del modelo</button><button class="opt" data-c="0">Aumenta el tiempo de entrenamiento</button><div class="feedback"></div></div><div class="q" data-exp="En contextos regulatorios o de auditoría, las variables originales deben mantenerse."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuándo se recomienda NO usar PCA?</div><button class="opt" data-c="1">Cuando la interpretabilidad de las variables originales es crítica</button><button class="opt" data-c="0">Cuando los datos tienen alta dimensión</button><button class="opt" data-c="0">Cuando el modelo es un árbol de decisión</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>PCA comprime datos preservando la mayor varianza posible. La varianza acumulada guía cuántas componentes conservar. Con esto cerramos el <strong>Corte 2</strong> — toda la base de ML supervisado y no supervisado. <strong>Corte 3 (Semana 11):</strong> redes neuronales y ética de la IA.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 10 · Sesión 2 · Análisis de Componentes Principales (PCA) — reducción de dimensiones</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

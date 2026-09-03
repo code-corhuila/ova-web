@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 7 · Árboles de decisión | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 7 · Sesión 2 · Árboles de decisión</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-estructura-del-arbol">Estructura del árbol</a></li><li><a href="#s-2-como-elige-el-arbol-la-mejor-pregunta">¿Cómo elige el árbol la mejor pregunta?</a></li><li><a href="#s-3-overfitting-y-poda">Overfitting y poda</a></li><li><a href="#s-4-ventajas-e-interpretabilidad">Ventajas e interpretabilidad</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Árboles de decisión</h1>
+    <p class="lead">Un árbol de decisión replica lo que hace un experto: hacer preguntas en secuencia hasta llegar a una conclusión. Son modelos visuales, interpretables y sorprendentemente versátiles — y son la base de Random Forest y XGBoost.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Describir la estructura nodo-rama-hoja de un árbol de decisión.</p></div><div class="objective-card"><span class="num">2</span><p>Explicar cómo la ganancia de información elige el mejor atributo de división.</p></div><div class="objective-card"><span class="num">3</span><p>Identificar el problema de overfitting en árboles y cómo mitigarlo (poda).</p></div><div class="objective-card"><span class="num">4</span><p>Usar scikit-learn para entrenar y visualizar un árbol.</p></div></div>
+  </section>
+  <section id="s-1-estructura-del-arbol"><h2>1. Estructura del árbol</h2><div class="callout info"><h4>Nota</h4><p>Un árbol de decisión divide el espacio de características en regiones. Cada <strong>nodo interno</strong> hace una pregunta; cada <strong>rama</strong> es una respuesta; cada <strong>hoja</strong> es la predicción final.</p></div><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 560 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.nd_svg1{fill:#0e7c7b;rx:6}.lf_svg1{fill:#e07b39;rx:6}.t_svg1{font:11px Roboto,Arial;fill:#fff;text-anchor:middle}.ln_svg1{stroke:#888}</style>
+  <line x1="280" y1="50" x2="160" y2="110" class="ln_svg1"/>
+  <line x1="280" y1="50" x2="400" y2="110" class="ln_svg1"/>
+  <line x1="160" y1="110" x2="90"  y2="175" class="ln_svg1"/>
+  <line x1="160" y1="110" x2="230" y2="175" class="ln_svg1"/>
+  <line x1="400" y1="110" x2="340" y2="175" class="ln_svg1"/>
+  <line x1="400" y1="110" x2="470" y2="175" class="ln_svg1"/>
+  <rect x="220" y="25" width="120" height="40" rx="6" class="nd_svg1"/><text x="280" y="50" class="t_svg1">edad ≤ 30?</text>
+  <rect x="100" y="90" width="120" height="40" rx="6" class="nd_svg1"/><text x="160" y="115" class="t_svg1">ingresos ≤ 2M?</text>
+  <rect x="340" y="90" width="120" height="40" rx="6" class="nd_svg1"/><text x="400" y="115" class="t_svg1">deuda ≤ 10M?</text>
+  <rect x="55"  y="160" width="70" height="35" rx="6" class="lf_svg1"/><text x="90"  y="182" class="t_svg1">No presta</text>
+  <rect x="195" y="160" width="70" height="35" rx="6" class="lf_svg1"/><text x="230" y="182" class="t_svg1">Presta</text>
+  <rect x="305" y="160" width="70" height="35" rx="6" class="lf_svg1"/><text x="340" y="182" class="t_svg1">Presta</text>
+  <rect x="435" y="160" width="70" height="35" rx="6" class="lf_svg1"/><text x="470" y="182" class="t_svg1">No presta</text>
+</svg></figure></section><section id="s-2-como-elige-el-arbol-la-mejor-pregunta"><h2>2. ¿Cómo elige el árbol la mejor pregunta?</h2><p>Usa <strong>ganancia de información</strong> (Information Gain) o <strong>índice Gini</strong> para encontrar la división que reduce más la impureza del conjunto:</p><pre class="ascii">IG(S, A) = Impureza(S) - Σ (|Sv|/|S|) · Impureza(Sv)</pre><p>Donde Sv son los subconjuntos creados al dividir por el atributo A.</p></section><section id="s-3-overfitting-y-poda"><h2>3. Overfitting y poda</h2><p>Un árbol profundo memoriza los datos de entrenamiento.</p><pre class="code">from sklearn.tree <span class="kw">import</span> DecisionTreeClassifier, plot_tree
+<span class="kw">import</span> matplotlib.pyplot as plt
+
+<span class="cm"># Sin restricción → overfitting</span>
+arbol = DecisionTreeClassifier(random_state=42)
+arbol.fit(X_train, y_train)
+
+<span class="cm"># Con restricción de profundidad → balance</span>
+arbol_podado = DecisionTreeClassifier(max_depth=4, min_samples_leaf=5)
+arbol_podado.fit(X_train, y_train)
+
+plot_tree(arbol_podado, feature_names=features, class_names=clases, filled=True)
+plt.show()</pre><div class="callout warn"><h4>Cuidado</h4><p>Un árbol con profundidad ilimitada alcanza 100% en entrenamiento pero falla en datos nuevos. Limitar <code>max_depth</code> o <code>min_samples_leaf</code> es esencial.</p></div></section><section id="s-4-ventajas-e-interpretabilidad"><h2>4. Ventajas e interpretabilidad</h2><ul><li>No requiere escalar variables.</li><li>Maneja variables categóricas y numéricas.</li><li>La ruta raíz→hoja <strong>explica</strong> cada predicción.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Las hojas son los puntos finales del árbol donde se emite la predicción."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué contiene una hoja (nodo terminal) de un árbol de decisión?</div><button class="opt" data-c="1">La predicción final para ese subconjunto de datos</button><button class="opt" data-c="0">Una pregunta sobre los datos</button><button class="opt" data-c="0">El error de clasificación</button><div class="feedback"></div></div><div class="q" data-exp="IG compara la impureza del conjunto padre con la de los hijos."><div class="stem"><span class="n">Pregunta 2.</span> La ganancia de información mide...</div><button class="opt" data-c="1">Cuánto reduce la impureza una división por un atributo</button><button class="opt" data-c="0">El número de hojas del árbol</button><button class="opt" data-c="0">La exactitud del modelo</button><div class="feedback"></div></div><div class="q" data-exp="Un árbol que memoriza los datos de entrenamiento no generaliza."><div class="stem"><span class="n">Pregunta 3.</span> ¿Qué síntoma indica overfitting en un árbol?</div><button class="opt" data-c="1">100% exactitud en entrenamiento, mucho menor en prueba</button><button class="opt" data-c="0">Exactitud baja en ambos conjuntos</button><button class="opt" data-c="0">El árbol tiene solo 2 niveles</button><div class="feedback"></div></div><div class="q" data-exp="La poda (pre o post) controla la complejidad del árbol."><div class="stem"><span class="n">Pregunta 4.</span> ¿Cómo se mitiga el overfitting en árboles?</div><button class="opt" data-c="1">Limitando la profundidad máxima o el mínimo de muestras por hoja</button><button class="opt" data-c="0">Aumentando el número de datos de entrenamiento infinitamente</button><button class="opt" data-c="0">Eliminando el conjunto de prueba</button><div class="feedback"></div></div><div class="q" data-exp="Poder trazar la decisión nodo por nodo es la fortaleza explicativa del árbol."><div class="stem"><span class="n">Pregunta 5.</span> ¿Cuál es una ventaja clave de los árboles de decisión frente a la regresión logística?</div><button class="opt" data-c="1">Son interpretables: la ruta explica cada predicción</button><button class="opt" data-c="0">Siempre tienen mayor exactitud</button><button class="opt" data-c="0">No sufren overfitting</button><div class="feedback"></div></div><div class="q" data-exp="Los árboles dividen por umbrales, no por distancias; la escala no importa."><div class="stem"><span class="n">Pregunta 6.</span> ¿Necesitan los árboles de decisión que las variables estén normalizadas?</div><button class="opt" data-c="1">No, son invariantes a la escala de las variables</button><button class="opt" data-c="0">Sí, siempre se debe escalar</button><button class="opt" data-c="0">Solo si hay variables categóricas</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Los árboles dividen el espacio de características con preguntas secuenciales elegidas por ganancia de información. Son interpretables pero propensos a overfitting; la poda por profundidad o tamaño mínimo de hoja los estabiliza. <strong>Semana 8 Vie:</strong> kNN y Naive Bayes — dos enfoques completamente distintos.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 7 · Sesión 2 · Árboles de decisión</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

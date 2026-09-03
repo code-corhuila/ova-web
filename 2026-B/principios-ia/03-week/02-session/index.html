@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 3 · Formulación de problemas y búsqueda no informada | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 3 · Sesión 2 · Formulación de problemas y búsqueda no informada</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-un-problema-como-espacio-de-estados">Un problema como espacio de estados</a></li><li><a href="#s-2-el-arbol-de-busqueda">El árbol de búsqueda</a></li><li><a href="#s-3-bfs-vs-dfs">BFS vs. DFS</a></li><li><a href="#s-4-busqueda-de-costo-uniforme">Búsqueda de costo uniforme</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Búsqueda · Corte 1</span>
+    <h1>Formulación de problemas y búsqueda no informada</h1>
+    <p class="lead">Muchísimos problemas —rutas, rompecabezas, planificación— se resuelven igual: como una búsqueda en un espacio de estados. Aprender a formular un problema de esa forma y a recorrer el espacio con BFS, DFS y costo uniforme te da una herramienta que reutilizarás toda tu carrera.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Formular un problema como espacio de estados (estado inicial, acciones, meta, costo).</p></div><div class="objective-card"><span class="num">2</span><p>Ejecutar BFS y DFS y comparar su comportamiento.</p></div><div class="objective-card"><span class="num">3</span><p>Explicar completitud, optimalidad y complejidad de cada estrategia.</p></div><div class="objective-card"><span class="num">4</span><p>Aplicar búsqueda de costo uniforme cuando las acciones cuestan distinto.</p></div></div>
+  </section>
+  <section id="s-1-un-problema-como-espacio-de-estados"><h2>1. Un problema como espacio de estados</h2><div class="callout info"><h4>Nota</h4><p>Formular una <strong>búsqueda</strong> requiere cinco piezas: <strong>estado inicial</strong>, <strong>acciones</strong> posibles, <strong>modelo de transición</strong> (a qué estado lleva cada acción), <strong>prueba de meta</strong> (¿es este el objetivo?) y <strong>costo</strong> de cada paso. Con eso, resolver el problema es <strong>hallar un camino</strong> del estado inicial a uno meta.</p></div><p>Ejemplo: ir de Neiva a Bogotá. Estados = ciudades; acciones = carreteras; costo = kilómetros; meta = Bogotá.</p></section><section id="s-2-el-arbol-de-busqueda"><h2>2. El árbol de búsqueda</h2><p>El algoritmo explora un <strong>árbol</strong> cuyos nodos son estados. La diferencia entre estrategias está en <strong>qué nodo expandir primero</strong> (la "frontera").</p><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 620 170" width="100%" style="max-width:620px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Árbol de búsqueda">
+  <style>.n_svg1{fill:#0e7c7b}.e_svg1{stroke:#999}.t_svg1{font:11px Roboto,Arial;fill:#fff}</style>
+  <line x1="310" y1="30" x2="180" y2="80" class="e_svg1"/><line x1="310" y1="30" x2="440" y2="80" class="e_svg1"/>
+  <line x1="180" y1="80" x2="110" y2="135" class="e_svg1"/><line x1="180" y1="80" x2="250" y2="135" class="e_svg1"/>
+  <line x1="440" y1="80" x2="380" y2="135" class="e_svg1"/><line x1="440" y1="80" x2="510" y2="135" class="e_svg1"/>
+  <circle cx="310" cy="30" r="16" class="n_svg1"/><text x="310" y="34" class="t_svg1" text-anchor="middle">A</text>
+  <circle cx="180" cy="80" r="16" class="n_svg1"/><text x="180" y="84" class="t_svg1" text-anchor="middle">B</text>
+  <circle cx="440" cy="80" r="16" class="n_svg1"/><text x="440" y="84" class="t_svg1" text-anchor="middle">C</text>
+  <circle cx="110" cy="135" r="16" class="n_svg1"/><text x="110" y="139" class="t_svg1" text-anchor="middle">D</text>
+  <circle cx="250" cy="135" r="16" class="n_svg1"/><text x="250" y="139" class="t_svg1" text-anchor="middle">E</text>
+  <circle cx="380" cy="135" r="16" class="n_svg1"/><text x="380" y="139" class="t_svg1" text-anchor="middle">F</text>
+  <circle cx="510" cy="135" r="16" class="n_svg1"/><text x="510" y="139" class="t_svg1" text-anchor="middle">G</text>
+</svg></figure></section><section id="s-3-bfs-vs-dfs"><h2>3. BFS vs. DFS</h2><ul><li><strong>Búsqueda en amplitud (BFS):</strong> expande por niveles (usa una <strong>cola</strong>). Es <strong>completa</strong> y <strong>óptima si el costo es uniforme</strong>, pero gasta <strong>mucha memoria</strong> (O(b^d)).</li><li><strong>Búsqueda en profundidad (DFS):</strong> baja por una rama hasta el fondo (usa una <strong>pila</strong>). Usa <strong>poca memoria</strong> (O(b·m)), pero <strong>no es óptima</strong> y puede perderse en ramas infinitas.</li></ul><pre class="code">from collections <span class="kw">import</span> deque
+
+<span class="kw">def</span> bfs(inicio, es_meta, vecinos):
+    frontera = deque([inicio])
+    padres = {inicio: None}
+    <span class="kw">while</span> frontera:
+        n = frontera.popleft()          <span class="cm"># BFS: FIFO (cola)</span>
+        <span class="kw">if</span> es_meta(n):
+            <span class="kw">return</span> reconstruir(padres, n)
+        <span class="kw">for</span> v in vecinos(n):
+            <span class="kw">if</span> v not in padres:
+                padres[v] = n
+                frontera.append(v)
+    <span class="kw">return</span> None                          <span class="cm"># sin solución</span></pre></section><section id="s-4-busqueda-de-costo-uniforme"><h2>4. Búsqueda de costo uniforme</h2><p>Cuando los pasos <strong>cuestan distinto</strong>, BFS deja de ser óptima. La <strong>búsqueda de costo uniforme</strong> expande siempre el nodo de <strong>menor costo acumulado g(n)</strong> (usa una <strong>cola de prioridad</strong>). Es óptima con costos no negativos y es la base del algoritmo <strong>A\</strong>* de la próxima semana.</p><div class="callout warn"><h4>Cuidado</h4><p>No confundas "menos pasos" con "menor costo". De Neiva a Bogotá, una ruta con <strong>menos tramos</strong> puede ser <strong>más larga en km</strong>. BFS minimiza <em>pasos</em>; costo uniforme minimiza <em>costo real</em>.</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>No marcar estados visitados → ciclos infinitos y trabajo repetido.</li><li>Usar DFS esperando la ruta óptima (no lo garantiza).</li><li>Aplicar BFS en espacios enormes y quedarse sin memoria.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Los cinco componentes incluyen el costo."><div class="stem"><span class="n">Pregunta 1.</span> Formular un problema de búsqueda requiere estado inicial, acciones, transición, meta y...</div><button class="opt" data-c="1">Costo de cada paso</button><button class="opt" data-c="0">La solución ya conocida</button><button class="opt" data-c="0">El lenguaje de programación</button><div class="feedback"></div></div><div class="q" data-exp="Amplitud = cola FIFO."><div class="stem"><span class="n">Pregunta 2.</span> BFS utiliza como estructura de frontera una...</div><button class="opt" data-c="1">Cola (FIFO)</button><button class="opt" data-c="0">Pila (LIFO)</button><button class="opt" data-c="0">Cola de prioridad</button><div class="feedback"></div></div><div class="q" data-exp="Guarda todos los nodos de un nivel."><div class="stem"><span class="n">Pregunta 3.</span> ¿Cuál es una desventaja principal de BFS?</div><button class="opt" data-c="1">Alto consumo de memoria (O(b^d))</button><button class="opt" data-c="0">Nunca encuentra solución</button><button class="opt" data-c="0">No es completa</button><div class="feedback"></div></div><div class="q" data-exp="Profundiza por una rama; ahorra memoria, no optimiza."><div class="stem"><span class="n">Pregunta 4.</span> DFS se caracteriza por...</div><button class="opt" data-c="1">Poca memoria pero sin garantía de optimalidad</button><button class="opt" data-c="0">Siempre óptima</button><button class="opt" data-c="0">Usar cola de prioridad</button><div class="feedback"></div></div><div class="q" data-exp="Minimiza costo acumulado, no número de pasos."><div class="stem"><span class="n">Pregunta 5.</span> Cuando las acciones cuestan distinto, la estrategia óptima básica es...</div><button class="opt" data-c="1">Búsqueda de costo uniforme (expandir menor g(n))</button><button class="opt" data-c="0">DFS</button><button class="opt" data-c="0">BFS por niveles</button><div class="feedback"></div></div><div class="q" data-exp="Se re-expanden estados; puede no terminar."><div class="stem"><span class="n">Pregunta 6.</span> Olvidar marcar nodos visitados provoca...</div><button class="opt" data-c="1">Ciclos y trabajo repetido</button><button class="opt" data-c="0">Mayor optimalidad</button><button class="opt" data-c="0">Menor uso de memoria</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Un problema se formula como <strong>espacio de estados</strong> y se resuelve buscando un camino: <strong>BFS</strong> (completa, óptima con costo uniforme, cara en memoria), <strong>DFS</strong> (ligera, no óptima) y <strong>costo uniforme</strong> (óptima con costos). <strong>Semana 4:</strong> hacemos la búsqueda <strong>inteligente</strong> con heurísticas y el algoritmo <strong>A\</strong>*.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 3 · Sesión 2 · Formulación de problemas y búsqueda no informada</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

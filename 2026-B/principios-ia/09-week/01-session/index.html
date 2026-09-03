@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 9 · Evaluación de modelos — validación cruzada y matriz de confusión | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 9 · Sesión 1 · Evaluación de modelos — validación cruzada y matriz de confusión</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-el-problema-de-un-solo-split">El problema de un solo split</a></li><li><a href="#s-2-matriz-de-confusion-detallada">Matriz de confusión detallada</a></li><li><a href="#s-3-curva-roc-y-auc">Curva ROC y AUC</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Evaluación de modelos — validación cruzada y matriz de confusión</h1>
+    <p class="lead">Saber entrenar un modelo es solo la mitad del trabajo. La otra mitad es medirlo correctamente. Un modelo mal evaluado puede parecer excelente y fallar en producción. Esta sesión da las herramientas para confiar en las métricas.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Aplicar validación cruzada k-fold para estimar el desempeño real.</p></div><div class="objective-card"><span class="num">2</span><p>Construir e interpretar una matriz de confusión completa.</p></div><div class="objective-card"><span class="num">3</span><p>Trazar e interpretar una curva ROC y calcular el AUC.</p></div><div class="objective-card"><span class="num">4</span><p>Distinguir error de entrenamiento, validación y prueba.</p></div></div>
+  </section>
+  <section id="s-1-el-problema-de-un-solo-split"><h2>1. El problema de un solo split</h2><p>Dividir datos en 80% entrenamiento / 20% prueba depende de qué datos caen en cada parte. Con pocos datos, el resultado puede ser muy variable.</p><div class="callout info"><h4>Nota</h4><p><strong>Validación cruzada k-fold</strong> divide los datos en k partes; entrena en k-1 y prueba en la restante, rotando k veces. El desempeño final es el promedio de las k pruebas — más robusto y con estimación de varianza.</p></div><pre class="code">from sklearn.model_selection <span class="kw">import</span> cross_val_score
+<span class="kw">import</span> numpy as np
+
+scores = cross_val_score(modelo, X, y, cv=5, scoring='f1')
+<span class="kw">print</span>(f"F1 promedio: {scores.mean():.3f} ± {scores.std():.3f}")</pre></section><section id="s-2-matriz-de-confusion-detallada"><h2>2. Matriz de confusión detallada</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 400 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.h_svg1{fill:#0e7c7b}.vp_svg1{fill:#1a5c3a}.vn_svg1{fill:#1a5c3a}.fp_svg1{fill:#7a1a1a}.fn_svg1{fill:#7a1a1a}.t_svg1{font:12px Roboto,Arial;fill:#fff;text-anchor:middle}</style>
+  <text x="200" y="20" class="t_svg1" font-size="13">Matriz de confusión</text>
+  <text x="270" y="45" class="t_svg1" font-size="11">Predicho +</text>
+  <text x="360" y="45" class="t_svg1" font-size="11">Predicho -</text>
+  <text x="80"  y="85" class="t_svg1" font-size="11">Real +</text>
+  <text x="80"  y="155" class="t_svg1" font-size="11">Real -</text>
+  <rect x="200" y="55" width="90" height="60" class="vp_svg1"/><text x="245" y="91" class="t_svg1">VP</text>
+  <rect x="300" y="55" width="90" height="60" class="fn_svg1"/><text x="345" y="91" class="t_svg1">FN</text>
+  <rect x="200" y="125" width="90" height="60" class="fp_svg1"/><text x="245" y="161" class="t_svg1">FP</text>
+  <rect x="300" y="125" width="90" height="60" class="vn_svg1"/><text x="345" y="161" class="t_svg1">VN</text>
+</svg></figure><ul><li><strong>VP</strong> (Verdaderos Positivos): predijo + y era +.</li><li><strong>VN</strong> (Verdaderos Negativos): predijo - y era -.</li><li><strong>FP</strong> (Falso Positivo / alarma falsa): predijo + pero era -.</li><li><strong>FN</strong> (Falso Negativo / caso perdido): predijo - pero era +.</li></ul></section><section id="s-3-curva-roc-y-auc"><h2>3. Curva ROC y AUC</h2><pre class="code">from sklearn.metrics <span class="kw">import</span> roc_curve, auc
+<span class="kw">import</span> matplotlib.pyplot as plt
+
+fpr, tpr, _ = roc_curve(y_test, proba)
+area = auc(fpr, tpr)
+plt.plot(fpr, tpr, label=f"AUC = {area:.2f}")
+plt.plot([0,1],[0,1],'--', color='gray')
+plt.xlabel("Tasa de Falsos Positivos"); plt.ylabel("Tasa de Verdaderos Positivos")
+plt.legend(); plt.show()</pre><div class="callout tip"><h4>Tip</h4><p>AUC = 0.5 → el modelo no discrimina (igual que azar). AUC = 1.0 → clasificación perfecta. Un buen modelo tiene AUC &gt; 0.75.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Al rotar los folds, el resultado no depende de cómo cayeron los datos en una sola partición."><div class="stem"><span class="n">Pregunta 1.</span> ¿Por qué la validación cruzada es más confiable que un único split 80/20?</div><button class="opt" data-c="1">Promedia el desempeño sobre múltiples particiones, reduciendo la varianza del estimador</button><button class="opt" data-c="0">Usa más datos para entrenamiento</button><button class="opt" data-c="0">Siempre da exactitud más alta</button><div class="feedback"></div></div><div class="q" data-exp="FN en diagnóstico = casos reales perdidos = mayor riesgo clínico."><div class="stem"><span class="n">Pregunta 2.</span> Un modelo tiene FN altos en detección de enfermedades. Esto implica...</div><button class="opt" data-c="1">Muchos pacientes enfermos clasificados como sanos — peligroso</button><button class="opt" data-c="0">Muchas alarmas falsas</button><button class="opt" data-c="0">Alta precisión</button><div class="feedback"></div></div><div class="q" data-exp="AUC de 0.5 equivale a clasificar aleatoriamente."><div class="stem"><span class="n">Pregunta 3.</span> AUC = 0.5 significa que el modelo...</div><button class="opt" data-c="1">No discrimina mejor que el azar</button><button class="opt" data-c="0">Tiene 50% de exactitud</button><button class="opt" data-c="0">Tiene AUC insuficiente pero útil</button><div class="feedback"></div></div><div class="q" data-exp="Se entrena k veces, cada vez con un fold diferente como conjunto de prueba."><div class="stem"><span class="n">Pregunta 4.</span> ¿Cuántos entrenamientos implica una validación cruzada de 10-fold?</div><button class="opt" data-c="1">10 entrenamientos (uno por cada fold como prueba)</button><button class="opt" data-c="0">1 entrenamiento con 10 veces más datos</button><button class="opt" data-c="0">10 × 10 = 100 entrenamientos</button><div class="feedback"></div></div><div class="q" data-exp="ROC varía el umbral de decisión y muestra cómo cambia TPR y FPR."><div class="stem"><span class="n">Pregunta 5.</span> La curva ROC grafica...</div><button class="opt" data-c="1">Tasa de Verdaderos Positivos vs Tasa de Falsos Positivos para distintos umbrales</button><button class="opt" data-c="0">Exactitud vs número de épocas</button><button class="opt" data-c="0">Precisión vs Recall</button><div class="feedback"></div></div><div class="q" data-exp="Usar el conjunto de prueba para ajustar hiperparámetros lo contamina."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál es la diferencia entre conjunto de validación y conjunto de prueba?</div><button class="opt" data-c="1">Validación afina hiperparámetros; prueba mide el desempeño final no sesgado</button><button class="opt" data-c="0">Son lo mismo, diferentes nombres</button><button class="opt" data-c="0">Prueba se usa para entrenar, validación para probar</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>La validación cruzada estima el desempeño real de forma robusta. La matriz de confusión y la curva ROC-AUC revelan fallos que la exactitud simple oculta. <strong>Semana 9 Vie:</strong> sesgo-varianza y regularización — cómo elegir la complejidad correcta del modelo.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 9 · Sesión 1 · Evaluación de modelos — validación cruzada y matriz de confusión</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

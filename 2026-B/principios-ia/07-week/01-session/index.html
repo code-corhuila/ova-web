@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 7 · Regresión logística y clasificación binaria | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 7 · Sesión 1 · Regresión logística y clasificación binaria</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-por-que-no-usar-regresion-lineal">¿Por qué no usar regresión lineal?</a></li><li><a href="#s-2-la-funcion-sigmoide">La función sigmoide</a></li><li><a href="#s-3-entrenamiento-y-decision">Entrenamiento y decisión</a></li><li><a href="#s-4-metricas-de-clasificacion">Métricas de clasificación</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Regresión logística y clasificación binaria</h1>
+    <p class="lead">Cuando la salida no es un número sino una categoría (spam/no spam, enfermo/sano), necesitamos un modelo de clasificación. La regresión logística toma la idea lineal y la envuelve en una función sigmoide para producir probabilidades entre 0 y 1.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Explicar por qué la regresión lineal no sirve para clasificación.</p></div><div class="objective-card"><span class="num">2</span><p>Describir la función sigmoide y su rango [0, 1].</p></div><div class="objective-card"><span class="num">3</span><p>Calcular precisión, recall y F1-score a partir de una matriz de confusión.</p></div><div class="objective-card"><span class="num">4</span><p>Interpretar el umbral de decisión y sus consecuencias.</p></div></div>
+  </section>
+  <section id="s-1-por-que-no-usar-regresion-lineal"><h2>1. ¿Por qué no usar regresión lineal?</h2><div class="callout warn"><h4>Cuidado</h4><p>La regresión lineal puede predecir valores fuera de [0, 1], lo que no tiene sentido como probabilidad. Además, es sensible a outliers que desplazan la recta.</p></div><p>Problema: predecir si un tumor es maligno (1) o benigno (0) a partir de su tamaño.</p></section><section id="s-2-la-funcion-sigmoide"><h2>2. La función sigmoide</h2><p>La regresión logística pasa la salida lineal (z) por la sigmoide:</p><pre class="ascii">σ(z) = 1 / (1 + e^(-z))     donde z = wx + b</pre><p>El resultado siempre está en (0, 1) → interpretable como probabilidad.</p><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 500 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.ax_svg1{stroke:#666}.cv_svg1{stroke:#0e7c7b;stroke-width:2.5;fill:none}.th_svg1{stroke:#e07b39;stroke-dasharray:5}</style>
+  <line x1="50" y1="160" x2="460" y2="160" class="ax_svg1"/>
+  <line x1="255" y1="10"  x2="255" y2="170" class="ax_svg1"/>
+  <path d="M60,155 C100,154 140,148 180,130 S230,90 255,80 S290,65 320,50 S380,25 440,18" class="cv_svg1"/>
+  <line x1="50" y1="80" x2="460" y2="80" class="th_svg1"/>
+  <text x="30" y="84" font-size="10" fill="#e07b39">0.5</text>
+  <text x="30" y="20" font-size="10" fill="#aaa">1.0</text>
+  <text x="30" y="163" font-size="10" fill="#aaa">0.0</text>
+  <text x="258" y="175" font-size="10" fill="#aaa">0</text>
+</svg></figure></section><section id="s-3-entrenamiento-y-decision"><h2>3. Entrenamiento y decisión</h2><p>Con un umbral (típicamente 0.5):</p><pre class="code">from sklearn.linear_model <span class="kw">import</span> LogisticRegression
+from sklearn.metrics <span class="kw">import</span> classification_report
+
+modelo = LogisticRegression()
+modelo.fit(X_train, y_train)
+proba = modelo.predict_proba(X_test)[:, 1]   <span class="cm"># probabilidad de clase positiva</span>
+pred  = (proba &gt;= 0.5).astype(<span class="kw">int</span>)            <span class="cm"># umbral de decisión</span>
+<span class="kw">print</span>(classification_report(y_test, pred))</pre></section><section id="s-4-metricas-de-clasificacion"><h2>4. Métricas de clasificación</h2><p>A partir de la <strong>matriz de confusión</strong> (VP, FP, VN, FN):</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Métrica</th><th>Fórmula</th><th>Cuándo priorizarla</th></tr></thead><tbody><tr><td><strong>Exactitud</strong></td><td>(VP+VN)/total</td><td>Clases balanceadas</td></tr><tr><td><strong>Precisión</strong></td><td>VP/(VP+FP)</td><td>Minimizar falsas alarmas</td></tr><tr><td><strong>Recall</strong></td><td>VP/(VP+FN)</td><td>Minimizar casos perdidos</td></tr><tr><td><strong>F1</strong></td><td>2·P·R/(P+R)</td><td>Balance P y R</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p>En diagnóstico médico se prioriza <strong>recall</strong> (no perder enfermos). En filtros de spam, <strong>precisión</strong> (no bloquear emails legítimos).</p></div></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>Usar exactitud con clases muy desbalanceadas (un modelo que siempre dice "no" puede tener 99% de exactitud).</li><li>No ajustar el umbral según el costo del error.</li><li>Ignorar la curva ROC al comparar modelos.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="La sigmoide aplasta cualquier valor real al rango (0,1)."><div class="stem"><span class="n">Pregunta 1.</span> ¿Qué garantiza la función sigmoide que la regresión lineal no garantiza?</div><button class="opt" data-c="1">Salidas entre 0 y 1, interpretables como probabilidades</button><button class="opt" data-c="0">Mayor exactitud</button><button class="opt" data-c="0">Entrenamiento más rápido</button><div class="feedback"></div></div><div class="q" data-exp="Un umbral más bajo clasifica más casos como positivos, capturando más VP pero también más FP."><div class="stem"><span class="n">Pregunta 2.</span> Si el umbral baja de 0.5 a 0.3, ¿qué ocurre?</div><button class="opt" data-c="1">Aumenta el recall (más positivos detectados) pero puede bajar la precisión</button><button class="opt" data-c="0">Baja el recall</button><button class="opt" data-c="0">No cambia nada</button><div class="feedback"></div></div><div class="q" data-exp="La exactitud engaña con clases desbalanceadas; el recall muestra que nunca detecta el fraude."><div class="stem"><span class="n">Pregunta 3.</span> Un sistema de detección de fraude con 1% de fraudes reales obtiene 99% de exactitud prediciendo siempre "no fraude". ¿Qué métrica revela el problema?</div><button class="opt" data-c="1">Recall (es 0%: no detecta ningún fraude)</button><button class="opt" data-c="0">Exactitud</button><button class="opt" data-c="0">Precisión de la clase negativa</button><div class="feedback"></div></div><div class="q" data-exp="Precisión = VP / (VP + FP)."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué mide la precisión en clasificación?</div><button class="opt" data-c="1">De los predichos positivos, cuántos son realmente positivos</button><button class="opt" data-c="0">De los positivos reales, cuántos fueron detectados</button><button class="opt" data-c="0">El porcentaje total de aciertos</button><div class="feedback"></div></div><div class="q" data-exp="F1 es la media armónica de P y R, útil cuando ambas importan."><div class="stem"><span class="n">Pregunta 5.</span> F1-score es útil cuando...</div><button class="opt" data-c="1">Queremos un balance entre precisión y recall</button><button class="opt" data-c="0">Solo importa la exactitud</button><button class="opt" data-c="0">Las clases están perfectamente balanceadas</button><div class="feedback"></div></div><div class="q" data-exp="ROC traza TPR vs FPR para cada umbral, mostrando el desempeño global."><div class="stem"><span class="n">Pregunta 6.</span> La curva ROC evalúa el clasificador a...</div><button class="opt" data-c="1">Todos los posibles umbrales de decisión</button><button class="opt" data-c="0">Un único umbral fijo de 0.5</button><button class="opt" data-c="0">Solo con datos de entrenamiento</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>La regresión logística convierte salidas lineales en probabilidades mediante la sigmoide y clasifica con un umbral. Las métricas (precisión, recall, F1) miden distintos aspectos del error; elegir la correcta depende del costo de equivocarse. <strong>Semana 8:</strong> árboles de decisión, un modelo visual y no lineal.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 7 · Sesión 1 · Regresión logística y clasificación binaria</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

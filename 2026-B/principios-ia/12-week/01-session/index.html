@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 12 · Lógica difusa — conjuntos y funciones de membresía | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 12 · Sesión 1 · Lógica difusa — conjuntos y funciones de membresía</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-del-blanco-y-negro-al-gradiente">Del blanco y negro al gradiente</a></li><li><a href="#s-2-funciones-de-membresia">Funciones de membresía</a></li><li><a href="#s-3-operaciones-difusas">Operaciones difusas</a></li><li><a href="#s-4-aplicaciones-reales">Aplicaciones reales</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Lógica Difusa · Corte 3</span>
+    <h1>Lógica difusa — conjuntos y funciones de membresía</h1>
+    <p class="lead">La lógica clásica es binaria: verdadero o falso. Pero el mundo real es impreciso: alguien puede ser 'bastante alto', la temperatura 'un poco fría'. La lógica difusa formaliza ese razonamiento gradual y permite construir sistemas de control e inferencia con lenguaje natural.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Distinguir lógica clásica de lógica difusa.</p></div><div class="objective-card"><span class="num">2</span><p>Definir y graficar funciones de membresía triangulares y trapezoidales.</p></div><div class="objective-card"><span class="num">3</span><p>Aplicar operaciones difusas (unión, intersección, complemento).</p></div><div class="objective-card"><span class="num">4</span><p>Identificar aplicaciones reales de la lógica difusa.</p></div></div>
+  </section>
+  <section id="s-1-del-blanco-y-negro-al-gradiente"><h2>1. Del blanco y negro al gradiente</h2><div class="callout info"><h4>Nota</h4><p>En lógica difusa, la membresía de un elemento a un conjunto es un valor en <strong>[0, 1]</strong> — no 0 o 1. "Temperatura alta" puede tener membresía 0.8 a 35°C y 0.3 a 28°C.</p></div><p>Ejemplos cotidianos de imprecisión: "joven", "cerca", "mucho tráfico", "precio justo".</p></section><section id="s-2-funciones-de-membresia"><h2>2. Funciones de membresía</h2><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 560 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.ax_svg1{stroke:#666}.cv_svg1{stroke-width:2.5;fill:none}.t_svg1{font:11px Roboto,Arial;fill:#ccc;text-anchor:middle}</style>
+  <line x1="30" y1="150" x2="530" y2="150" class="ax_svg1"/>
+  <line x1="30" y1="10"  x2="30"  y2="155" class="ax_svg1"/>
+  <!-- Triangular: fría -->
+  <polyline points="30,150 120,20 210,150" stroke="#4fc3f7" class="cv_svg1"/>
+  <text x="120" y="15" class="t_svg1" fill="#4fc3f7">Fría</text>
+  <!-- Triangular: templada -->
+  <polyline points="140,150 280,20 420,150" stroke="#0e7c7b" class="cv_svg1"/>
+  <text x="280" y="15" class="t_svg1" fill="#0e7c7b">Templada</text>
+  <!-- Trapezoidal: caliente -->
+  <polyline points="340,150 420,20 480,20 530,150" stroke="#e07b39" class="cv_svg1"/>
+  <text x="460" y="15" class="t_svg1" fill="#e07b39">Caliente</text>
+  <text x="280" y="168" class="t_svg1">Temperatura (°C)</text>
+  <text x="18" y="20"  class="t_svg1" transform="rotate(-90,18,20)">μ(x)</text>
+</svg></figure></section><section id="s-3-operaciones-difusas"><h2>3. Operaciones difusas</h2><div class="table-responsive"><table class="styled-table"><thead><tr><th>Operación</th><th>Fórmula</th></tr></thead><tbody><tr><td><strong>Unión</strong> (OR)</td><td>μ(A∪B) = max(μ_A, μ_B)</td></tr><tr><td><strong>Intersección</strong> (AND)</td><td>μ(A∩B) = min(μ_A, μ_B)</td></tr><tr><td><strong>Complemento</strong> (NOT)</td><td>μ(Ā) = 1 − μ_A</td></tr></tbody></table></div><pre class="code"><span class="kw">import</span> numpy as np
+
+<span class="kw">def</span> triangular(x, a, b, c):
+    <span class="cm"># Función de membresía triangular</span>
+    <span class="kw">return</span> np.maximum(0, np.minimum((x-a)/(b-a), (c-x)/(c-b)))
+
+x = np.linspace(0, 40, 400)
+fria     = triangular(x,  0, 10, 20)
+templada = triangular(x, 15, 25, 35)
+caliente = triangular(x, 30, 40, 50)</pre></section><section id="s-4-aplicaciones-reales"><h2>4. Aplicaciones reales</h2><ul><li><strong>Control de lavarropas</strong> (velocidad de centrifugado según nivel de suciedad).</li><li><strong>Cámaras automáticas</strong> (foco y exposición adaptativos).</li><li><strong>Control de trenes</strong> (frenado suave según distancia a la estación).</li><li><strong>Sistemas de diagnóstico médico</strong> (clasificación de síntomas imprecisos).</li></ul><div class="callout tip"><h4>Tip</h4><p>La lógica difusa brilla cuando las reglas son de tipo lingüístico: "si la temperatura es alta Y la humedad es mucha, entonces el riesgo de incendio es muy alto".</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="El grado de membresía gradual es la esencia de la lógica difusa."><div class="stem"><span class="n">Pregunta 1.</span> ¿Cuál es la diferencia fundamental entre lógica clásica y difusa?</div><button class="opt" data-c="1">La lógica difusa permite membresías parciales en [0,1]; la clásica solo 0 o 1</button><button class="opt" data-c="0">La lógica difusa es más rápida de computar</button><button class="opt" data-c="0">La lógica clásica maneja incertidumbre mejor</button><div class="feedback"></div></div><div class="q" data-exp="La intersección difusa usa el operador mínimo."><div class="stem"><span class="n">Pregunta 2.</span> Si μ_A(x) = 0.7 y μ_B(x) = 0.4, ¿cuál es μ(A∩B)?</div><button class="opt" data-c="1">0.4 (mínimo)</button><button class="opt" data-c="0">0.7 (máximo)</button><button class="opt" data-c="0">0.55 (promedio)</button><div class="feedback"></div></div><div class="q" data-exp="Triangular = sube linealmente hasta el pico, luego baja."><div class="stem"><span class="n">Pregunta 3.</span> Una función de membresía triangular para "joven" podría ser máxima (valor 1) en...</div><button class="opt" data-c="1">Un punto central (e.g., 25 años) y decrecer a ambos lados</button><button class="opt" data-c="0">Solo en el valor mínimo</button><button class="opt" data-c="0">Todos los valores por igual</button><div class="feedback"></div></div><div class="q" data-exp="Unión difusa = max, igual que OR en lógica booleana tiende al máximo."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué operador difuso equivale al OR lógico?</div><button class="opt" data-c="1">Máximo de los valores de membresía</button><button class="opt" data-c="0">Mínimo</button><button class="opt" data-c="0">Producto</button><div class="feedback"></div></div><div class="q" data-exp="Fuzzy logic dominó el control industrial japonés en los 80-90 con reglas lingüísticas."><div class="stem"><span class="n">Pregunta 5.</span> ¿En qué aplicación de control industrial es más conocida la lógica difusa?</div><button class="opt" data-c="1">Control de electrodomésticos (lavarropas, aire acondicionado) y trenes</button><button class="opt" data-c="0">Entrenamiento de redes neuronales</button><button class="opt" data-c="0">Clasificación de imágenes médicas</button><div class="feedback"></div></div><div class="q" data-exp="Complemento = 1 - μ, análogo al NOT booleano."><div class="stem"><span class="n">Pregunta 6.</span> El complemento difuso de μ_A(x) = 0.3 es...</div><button class="opt" data-c="1">0.7 (1 - 0.3)</button><button class="opt" data-c="0">0.3</button><button class="opt" data-c="0">0</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>La lógica difusa extiende la lógica clásica al continuo [0,1] mediante funciones de membresía y operadores max/min. <strong>Semana 12 Vie:</strong> sistemas de inferencia difusa (Mamdani) — de las reglas lingüísticas a una decisión concreta.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 12 · Sesión 1 · Lógica difusa — conjuntos y funciones de membresía</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

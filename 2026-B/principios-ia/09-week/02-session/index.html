@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 9 · Sesgo-varianza, regularización y selección de modelos | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 9 · Sesión 2 · Sesgo-varianza, regularización y selección de modelos</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-el-dilema-sesgo-varianza">El dilema sesgo-varianza</a></li><li><a href="#s-2-curvas-de-aprendizaje">Curvas de aprendizaje</a></li><li><a href="#s-3-regularizacion">Regularización</a></li><li><a href="#s-4-busqueda-de-hiperparametros">Búsqueda de hiperparámetros</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Sesgo-varianza, regularización y selección de modelos</h1>
+    <p class="lead">Todo modelo de ML enfrenta el mismo dilema: ser suficientemente complejo para capturar el patrón pero no tanto que memorice el ruido. El framework sesgo-varianza da el vocabulario preciso para diagnosticar y corregir este balance.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Definir sesgo y varianza en el contexto de ML.</p></div><div class="objective-card"><span class="num">2</span><p>Usar curvas de aprendizaje para diagnosticar underfitting y overfitting.</p></div><div class="objective-card"><span class="num">3</span><p>Aplicar regularización L1 (Lasso) y L2 (Ridge) en regresión.</p></div><div class="objective-card"><span class="num">4</span><p>Seleccionar hiperparámetros con búsqueda en cuadrícula (GridSearchCV).</p></div></div>
+  </section>
+  <section id="s-1-el-dilema-sesgo-varianza"><h2>1. El dilema sesgo-varianza</h2><div class="callout info"><h4>Nota</h4><p><strong>Sesgo (Bias):</strong> error por suposiciones erróneas del modelo — demasiado simple para los datos (underfitting). <strong>Varianza:</strong> error por sensibilidad al ruido — demasiado complejo (overfitting). El objetivo es minimizar ambos simultáneamente.</p></div><div class="table-responsive"><table class="styled-table"><thead><tr><th>Situación</th><th>Error entrenamiento</th><th>Error prueba</th><th>Diagnóstico</th></tr></thead><tbody><tr><td>Underfitting</td><td>Alto</td><td>Alto</td><td>Modelo demasiado simple</td></tr><tr><td>Overfitting</td><td>Bajo</td><td>Alto</td><td>Modelo demasiado complejo</td></tr><tr><td><strong>Correcto</strong></td><td><strong>Bajo</strong></td><td><strong>Bajo</strong></td><td><strong>Balance</strong></td></tr></tbody></table></div></section><section id="s-2-curvas-de-aprendizaje"><h2>2. Curvas de aprendizaje</h2><pre class="code">from sklearn.model_selection <span class="kw">import</span> learning_curve
+<span class="kw">import</span> matplotlib.pyplot as plt
+<span class="kw">import</span> numpy as np
+
+tam, tr_scores, val_scores = learning_curve(
+    modelo, X, y, cv=5, train_sizes=np.linspace(0.1, 1.0, 10)
+)
+plt.plot(tam, tr_scores.mean(axis=1),  label="Entrenamiento")
+plt.plot(tam, val_scores.mean(axis=1), label="Validación")
+plt.xlabel("Tamaño del entrenamiento"); plt.legend(); plt.show()</pre></section><section id="s-3-regularizacion"><h2>3. Regularización</h2><p>Agrega un término de penalización al error para controlar la complejidad del modelo:</p><pre class="code">from sklearn.linear_model <span class="kw">import</span> Ridge, Lasso
+
+<span class="cm"># Ridge (L2): penaliza el cuadrado de los coeficientes</span>
+ridge = Ridge(alpha=1.0)
+
+<span class="cm"># Lasso (L1): penaliza el valor absoluto → puede llevar coeficientes a 0 (selección)</span>
+lasso = Lasso(alpha=0.1)</pre><div class="callout tip"><h4>Tip</h4><p><strong>Ridge</strong> distribuye la reducción entre todos los coeficientes. <strong>Lasso</strong> elimina coeficientes irrelevantes — hace selección automática de variables.</p></div></section><section id="s-4-busqueda-de-hiperparametros"><h2>4. Búsqueda de hiperparámetros</h2><pre class="code">from sklearn.model_selection <span class="kw">import</span> GridSearchCV
+
+param_grid = {'alpha': [0.001, 0.01, 0.1, 1.0, 10.0]}
+gs = GridSearchCV(Ridge(), param_grid, cv=5, scoring='neg_mean_squared_error')
+gs.fit(X_train, y_train)
+<span class="kw">print</span>("Mejor alpha:", gs.best_params_)</pre></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Alto sesgo = el modelo no logra aprender el patrón real."><div class="stem"><span class="n">Pregunta 1.</span> Un modelo con sesgo alto y varianza baja probablemente sufre de...</div><button class="opt" data-c="1">Underfitting — demasiado simple para capturar el patrón</button><button class="opt" data-c="0">Overfitting</button><button class="opt" data-c="0">Regularización excesiva</button><div class="feedback"></div></div><div class="q" data-exp="La brecha persistente entre train y validation es la firma del overfitting."><div class="stem"><span class="n">Pregunta 2.</span> Las curvas de aprendizaje muestran overfitting cuando...</div><button class="opt" data-c="1">El error de entrenamiento es bajo pero el de validación se mantiene alto con más datos</button><button class="opt" data-c="0">Ambos errores bajan al agregar más datos</button><button class="opt" data-c="0">El error de validación baja antes que el de entrenamiento</button><div class="feedback"></div></div><div class="q" data-exp="L1 produce modelos dispersos (sparse) con selección implícita de features."><div class="stem"><span class="n">Pregunta 3.</span> ¿Qué hace la regularización L1 (Lasso) que L2 (Ridge) no garantiza?</div><button class="opt" data-c="1">Llevar algunos coeficientes exactamente a cero — selección de variables</button><button class="opt" data-c="0">Reducir todos los coeficientes proporcionalmente</button><button class="opt" data-c="0">Aumentar la exactitud siempre</button><div class="feedback"></div></div><div class="q" data-exp="Cada combinación de hiperparámetros se evalúa con 5-fold CV."><div class="stem"><span class="n">Pregunta 4.</span> En GridSearchCV con cv=5, ¿cuántos entrenamientos se realizan para alpha=[0.001,0.01,0.1,1,10]?</div><button class="opt" data-c="1">25 (5 valores × 5 folds)</button><button class="opt" data-c="0">5</button><button class="opt" data-c="0">10</button><div class="feedback"></div></div><div class="q" data-exp="Alpha muy alto penaliza tanto que el modelo ignora los datos."><div class="stem"><span class="n">Pregunta 5.</span> ¿Qué ocurre si alpha en Ridge es muy grande?</div><button class="opt" data-c="1">Los coeficientes se acercan a cero — underfitting</button><button class="opt" data-c="0">El modelo memoriza los datos</button><button class="opt" data-c="0">No hay efecto</button><div class="feedback"></div></div><div class="q" data-exp="El conjunto de prueba solo se toca al final; la validación afina el modelo."><div class="stem"><span class="n">Pregunta 6.</span> El conjunto de validación (distinto al de prueba) se usa para...</div><button class="opt" data-c="1">Ajustar hiperparámetros sin contaminar la evaluación final</button><button class="opt" data-c="0">Entrenar el modelo</button><button class="opt" data-c="0">Reportar el desempeño final del sistema</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Sesgo y varianza son las dos caras del error en ML. Las curvas de aprendizaje lo diagnostican; la regularización (L1/L2) y la búsqueda de hiperparámetros lo corrigen. <strong>Semana 10:</strong> aprendizaje no supervisado — clustering y reducción de dimensiones.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 9 · Sesión 2 · Sesgo-varianza, regularización y selección de modelos</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

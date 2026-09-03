@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 12 · Inferencia difusa — sistema Mamdani | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 12 · Sesión 2 · Inferencia difusa — sistema Mamdani</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-las-cuatro-etapas-del-sistema-mamdani">Las cuatro etapas del sistema Mamdani</a></li><li><a href="#s-2-ejemplo-control-de-propina">Ejemplo: control de propina</a></li><li><a href="#s-3-defuzzificacion-el-centroide">Defuzzificación: el centroide</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Lógica Difusa · Corte 3</span>
+    <h1>Inferencia difusa — sistema Mamdani</h1>
+    <p class="lead">Un sistema de inferencia difusa convierte entradas numéricas en una decisión usando reglas lingüísticas del tipo SI-ENTONCES. El método Mamdani es el más intuitivo y más usado en control industrial y sistemas expertos.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Describir las cuatro etapas del sistema Mamdani (fuzzificación → inferencia → agregación → defuzzificación).</p></div><div class="objective-card"><span class="num">2</span><p>Escribir reglas difusas SI-ENTONCES con conectivos AND/OR.</p></div><div class="objective-card"><span class="num">3</span><p>Aplicar el método del centroide para defuzzificar.</p></div><div class="objective-card"><span class="num">4</span><p>Construir un ejemplo completo de sistema difuso sencillo.</p></div></div>
+  </section>
+  <section id="s-1-las-cuatro-etapas-del-sistema-mamdani"><h2>1. Las cuatro etapas del sistema Mamdani</h2><pre class="ascii">Entradas numéricas
+       ↓
+[1] FUZZIFICACIÓN   → grados de membresía para cada variable
+       ↓
+[2] EVALUACIÓN DE   → aplicar reglas SI-ENTONCES con min/max
+    REGLAS
+       ↓
+[3] AGREGACIÓN      → combinar salidas de todas las reglas
+       ↓
+[4] DEFUZZIFICACIÓN → convertir el conjunto difuso de salida a un número
+       ↓
+Salida numérica (decisión)</pre></section><section id="s-2-ejemplo-control-de-propina"><h2>2. Ejemplo: control de propina</h2><p>Reglas:</p><ul><li>SI servicio es <strong>malo</strong> ENTONCES propina es <strong>baja</strong>.</li><li>SI servicio es <strong>bueno</strong> Y comida es <strong>buena</strong> ENTONCES propina es <strong>alta</strong>.</li><li>SI comida es <strong>excelente</strong> ENTONCES propina es <strong>generosa</strong>.</li></ul><pre class="code"><span class="kw">import</span> numpy as np
+
+<span class="cm"># Universos de discurso</span>
+servicio = np.arange(0, 11, 0.1)   <span class="cm"># 0-10</span>
+propina  = np.arange(0, 26, 0.5)   <span class="cm"># 0-25%</span>
+
+<span class="cm"># Funciones de membresía (simplificadas)</span>
+<span class="kw">def</span> trimf(x, a, b, c):
+    <span class="kw">return</span> np.clip(np.minimum((x-a)/(b-a+1e-9), (c-x)/(c-b+1e-9)), 0, 1)
+
+serv_malo   = trimf(servicio, 0, 0, 5)
+serv_bueno  = trimf(servicio, 3, 7, 10)
+prop_baja   = trimf(propina, 0, 5, 13)
+prop_alta   = trimf(propina, 13, 20, 25)
+
+<span class="cm"># Fuzzificación para servicio = 6.5</span>
+mu_malo  = <span class="kw">float</span>(trimf(np.array([6.5]), 0, 0, 5))
+mu_bueno = <span class="kw">float</span>(trimf(np.array([6.5]), 3, 7, 10))
+
+<span class="cm"># Inferencia (recorte con min)</span>
+regla1_salida = np.minimum(mu_malo,  prop_baja)
+regla2_salida = np.minimum(mu_bueno, prop_alta)
+
+<span class="cm"># Agregación (max)</span>
+agregado = np.maximum(regla1_salida, regla2_salida)
+
+<span class="cm"># Defuzzificación — centroide</span>
+centroide = np.sum(propina * agregado) / (np.sum(agregado) + 1e-9)
+<span class="kw">print</span>(f"Propina recomendada: {centroide:.1f}%")</pre></section><section id="s-3-defuzzificacion-el-centroide"><h2>3. Defuzzificación: el centroide</h2><div class="callout info"><h4>Nota</h4><p>El centroide (center of gravity) calcula el "centro de masa" del conjunto difuso de salida. Es el método más usado porque produce decisiones suaves y continuas.</p></div><pre class="ascii">COG = Σ(x · μ(x)) / Σμ(x)</pre></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="Fuzzificar = asignar a cada entrada su grado de pertenencia a los conjuntos lingüísticos."><div class="stem"><span class="n">Pregunta 1.</span> ¿Cuál es el propósito de la fuzzificación?</div><button class="opt" data-c="1">Convertir valores numéricos de entrada en grados de membresía de conjuntos difusos</button><button class="opt" data-c="0">Convertir la salida difusa a un número</button><button class="opt" data-c="0">Evaluar las reglas SI-ENTONCES</button><div class="feedback"></div></div><div class="q" data-exp="El recorte (clipping) con min limita la salida al grado de activación de la premisa."><div class="stem"><span class="n">Pregunta 2.</span> En el método Mamdani, la inferencia de cada regla típicamente usa el operador...</div><button class="opt" data-c="1">Mínimo (min) para cortar la salida al nivel de activación de la regla</button><button class="opt" data-c="0">Máximo</button><button class="opt" data-c="0">Producto</button><div class="feedback"></div></div><div class="q" data-exp="La unión de los recortes de todas las reglas forma el conjunto difuso final."><div class="stem"><span class="n">Pregunta 3.</span> La agregación de múltiples reglas usa el operador...</div><button class="opt" data-c="1">Máximo (max) — combina las salidas de todas las reglas activas</button><button class="opt" data-c="0">Mínimo</button><button class="opt" data-c="0">Suma</button><div class="feedback"></div></div><div class="q" data-exp="COG pondera cada punto por su membresía, produciendo una salida continua y suave."><div class="stem"><span class="n">Pregunta 4.</span> El método del centroide devuelve...</div><button class="opt" data-c="1">El centro de masa del conjunto difuso de salida — una decisión numérica concreta</button><button class="opt" data-c="0">El máximo del conjunto difuso</button><button class="opt" data-c="0">El punto medio del universo de discurso</button><div class="feedback"></div></div><div class="q" data-exp="Un experto puede escribir &quot;si temperatura es alta entonces enfriar mucho&quot; directamente."><div class="stem"><span class="n">Pregunta 5.</span> ¿Por qué los sistemas Mamdani son valorados en ingeniería?</div><button class="opt" data-c="1">Sus reglas son lingüísticas e interpretables por expertos humanos sin formación matemática</button><button class="opt" data-c="0">Son los más precisos de todos los controladores</button><button class="opt" data-c="0">No requieren calibración</button><div class="feedback"></div></div><div class="q" data-exp="Interpretabilidad vs. potencia de aprendizaje automático — la trade-off central."><div class="stem"><span class="n">Pregunta 6.</span> ¿En qué se diferencia un sistema difuso de una red neuronal?</div><button class="opt" data-c="1">El sistema difuso usa reglas interpretables; la red neuronal es una caja negra de pesos</button><button class="opt" data-c="0">Las redes neuronales son más lentas</button><button class="opt" data-c="0">El sistema difuso aprende de datos automáticamente</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>El sistema Mamdani convierte entradas en decisiones mediante 4 pasos: fuzzificación → inferencia (min) → agregación (max) → defuzzificación (centroide). <strong>Semana 13:</strong> impactos sociales y ética de la IA — el uso responsable.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 12 · Sesión 2 · Inferencia difusa — sistema Mamdani</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

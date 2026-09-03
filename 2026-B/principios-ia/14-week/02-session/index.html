@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 14 · Taller presencial — Orange y ML sin código | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 14 · Sesión 2 · Taller presencial — Orange y ML sin código</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-que-es-orange">¿Qué es Orange?</a></li><li><a href="#s-2-flujo-basico-de-clasificacion">Flujo básico de clasificación</a></li><li><a href="#s-3-actividad-dataset-personalizado">Actividad: dataset personalizado</a></li><li><a href="#s-4-weka-alternativa-clasica">Weka — alternativa clásica</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Herramientas · Corte 3 (Presencial)</span>
+    <h1>Taller presencial — Orange y ML sin código</h1>
+    <p class="lead">Orange es una plataforma visual de ML donde los algoritmos se conectan como bloques. Sin escribir una línea de código puedes cargar datos, entrenar modelos, comparar algoritmos y visualizar resultados. Ideal para explorar conceptos y explicarlos a audiencias no técnicas.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Instalar y navegar la interfaz de Orange.</p></div><div class="objective-card"><span class="num">2</span><p>Construir un flujo completo de clasificación con bloques visuales.</p></div><div class="objective-card"><span class="num">3</span><p>Comparar modelos usando el widget Test &amp; Score.</p></div><div class="objective-card"><span class="num">4</span><p>Exportar y documentar los resultados del taller.</p></div></div>
+  </section>
+  <section id="s-1-que-es-orange"><h2>1. ¿Qué es Orange?</h2><div class="callout info"><h4>Nota</h4><p>Orange (orange.biolab.si) es software de código abierto para análisis de datos visual. Cada operación —cargar datos, limpiar, entrenar, evaluar— es un <strong>widget</strong> que se conecta a otros formando flujos de trabajo sin escribir código.</p></div></section><section id="s-2-flujo-basico-de-clasificacion"><h2>2. Flujo básico de clasificación</h2><pre class="ascii">[File] → [Data Table] → [Select Columns]
+                               ↓
+               [Logistic Regression]  [Random Forest]  [Naive Bayes]
+                               ↓              ↓              ↓
+                          [Test &amp; Score] ← conectar los tres modelos
+                               ↓
+                     [Confusion Matrix]  [ROC Analysis]</pre><h3>Pasos en el taller</h3><ol><li><strong>Widget File</strong> → cargar <code>iris.csv</code> o <code>titanic.csv</code>.</li><li><strong>Data Table</strong> → explorar filas y columnas.</li><li><strong>Select Columns</strong> → definir variable objetivo (target).</li><li><strong>Arrastrar</strong> 3 clasificadores al canvas.</li><li><strong>Test &amp; Score</strong> → conectar los clasificadores; revisar AUC, F1, accuracy.</li><li><strong>Confusion Matrix</strong> → ver errores por clase.</li><li><strong>ROC Analysis</strong> → comparar curvas de los modelos.</li></ol></section><section id="s-3-actividad-dataset-personalizado" class="activity-section"><h2>3. Actividad: dataset personalizado</h2><pre class="ascii">Actividad del taller:
+1. Descargar dataset de Kaggle (heart disease, diabetes, o iris).
+2. Cargar en Orange con widget File.
+3. Visualizar distribuciones con Distribution y Scatter Plot.
+4. Entrenar: árbol de decisión + SVM + kNN.
+5. Comparar en Test &amp; Score (CV = 10 folds).
+6. Documentar el mejor modelo con captura de pantalla.
+7. Interpretar la matriz de confusión del mejor modelo.</pre><div class="callout tip"><h4>Tip</h4><p>Orange permite exportar el flujo como imagen (.ows) y los resultados como CSV. Documenta tu taller guardando el archivo .ows — puede reproducirse exactamente en otra máquina.</p></div></section><section id="s-4-weka-alternativa-clasica"><h2>4. Weka — alternativa clásica</h2><p>Weka (cs.waikato.ac.nz/ml/weka) es el estándar académico clásico: interfaz Java, amplia colección de algoritmos y exportación a código Java. Útil cuando se requiere integración con sistemas Java o comparación con literatura antigua.</p></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="La interfaz de arrastrar-y-soltar hace ML accesible sin barreras de programación."><div class="stem"><span class="n">Pregunta 1.</span> ¿Cuál es la ventaja principal de Orange para una audiencia no técnica?</div><button class="opt" data-c="1">Permite explorar ML visualmente sin escribir código</button><button class="opt" data-c="0">Es más preciso que scikit-learn</button><button class="opt" data-c="0">Tiene más algoritmos disponibles</button><div class="feedback"></div></div><div class="q" data-exp="Test &amp; Score es el equivalente visual de cross_val_score para múltiples modelos."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué hace el widget "Test &amp; Score" en Orange?</div><button class="opt" data-c="1">Evalúa y compara múltiples modelos con validación cruzada automáticamente</button><button class="opt" data-c="0">Entrena el modelo final para producción</button><button class="opt" data-c="0">Limpia los datos de valores faltantes</button><div class="feedback"></div></div><div class="q" data-exp="El rol de target puede asignarse en Select Columns o directamente en el widget File."><div class="stem"><span class="n">Pregunta 3.</span> ¿Cómo se define la variable objetivo (target) en Orange?</div><button class="opt" data-c="1">Con el widget "Select Columns" o configurando el rol de la columna en "File"</button><button class="opt" data-c="0">Siempre es la última columna del dataset</button><button class="opt" data-c="0">Se define en el widget "Test &amp; Score"</button><div class="feedback"></div></div><div class="q" data-exp="Scatter Plot es clave para exploración visual — revela clusters, outliers y separabilidad."><div class="stem"><span class="n">Pregunta 4.</span> ¿Qué permite el widget "Scatter Plot" en Orange?</div><button class="opt" data-c="1">Visualizar la relación entre dos variables y colorear puntos por clase</button><button class="opt" data-c="0">Entrenar modelos de regresión</button><button class="opt" data-c="0">Comparar AUC de múltiples modelos</button><div class="feedback"></div></div><div class="q" data-exp="La reproducibilidad es un principio fundamental en ciencia de datos."><div class="stem"><span class="n">Pregunta 5.</span> ¿Por qué guardar el archivo .ows del flujo en Orange?</div><button class="opt" data-c="1">Permite reproducir exactamente el análisis en otra máquina o en otra sesión</button><button class="opt" data-c="0">Es necesario para exportar los datos</button><button class="opt" data-c="0">Guarda los datos del dataset automáticamente</button><div class="feedback"></div></div><div class="q" data-exp="Weka fue el estándar académico por décadas; Orange es su sucesor visual moderno."><div class="stem"><span class="n">Pregunta 6.</span> ¿En qué se diferencia Orange de Weka?</div><button class="opt" data-c="1">Orange tiene interfaz moderna visual con Python; Weka es clásico con Java y más antiguo</button><button class="opt" data-c="0">Weka es gratuito y Orange de pago</button><button class="opt" data-c="0">Orange solo corre en Mac</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Orange democratiza el ML con flujos visuales reproducibles. El taller valida experimentalmente los conceptos del curso sin barreras de código. <strong>Semana 15 (presencial):</strong> integración end-to-end — de datos crudos al modelo desplegado — y asesoría de proyectos finales.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 14 · Sesión 2 · Taller presencial — Orange y ML sin código</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

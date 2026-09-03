@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 6 · Regresión lineal — el modelo más sencillo | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 6 · Sesión 2 · Regresión lineal — el modelo más sencillo</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-la-idea-central">La idea central</a></li><li><a href="#s-2-error-cuadratico-medio-mse">Error cuadrático medio (MSE)</a></li><li><a href="#s-3-descenso-por-gradiente">Descenso por gradiente</a></li><li><a href="#s-4-interpretar-los-coeficientes">Interpretar los coeficientes</a></li><li><a href="#s-5-errores-comunes">Errores comunes</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 2 · Machine Learning · Corte 2</span>
+    <h1>Regresión lineal — el modelo más sencillo</h1>
+    <p class="lead">Antes de redes neuronales o árboles, existe la regresión lineal: sencilla, interpretable y sorprendentemente poderosa. Entenderla a fondo es entender <em>cómo aprende</em> cualquier modelo — minimizar un error ajustando parámetros.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Formular la regresión lineal simple como y = wx + b.</p></div><div class="objective-card"><span class="num">2</span><p>Explicar la función de costo MSE y por qué se minimiza.</p></div><div class="objective-card"><span class="num">3</span><p>Describir el descenso por gradiente paso a paso.</p></div><div class="objective-card"><span class="num">4</span><p>Interpretar los coeficientes del modelo en contexto real.</p></div></div>
+  </section>
+  <section id="s-1-la-idea-central"><h2>1. La idea central</h2><div class="callout info"><h4>Nota</h4><p>Una recta <strong>y = wx + b</strong> predice un valor continuo a partir de una entrada. El modelo <em>aprende</em> los valores de <strong>w</strong> (pendiente) y <strong>b</strong> (intercepto) que mejor se ajustan a los datos.</p></div><p>Ejemplo: predecir el precio de una casa (y) a partir de su área en m² (x).</p></section><section id="s-2-error-cuadratico-medio-mse"><h2>2. Error cuadrático medio (MSE)</h2><p>Para medir qué tan lejos están las predicciones de los valores reales usamos el <strong>MSE</strong>:</p><pre class="ascii">MSE = (1/n) · Σ (yᵢ - ŷᵢ)²</pre><ul><li>yᵢ = valor real · ŷᵢ = predicción</li><li>Elevamos al cuadrado para penalizar más los errores grandes y evitar cancelaciones.</li></ul><figure class="ova-svg" style="margin:1.6rem 0;text-align:center;overflow-x:auto;"><svg viewBox="0 0 500 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <style>.ax_svg1{stroke:#666}.pt_svg1{fill:#e07b39}.ln_svg1{stroke:#0e7c7b;stroke-width:2.5}.er_svg1{stroke:#c00;stroke-width:1.5;stroke-dasharray:4}</style>
+  <line x1="50" y1="170" x2="470" y2="170" class="ax_svg1"/>
+  <line x1="50" y1="170" x2="50" y2="20" class="ax_svg1"/>
+  <line x1="80" y1="150" x2="440" y2="50" class="ln_svg1"/>
+  <circle cx="120" cy="130" r="5" class="pt_svg1"/><line x1="120" y1="130" x2="120" y2="118" class="er_svg1"/>
+  <circle cx="200" cy="100" r="5" class="pt_svg1"/><line x1="200" y1="100" x2="200" y2="122" class="er_svg1"/>
+  <circle cx="300" cy="75"  r="5" class="pt_svg1"/><line x1="300" y1="75"  x2="300" y2="87"  class="er_svg1"/>
+  <circle cx="400" cy="55"  r="5" class="pt_svg1"/><line x1="400" y1="55"  x2="400" y2="63"  class="er_svg1"/>
+  <text x="255" y="190" font-size="11" fill="#999" text-anchor="middle">Área (m²)</text>
+  <text x="35" y="100" font-size="11" fill="#999" text-anchor="middle" transform="rotate(-90,35,100)">Precio</text>
+</svg></figure></section><section id="s-3-descenso-por-gradiente"><h2>3. Descenso por gradiente</h2><p>El algoritmo ajusta w y b iterativamente en la dirección que reduce el MSE:</p><pre class="code"><span class="kw">def</span> entrenar(X, y, lr=0.01, epocas=1000):
+    w, b = 0.0, 0.0
+    n = len(X)
+    <span class="kw">for</span> _ in range(epocas):
+        y_pred = w * X + b
+        dw = (-2/n) * sum(X * (y - y_pred))
+        db = (-2/n) * sum(y - y_pred)
+        w -= lr * dw   <span class="cm"># mover w en sentido contrario al gradiente</span>
+        b -= lr * db
+    <span class="kw">return</span> w, b</pre><div class="callout tip"><h4>Tip</h4><p><strong>lr</strong> (learning rate) controla el tamaño del paso. Demasiado grande = oscilación; demasiado pequeño = convergencia lenta.</p></div></section><section id="s-4-interpretar-los-coeficientes"><h2>4. Interpretar los coeficientes</h2><ul><li><strong>w = 1 500</strong> → por cada m² adicional, el precio sube $1 500.</li><li><strong>b = 20 000</strong> → precio base estimado de una casa de 0 m² (intercepto, a veces no tiene sentido literal).</li></ul></section><section id="s-5-errores-comunes"><h2>5. Errores comunes</h2><ul><li>No escalar las variables (las de rangos grandes dominan el gradiente).</li><li>Usar regresión lineal en relaciones claramente no lineales.</li><li>Evaluar solo con MSE y no visualizar los residuales.</li></ul></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="w es el coeficiente que pondera la variable de entrada."><div class="stem"><span class="n">Pregunta 1.</span> En y = wx + b, ¿qué representa w?</div><button class="opt" data-c="1">La pendiente — cuánto cambia y por unidad de x</button><button class="opt" data-c="0">El error del modelo</button><button class="opt" data-c="0">El valor de y cuando x = 0</button><div class="feedback"></div></div><div class="q" data-exp="Elevar al cuadrado amplifica errores grandes y garantiza valores positivos."><div class="stem"><span class="n">Pregunta 2.</span> ¿Por qué se usa el cuadrado del error en MSE?</div><button class="opt" data-c="1">Penaliza errores grandes y evita que positivos y negativos se cancelen</button><button class="opt" data-c="0">Es más fácil de calcular</button><button class="opt" data-c="0">Da la misma penalización a todos los errores</button><div class="feedback"></div></div><div class="q" data-exp="El gradiente apunta al ascenso; moverse al contrario desciende el error."><div class="stem"><span class="n">Pregunta 3.</span> El descenso por gradiente mueve los parámetros...</div><button class="opt" data-c="1">En la dirección que reduce la función de costo</button><button class="opt" data-c="0">En dirección aleatoria</button><button class="opt" data-c="0">Solo cuando el error es mayor a 1</button><div class="feedback"></div></div><div class="q" data-exp="Pasos demasiado grandes saltan el mínimo repetidamente."><div class="stem"><span class="n">Pregunta 4.</span> Un learning rate muy alto puede causar...</div><button class="opt" data-c="1">Oscilación o divergencia del entrenamiento</button><button class="opt" data-c="0">Convergencia más rápida y estable</button><button class="opt" data-c="0">Overfitting garantizado</button><div class="feedback"></div></div><div class="q" data-exp="w es la tasa de cambio entre la entrada y la salida."><div class="stem"><span class="n">Pregunta 5.</span> Si w = 2 000 en un modelo precio/m², ¿qué significa?</div><button class="opt" data-c="1">Cada m² adicional agrega $2 000 al precio estimado</button><button class="opt" data-c="0">El precio base es $2 000</button><button class="opt" data-c="0">El error es $2 000</button><div class="feedback"></div></div><div class="q" data-exp="Predecir un valor continuo a partir de una o más variables es el caso de regresión."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál de estos problemas es adecuado para regresión lineal?</div><button class="opt" data-c="1">Predecir temperatura mañana dado el historial de días anteriores</button><button class="opt" data-c="0">Clasificar emails en spam/no spam</button><button class="opt" data-c="0">Agrupar países por indicadores económicos</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>La regresión lineal aprende una recta ajustando w y b para minimizar el MSE mediante descenso por gradiente. Es el modelo base cuya mecánica —función de costo + optimización iterativa— se replica en todos los demás algoritmos de ML. <strong>Semana 7:</strong> clasificación binaria con regresión logística.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 6 · Sesión 2 · Regresión lineal — el modelo más sencillo</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>

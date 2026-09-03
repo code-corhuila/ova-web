@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principios de Inteligencia Artificial · Semana 14 · Herramientas de IA para principiantes — Google Colab y scikit-learn | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=303bd1b3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Principios de Inteligencia Artificial</span><span class="brand-topic">Semana 14 · Sesión 1 · Herramientas de IA para principiantes — Google Colab y scikit-learn</span></div>
+    <div class="brand-meta">CORHUILA<br>Ingeniería en Inteligencia Artificial · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-google-colab-el-entorno-sin-instalacion">Google Colab — el entorno sin instalación</a></li><li><a href="#s-2-carga-y-exploracion-de-datos">Carga y exploración de datos</a></li><li><a href="#s-3-pipeline-completo-en-20-lineas">Pipeline completo en 20 líneas</a></li><li><a href="#s-4-guardar-y-cargar-el-modelo">Guardar y cargar el modelo</a></li><li><a href="#autoevaluacion">Autoevaluación</a></li><li><a href="#cierre-de-la-sesion">Cierre de la sesión</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Herramientas · Corte 3 (Presencial)</span>
+    <h1>Herramientas de IA para principiantes — Google Colab y scikit-learn</h1>
+    <p class="lead">La teoría cobra vida con las herramientas correctas. Esta sesión presencial recorre el ecosistema práctico: Google Colab como entorno sin instalación, scikit-learn para ML clásico, y los pasos para ir de un CSV a un modelo funcional en menos de una hora.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Configurar y usar Google Colab para ejecutar Python sin instalación local.</p></div><div class="objective-card"><span class="num">2</span><p>Cargar, explorar y preparar un dataset con pandas.</p></div><div class="objective-card"><span class="num">3</span><p>Entrenar y evaluar un modelo completo con scikit-learn.</p></div><div class="objective-card"><span class="num">4</span><p>Guardar y cargar un modelo entrenado para reutilizarlo.</p></div></div>
+  </section>
+  <section id="s-1-google-colab-el-entorno-sin-instalacion"><h2>1. Google Colab — el entorno sin instalación</h2><div class="callout info"><h4>Nota</h4><p>Google Colab proporciona una GPU gratuita en la nube. Accede en colab.research.google.com con tu cuenta Google, crea un notebook y ejecuta Python en celdas de código sin instalar nada localmente.</p></div><p>Atajos esenciales:</p><ul><li><code>Ctrl+Enter</code> — ejecutar celda actual.</li><li><code>Shift+Enter</code> — ejecutar y avanzar a la siguiente.</li><li><code>Ctrl+M B</code> — insertar celda debajo.</li></ul></section><section id="s-2-carga-y-exploracion-de-datos"><h2>2. Carga y exploración de datos</h2><pre class="code"><span class="kw">import</span> pandas as pd
+<span class="kw">import</span> seaborn as sns
+<span class="kw">import</span> matplotlib.pyplot as plt
+
+<span class="cm"># Cargar desde URL o subir archivo</span>
+df = pd.read_csv("https:<span class="cm">//raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")</span>
+
+<span class="kw">print</span>(df.shape)           <span class="cm"># (891, 12)</span>
+<span class="kw">print</span>(df.info())          <span class="cm"># tipos y valores faltantes</span>
+<span class="kw">print</span>(df.describe())      <span class="cm"># estadísticas descriptivas</span>
+df.hist(figsize=(12,8)); plt.show()
+
+<span class="cm"># Correlaciones</span>
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')
+plt.show()</pre></section><section id="s-3-pipeline-completo-en-20-lineas"><h2>3. Pipeline completo en 20 líneas</h2><pre class="code">from sklearn.pipeline <span class="kw">import</span> Pipeline
+from sklearn.preprocessing <span class="kw">import</span> StandardScaler
+from sklearn.impute <span class="kw">import</span> SimpleImputer
+from sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
+from sklearn.model_selection <span class="kw">import</span> train_test_split, cross_val_score
+
+<span class="cm"># Preparar datos</span>
+X = df[['Pclass','Age','SibSp','Parch','Fare']].copy()
+y = df['Survived']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+<span class="cm"># Pipeline: imputar nulos → escalar → modelo</span>
+pipe = Pipeline([
+    ('imp',   SimpleImputer(strategy='median')),
+    ('scl',   StandardScaler()),
+    ('model', RandomForestClassifier(n_estimators=100, random_state=42)),
+])
+pipe.fit(X_train, y_train)
+<span class="kw">print</span>(f"Test accuracy: {pipe.score(X_test, y_test):.2%}")
+<span class="kw">print</span>(f"CV (5-fold):   {cross_val_score(pipe, X, y, cv=5).mean():.2%}")</pre></section><section id="s-4-guardar-y-cargar-el-modelo"><h2>4. Guardar y cargar el modelo</h2><pre class="code"><span class="kw">import</span> joblib
+
+joblib.dump(pipe, 'modelo_titanic.pkl')   <span class="cm"># guardar</span>
+
+pipe_cargado = joblib.load('modelo_titanic.pkl')   <span class="cm"># cargar en otro entorno</span>
+prediccion   = pipe_cargado.predict([[3, 22, 1, 0, 7.25]])
+<span class="kw">print</span>("Sobrevive:", prediccion[0])</pre><div class="callout tip"><h4>Tip</h4><p>Guarda también el <code>StandardScaler</code> ajustado dentro del Pipeline — si lo entrenan por separado, corres el riesgo de escalar con estadísticos distintos en producción.</p></div></section><section id="autoevaluacion"><h2>Autoevaluación</h2><div class="quiz" id="quiz"><div class="quiz-progress"><span id="quizAnswered">0</span> de 6 respondidas</div><div class="q" data-exp="La barrera de entrada es casi cero — solo una cuenta Google y un browser."><div class="stem"><span class="n">Pregunta 1.</span> ¿Por qué Google Colab es ideal para comenzar con ML?</div><button class="opt" data-c="1">Provee GPU gratuita y Python preinstalado — no requiere configuración local</button><button class="opt" data-c="0">Es más rápido que una máquina local siempre</button><button class="opt" data-c="0">Tiene las mejores librerías de IA propietarias</button><div class="feedback"></div></div><div class="q" data-exp="La mediana es robusta a outliers — mejor que la media para variables sesgadas."><div class="stem"><span class="n">Pregunta 2.</span> ¿Qué hace SimpleImputer(strategy='median')?</div><button class="opt" data-c="1">Reemplaza valores faltantes con la mediana de cada columna</button><button class="opt" data-c="0">Elimina filas con valores faltantes</button><button class="opt" data-c="0">Reemplaza con la media</button><div class="feedback"></div></div><div class="q" data-exp="Sin Pipeline, si escalas antes de dividir, el test contamina el ajuste del scaler."><div class="stem"><span class="n">Pregunta 3.</span> ¿Por qué usar Pipeline en lugar de pasos manuales?</div><button class="opt" data-c="1">Evita data leakage — el scaler solo aprende estadísticos del conjunto de entrenamiento</button><button class="opt" data-c="0">Es más rápido de ejecutar</button><button class="opt" data-c="0">Solo funciona con RandomForest</button><div class="feedback"></div></div><div class="q" data-exp="Persistencia del modelo = no hay que reentrenar cada vez."><div class="stem"><span class="n">Pregunta 4.</span> joblib.dump() sirve para...</div><button class="opt" data-c="1">Serializar y guardar el modelo entrenado en disco para reutilizarlo</button><button class="opt" data-c="0">Subir el modelo a Google Colab</button><button class="opt" data-c="0">Evaluar el modelo en nuevos datos</button><div class="feedback"></div></div><div class="q" data-exp="info() muestra dtype y non-null count — esencial para detectar columnas con NaN."><div class="stem"><span class="n">Pregunta 5.</span> ¿Qué información entrega df.info() que df.describe() no da?</div><button class="opt" data-c="1">Tipos de datos y conteo de valores no nulos (revela columnas con faltantes)</button><button class="opt" data-c="0">Estadísticas como media y desviación estándar</button><button class="opt" data-c="0">Correlaciones entre columnas</button><div class="feedback"></div></div><div class="q" data-exp="Un único split puede ser afortunado o desafortunado; CV promedia k particiones."><div class="stem"><span class="n">Pregunta 6.</span> ¿Cuál es la ventaja de cross_val_score frente a un único score en test?</div><button class="opt" data-c="1">Estima el desempeño con menor varianza al promediar k particiones</button><button class="opt" data-c="0">Siempre da mayor exactitud</button><button class="opt" data-c="0">Entrena el modelo más rápido</button><div class="feedback"></div></div><div class="quiz-result" id="quizResult"><div>Tu puntaje</div><div class="score" id="quizScore">0/6</div><div id="quizMsg"></div></div></div></section><section id="cierre-de-la-sesion"><h2>Cierre de la sesión</h2><p>Colab + pandas + scikit-learn Pipeline es el stack mínimo para ML en producción académica. El pipeline encapsula preprocesamiento y modelo — portable, reproducible y sin data leakage. <strong>Semana 14 Vie (presencial):</strong> taller hands-on con Orange para ML sin código.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Principios de Inteligencia Artificial</strong> <span class="sep">·</span> Semana 14 · Sesión 1 · Herramientas de IA para principiantes — Google Colab y scikit-learn</p>
+  <p>Ingeniería en Inteligencia Artificial <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=303bd1b3"></script>
+</body>
+</html>
