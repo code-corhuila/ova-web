@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitectura y Diseño de Software · Unidad 1 · Modela y documenta tu arquitectura: C4 en PlantUML y ADR, de cero | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=9cdae14b">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Arquitectura y Diseño de Software</span><span class="brand-topic">Unidad 1 · Sesión 1 · Modela y documenta tu arquitectura: C4 en PlantUML y ADR, de cero</span></div>
+    <div class="brand-meta">CORHUILA<br>Especialización en Ingeniería de Software · Posgrado · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-0-antes-de-empezar">Antes de empezar</a></li><li><a href="#s-1-abre-el-editor-y-comprueba-que-funciona">Abre el editor y comprueba que funciona</a></li><li><a href="#s-2-activa-la-libreria-c4">Activa la librería C4</a></li><li><a href="#s-3-c1-diagrama-de-contexto">C1 — Diagrama de contexto</a></li><li><a href="#s-4-c2-diagrama-de-contenedores">C2 — Diagrama de contenedores</a></li><li><a href="#s-5-c3-despliegue-y-modelo-de-datos">C3, despliegue y modelo de datos</a></li><li><a href="#s-6-los-tres-diagramas-de-secuencia">Los tres diagramas de secuencia</a></li><li><a href="#s-7-exporta-los-diagramas">Exporta los diagramas</a></li><li><a href="#s-8-ruta-alterna-draw-io">Ruta alterna: draw.io</a></li><li><a href="#s-9-escribe-los-adr">Escribe los ADR</a></li><li><a href="#contexto">Contexto</a></li><li><a href="#decision">Decisión</a></li><li><a href="#alternativas-consideradas">Alternativas consideradas</a></li><li><a href="#consecuencias">Consecuencias</a></li><li><a href="#s-10-arma-el-paquete-de-entrega">Arma el paquete de entrega</a></li><li><a href="#s-11-antes-de-entregar">Antes de entregar</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Manual paso a paso</span>
+    <h1>Modela y documenta tu arquitectura: C4 en PlantUML y ADR, de cero</h1>
+    <p class="lead">El Entregable E del taller vale 20 % y es donde más gente se atasca. Aquí está el paso a paso completo, con herramientas gratuitas y sin instalar nada.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Producir los cuatro diagramas C4 del taller sin instalar software.</p></div><div class="objective-card"><span class="num">2</span><p>Escribir diagramas como texto con PlantUML y versionarlos junto al documento.</p></div><div class="objective-card"><span class="num">3</span><p>Construir los tres diagramas de secuencia exigidos por el enunciado.</p></div><div class="objective-card"><span class="num">4</span><p>Redactar ADR con una plantilla lista para copiar.</p></div><div class="objective-card"><span class="num">5</span><p>Armar el paquete de entrega tal como lo pide el enunciado.</p></div></div>
+  </section>
+  <section id="s-0-antes-de-empezar"><h2>0. Antes de empezar</h2><p>Este manual sirve para <strong>ejecutar</strong> el Entregable E (<em>Modelado completo</em>, 20 % de la nota) y el apartado «Decisiones clave» del Entregable C de la <strong>Actividad de Aprendizaje 1</strong>. No enseña arquitectura —eso está en la OVA de la sesión—: enseña a <strong>producir los artefactos</strong>.</p><p>Cada paso tiene tres partes:</p><ul><li><strong>Qué hacer</strong> — la acción concreta.</li><li><strong>Deberías ver</strong> — cómo compruebas que salió bien antes de seguir.</li><li><strong>Si algo salió mal</strong> — el problema típico y su solución.</li></ul><h3>Qué necesitas</h3><div class="table-responsive"><table class="styled-table"><thead><tr><th>Necesitas</th><th>Detalle</th></tr></thead><tbody><tr><td>Navegador</td><td>Cualquiera. <strong>No hay que instalar nada</strong></td></tr><tr><td>Cuenta</td><td>Ninguna obligatoria</td></tr><tr><td>Tiempo</td><td>60–90 minutos la primera vez</td></tr><tr><td>Opcional</td><td>VS Code + extensión PlantUML, si prefieres trabajar local</td></tr></tbody></table></div><h3>Qué vas a producir</h3><div class="table-responsive"><table class="styled-table"><thead><tr><th>Artefacto</th><th>Enunciado</th><th>Herramienta</th></tr></thead><tbody><tr><td>C1 · Contexto</td><td>Entregable E.1</td><td>PlantUML</td></tr><tr><td>C2 · Contenedores</td><td>Entregable E.2</td><td>PlantUML</td></tr><tr><td>C3 · Componentes</td><td>Entregable E.3</td><td>PlantUML</td></tr><tr><td>Despliegue</td><td>Entregable E.4</td><td>PlantUML</td></tr><tr><td>Modelo de datos conceptual</td><td>Entregable E.5</td><td>PlantUML</td></tr><tr><td>3 diagramas de secuencia</td><td>Entregable E.6</td><td>PlantUML</td></tr><tr><td>3+ ADR</td><td>Entregable C.3</td><td>Markdown</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p><strong>Por qué PlantUML y no draw.io.</strong> El enunciado pide entregar los diagramas <strong>y su fuente</strong>. Con PlantUML la fuente es un archivo de texto de 20 líneas: se corrige en segundos, se versiona en Git y no se desordena al mover una caja. Si prefieres arrastrar cajas, draw.io sirve igual; el paso 8 explica esa ruta.</p></div></section><section id="s-1-abre-el-editor-y-comprueba-que-funciona"><h2>1. Abre el editor y comprueba que funciona</h2><p><strong>Qué hacer.</strong> Entra a <a href="https://www.plantuml.com/plantuml/uml/">plantuml.com/plantuml</a>. Borra el contenido del cuadro de texto de la izquierda y pega esto:</p><pre class="code">@startuml
+Bob -&gt; Alice : Hola
+@enduml</pre><p>Presiona el botón <strong>Submit</strong>.</p><p><strong>Deberías ver.</strong> A la derecha, un diagrama con dos líneas verticales y una flecha rotulada «Hola».</p><p><strong>Si algo salió mal.</strong> Si aparece un mensaje de error en rojo, casi siempre falta <code>@startuml</code> o <code>@enduml</code>. Deben ser la primera y la última línea, sin espacios delante.</p></section><section id="s-2-activa-la-libreria-c4"><h2>2. Activa la librería C4</h2><p><strong>Qué hacer.</strong> Reemplaza todo el contenido por este bloque y presiona <strong>Submit</strong>:</p><pre class="code">@startuml
+!include &lt;C4/C4_Context&gt;
+title Prueba de la librería C4
+Person(u, "Usuario")
+<span class="kw">System</span>(s, "Sistema")
+Rel(u, s, "usa")
+@enduml</pre><p><strong>Deberías ver.</strong> Un muñeco azul rotulado «Usuario», una caja azul «Sistema» y una flecha «usa» entre ellos.</p><p><strong>Si algo salió mal.</strong> Si el diagrama sale pero sin colores ni el muñeco, la línea <code>!include</code> no se cargó: revisa que esté escrita exactamente <code>&lt;C4/C4_Context&gt;</code>, con esa barra y esas mayúsculas.</p><div class="callout info"><h4>Nota</h4><p><strong>Qué es C4.</strong> Un modelo de cuatro niveles de zoom para describir un sistema: <strong>C1 Contexto</strong> (el sistema y su entorno), <strong>C2 Contenedores</strong> (aplicaciones y bases de datos desplegables), <strong>C3 Componentes</strong> (las piezas dentro de un contenedor) y <strong>C4 Código</strong>. El taller pide los tres primeros más despliegue.</p></div></section><section id="s-3-c1-diagrama-de-contexto"><h2>3. C1 — Diagrama de contexto</h2><p><strong>Qué hacer.</strong> Pega este diagrama y ajústalo a la propuesta que tú decidiste.</p><pre class="code">@startuml C1-Contexto
+!include &lt;C4/C4_Context&gt;
+title C1 · Contexto — ParkKbus Suite
+
+Person(cliente,  "Usuario del parqueadero", "Ingresa, sale y paga")
+Person(cajero,   "Cajero / vigilante",      "Opera los puntos de control")
+Person(admin,    "Administrador",           "Gestiona sedes, tarifas y reportes")
+
+<span class="kw">System</span>(park, "ParkKbus Suite", "Control de acceso, tarifación, pagos y reportería multi-sede")
+
+System_Ext(pasarela,  "Pasarela de pagos",   "Cobros con tarjeta y transferencia")
+System_Ext(facturacion,"Sistema de facturación","Emisión de documentos")
+System_Ext(mensajeria,"Correo / SMS / Push",  "Notificaciones al usuario")
+System_Ext(camaras,   "Cámaras ANPR",         "Lectura de placas")
+
+Rel(cliente, park, "Ingresa, sale y paga")
+Rel(cajero,  park, "Registra movimientos")
+Rel(admin,   park, "Configura y consulta reportes")
+Rel(park, pasarela,   "Solicita cobro", "HTTPS")
+Rel(park, facturacion,"Emite factura",  "HTTPS")
+Rel(park, mensajeria, "Notifica",       "HTTPS / SMPP")
+Rel(camaras, park,    "Evento de placa detectada", "HTTPS")
+@enduml</pre><p><strong>Deberías ver.</strong> Tres muñecos a la izquierda, una caja azul oscuro en el centro y cuatro cajas grises alrededor.</p><p><strong>Si algo salió mal.</strong> Si una flecha no aparece, revisa que los identificadores de <code>Rel(...)</code> —<code>park</code>, <code>pasarela</code>, etc.— coincidan exactamente con los declarados arriba.</p><div class="callout warn"><h4>Cuidado</h4><p>En C1 el sistema es <strong>una sola caja</strong>. Es el error más común: meter aquí los microservicios. Los servicios aparecen en C2, no antes.</p></div></section><section id="s-4-c2-diagrama-de-contenedores"><h2>4. C2 — Diagrama de contenedores</h2><p><strong>Qué hacer.</strong> Este es el diagrama que <strong>muestra tu decisión arquitectónica</strong>. Ajústalo a lo que propusiste en el Entregable B: si elegiste monolito modular, habrá un contenedor de backend con módulos; si extraes capacidades, aparecerán como contenedores aparte.</p><pre class="code">@startuml C2-Contenedores
+!include &lt;C4/C4_Container&gt;
+title C2 · Contenedores — ParkKbus Suite (propuesta TO-BE)
+
+Person(cliente, "Usuario")
+Person(admin,   "Administrador")
+
+System_Boundary(park, "ParkKbus Suite") {
+  Container(app,     "App móvil",         "Flutter",           "Ingreso, salida y pago")
+  Container(portal,  "Portal admin",      "Angular",           "Configuración y reportes")
+  Container(core,    "Core operacional",  "Spring Boot",       "Tarifas, accesos, pagos. Hexagonal")
+  Container(reportes,"Servicio de reportes","Spring Boot",     "Consultas analíticas. Modelo de lectura")
+  Container(notif,   "Servicio de notificaciones","Spring Boot","Correo, SMS y push")
+  ContainerQueue(bus,"Bus de eventos",    "RabbitMQ",          "Desacopla core de lo no crítico")
+  ContainerDb(db,    "BD operacional",    "PostgreSQL",        "Escrituras del core")
+  ContainerDb(dbr,   "BD de lectura",     "PostgreSQL réplica","Vistas desnormalizadas")
+}
+
+System_Ext(pasarela, "Pasarela de pagos")
+
+Rel(cliente, app,    "Usa", "HTTPS")
+Rel(admin,   portal, "Usa", "HTTPS")
+Rel(app,     core,   "API REST", "JSON/HTTPS")
+Rel(portal,  core,   "API REST", "JSON/HTTPS")
+Rel(portal,  reportes,"Consulta reportes", "JSON/HTTPS")
+Rel(core,    db,     "Lee y escribe", "JDBC")
+Rel(core,    bus,    "Publica eventos")
+Rel(bus,     notif,  "Entrega eventos")
+Rel(bus,     reportes,"Alimenta proyecciones")
+Rel(reportes,dbr,    "Lee", "JDBC")
+Rel(core,    pasarela,"Cobra", "HTTPS")
+@enduml</pre><p><strong>Deberías ver.</strong> Un recuadro punteado que agrupa los contenedores, con la cola y las dos bases de datos dentro, y la pasarela por fuera.</p><p><strong>Si algo salió mal.</strong> Si <code>ContainerQueue</code> o <code>ContainerDb</code> no se reconocen, estás incluyendo <code>C4_Context</code> en lugar de <code>C4_Container</code>. Revisa la línea <code>!include</code>.</p><div class="callout tip"><h4>Tip</h4><p>Este diagrama debe <strong>coincidir</strong> con lo que escribiste en el Entregable B. Si el texto dice «monolito modular» y el C2 muestra seis servicios, el evaluador lo notará.</p></div></section><section id="s-5-c3-despliegue-y-modelo-de-datos"><h2>5. C3, despliegue y modelo de datos</h2><p><strong>Qué hacer.</strong> Tres diagramas más, uno por bloque. Haz el C3 <strong>solo del contenedor más importante</strong> de tu propuesta: no hace falta uno por contenedor.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-14976-0">C3 · Componentes</button><button class="tab-btn" data-tab="tab-14976-1">Despliegue</button><button class="tab-btn" data-tab="tab-14976-2">Modelo de datos</button></div><div class="tab-panel active" id="tab-14976-0"><pre class="code">@startuml C3-Componentes
+!include &lt;C4/C4_Component&gt;
+title C3 · Componentes del Core operacional
+
+Container_Boundary(core, "Core operacional") {
+  Component(ctrl,  "Controladores REST", "Spring MVC",  "Adaptadores primarios")
+  Component(uc,    "Casos de uso",       "Java",        "RegistrarIngreso, CerrarSalida, Cobrar")
+  Component(dom,   "Modelo de dominio",  "Java",        "Ticket, Tarifa, Sede, Cupo")
+  Component(ports, "Puertos de salida",  "Interfaces",  "Repositorios y pasarelas")
+  Component(jpa,   "Adaptador JPA",      "Spring Data", "Implementa repositorios")
+  Component(pay,   "Adaptador de pagos", "HTTP client", "Implementa PasarelaDePagos")
+}
+ContainerDb(db, "BD operacional", "PostgreSQL")
+System_Ext(ext,  "Pasarela de pagos")
+
+Rel(ctrl, uc,  "Invoca")
+Rel(uc,   dom, "Usa")
+Rel(uc,   ports,"Depende de")
+Rel(jpa,  ports,"Implementa")
+Rel(pay,  ports,"Implementa")
+Rel(jpa,  db,  "JDBC")
+Rel(pay,  ext, "HTTPS")
+@enduml</pre></div><div class="tab-panel" id="tab-14976-1"><pre class="code">@startuml Despliegue
+!include &lt;C4/C4_Deployment&gt;
+title Despliegue — ParkKbus Suite
+
+Deployment_Node(nube, "Proveedor cloud", "Región única") {
+  Deployment_Node(k8s, "Clúster de contenedores", "Docker") {
+    Container(core,     "Core operacional",  "Spring Boot", "2 réplicas")
+    Container(reportes, "Servicio de reportes","Spring Boot","1 réplica")
+    Container(notif,    "Notificaciones",    "Spring Boot", "1 réplica")
+    ContainerQueue(bus, "RabbitMQ",          "Mensajería")
+  }
+  Deployment_Node(bd, "Servicio gestionado de BD", "PostgreSQL") {
+    ContainerDb(db,  "BD operacional", "PostgreSQL")
+    ContainerDb(dbr, "Réplica lectura","PostgreSQL")
+  }
+}
+Deployment_Node(sede, "Sede / punto de control", "Hardware local") {
+  Container(term, "Terminal de control", "Navegador / app", "90 puntos")
+}
+Rel(term, core, "HTTPS")
+Rel(core, db,   "JDBC")
+Rel(core, bus,  "AMQP")
+Rel(reportes, dbr, "JDBC")
+@enduml</pre></div><div class="tab-panel" id="tab-14976-2"><pre class="code">@startuml ModeloDatos
+title Modelo conceptual — entidades clave
+hide circle
+skinparam linetype ortho
+
+entity Sede        { id : UUID }
+entity Zona        { id : UUID }
+entity TipoVehiculo{ id : UUID }
+entity Tarifa      { id : UUID \n modalidad : enum }
+entity Usuario     { id : UUID \n rol : enum }
+entity Ticket      { id : UUID \n entrada : timestamp \n salida : timestamp }
+entity Pago        { id : UUID \n medio : enum \n monto : decimal }
+entity Auditoria   { id : UUID \n accion : text }
+
+Sede        ||--o{ Zona        : contiene
+Zona        ||--o{ Ticket      : aloja
+TipoVehiculo||--o{ Tarifa      : rige
+Tarifa      ||--o{ Ticket      : aplica_a
+Ticket      ||--o| Pago        : genera
+Usuario     ||--o{ Ticket      : registra
+Usuario     ||--o{ Auditoria   : produce
+@enduml</pre></div></div><p><strong>Deberías ver.</strong> Tres diagramas distintos: componentes dentro de un recuadro, nodos de despliegue anidados, y un diagrama entidad-relación con líneas de cardinalidad.</p><p><strong>Si algo salió mal.</strong> En el modelo de datos, si las cardinalidades salen como texto suelto, revisa que uses exactamente <code>||--o{</code> (dos barras, dos guiones, llave).</p></section><section id="s-6-los-tres-diagramas-de-secuencia"><h2>6. Los tres diagramas de secuencia</h2><p><strong>Qué hacer.</strong> El enunciado pide <strong>tres casos críticos</strong>. Aquí está el más complejo —salida con cálculo y pago—; replica el patrón para «ingreso de vehículo» y para «generación de reporte sin afectar operaciones».</p><pre class="code">@startuml Secuencia-Salida
+title Salida de vehículo + cálculo + pago
+autonumber
+
+actor Cajero
+participant "Terminal" as T
+participant "Core\n(caso de uso)" as C
+database "BD operacional" as DB
+participant "Pasarela" as P
+queue "Bus de eventos" as Q
+
+Cajero -&gt; T : Registra salida (placa)
+T -&gt; C : POST /salidas {placa}
+C -&gt; DB : Busca ticket abierto
+DB --&gt; C : Ticket
+C -&gt; C : calcularTotal(permanencia, tipo)
+C -&gt; P : cobrar(total, medio)
+alt Cobro exitoso
+  P --&gt; C : ResultadoPago(OK)
+  C -&gt; DB : Cierra ticket y registra pago
+  C -&gt; Q : Publica SalidaRegistrada
+  C --&gt; T : 200 Recibo
+  T --&gt; Cajero : Imprime recibo, abre talanquera
+<span class="kw">else</span> Cobro rechazado
+  P --&gt; C : ResultadoPago(FALLIDO)
+  C --&gt; T : 402 Pago rechazado
+  T --&gt; Cajero : Solicita otro medio de pago
+end
+
+note right of Q
+  Notificaciones y reportes consumen
+  el evento de forma asíncrona: si
+  fallan, la salida ya se completó.
+end note
+@enduml</pre><p><strong>Deberías ver.</strong> Líneas de vida verticales, un bloque <code>alt</code> con dos ramas y una nota a la derecha.</p><p><strong>Si algo salió mal.</strong> Si el bloque <code>alt</code> no se dibuja como recuadro, falta la palabra <code>end</code> que lo cierra.</p><div class="callout tip"><h4>Tip</h4><p>La nota final de este diagrama es lo que demuestra que entendiste <strong>resiliencia</strong> (RNF7): el fallo de una integración no debe tumbar el core. Un diagrama que además argumenta vale mucho más que uno bonito.</p></div></section><section id="s-7-exporta-los-diagramas"><h2>7. Exporta los diagramas</h2><p><strong>Qué hacer.</strong> En el editor de PlantUML, debajo del diagrama, usa el enlace <strong>PNG</strong> para descargar la imagen y <strong>SVG</strong> si la quieres vectorial. Guarda cada archivo con el nombre del artefacto (<code>C1-contexto.png</code>, <code>C2-contenedores.png</code>, …).</p><p>Guarda <strong>además</strong> cada bloque de texto en un archivo <code>.puml</code> con el mismo nombre. Esa es la «fuente» que el enunciado exige.</p><p><strong>Deberías ver.</strong> Una carpeta <code>Modelado/</code> con pares <code>.png</code> y <code>.puml</code>.</p><p><strong>Si algo salió mal.</strong> Si la imagen sale cortada, el diagrama es muy ancho: agrega <code>skinparam dpi 150</code> después de <code>@startuml</code>, o divide el diagrama en dos.</p></section><section id="s-8-ruta-alterna-draw-io"><h2>8. Ruta alterna: draw.io</h2><p><strong>Qué hacer.</strong> Si prefieres arrastrar cajas, entra a <a href="https://app.diagrams.net">app.diagrams.net</a>, elige <strong>Device</strong> para no depender de la nube, y en el buscador de formas de la izquierda escribe <code>c4</code> para habilitar la plantilla C4.</p><p><strong>Deberías ver.</strong> Formas «Person», «Container», «System Boundary» listas para arrastrar.</p><p><strong>Si algo salió mal.</strong> Si el buscador no muestra formas C4, abre <strong>More Shapes</strong> (abajo a la izquierda), busca la sección <strong>Software</strong> y activa <strong>C4</strong>.</p><div class="callout warn"><h4>Cuidado</h4><p>Al entregar desde draw.io, exporta a PNG <strong>y</strong> guarda el archivo <code>.drawio</code>. Sin la fuente, el Entregable E queda incompleto según el enunciado.</p></div></section><section id="s-9-escribe-los-adr"><h2>9. Escribe los ADR</h2><p><strong>Qué hacer.</strong> Crea un archivo por decisión, con nombre <code>ADR-001-&lt;tema&gt;.md</code>, y usa esta plantilla tal cual:</p><pre class="code"><span class="cm"># ADR-001 — Separar la reportería del core operacional</span>
+
+- **Estado:** Aceptada
+- **Fecha:** 2026-09-18
+- **Decisores:** Equipo de arquitectura</pre></section><section id="contexto"><h2>Contexto</h2><p>Los reportes se ejecutan sobre la misma instancia PostgreSQL que la operación. En hora pico el tiempo de respuesta de ingreso/salida supera los 8 s, mientras que el RNF2 exige menos de 2 s en operaciones críticas.</p></section><section id="decision"><h2>Decisión</h2><p>La reportería consulta una réplica de lectura alimentada por eventos del core. El core publica hechos; no ejecuta consultas analíticas.</p></section><section id="alternativas-consideradas"><h2>Alternativas consideradas</h2><ul><li><strong>Optimizar índices y consultas.</strong> Descartada: reduce el costo de cada</li></ul><p>consulta pero no elimina la contención sobre la instancia operativa.</p><ul><li><strong>Réplica síncrona.</strong> Descartada: mantiene el impacto sobre las escrituras.</li><li><strong>Ventana nocturna de reportes.</strong> Descartada: el negocio requiere consultas</li></ul><p>durante la jornada.</p></section><section id="consecuencias"><h2>Consecuencias</h2><ul><li>(+) La operación crítica deja de degradarse por carga analítica.</li><li>(+) Reportes y operación escalan por separado.</li><li>(−) Los reportes pasan a ser consistentes con un desfase de ~30 s.</li><li>(−) Aparece un pipeline de eventos que hay que operar y monitorear.</li></ul><pre class="ascii">**Deberías ver.** Un archivo corto, de una página, donde cualquiera entiende la decisión
+sin preguntarte nada.
+
+**Si algo salió mal.** Si tu ADR no tiene consecuencias negativas, no está terminado:
+vuelve al intercambio de la sección 3.1 de la OVA y busca qué se complica.</pre></section><section id="s-10-arma-el-paquete-de-entrega" class="activity-section"><h2>10. Arma el paquete de entrega</h2><p><strong>Qué hacer.</strong> Organiza así la carpeta final, tal como pide el punto 7 del enunciado:</p><pre class="ascii">  U1-taller-&lt;apellido&gt;/
+  ├── U1-taller-&lt;apellido&gt;.pdf        ← documento de 10–20 páginas
+  ├── Modelado/
+  │   ├── C1-contexto.png / .puml
+  │   ├── C2-contenedores.png / .puml
+  │   ├── C3-componentes.png / .puml
+  │   ├── despliegue.png / .puml
+  │   ├── modelo-datos.png / .puml
+  │   ├── sec-ingreso.png / .puml
+  │   ├── sec-salida-pago.png / .puml
+  │   └── sec-reporte.png / .puml
+  ├── ADR/
+  │   ├── ADR-001-reporteria.md
+  │   ├── ADR-002-estilo-nucleo.md
+  │   └── ADR-003-integraciones.md
+  └── presentacion.pdf                ← opcional, 5 diapositivas</pre><p><strong>Deberías ver.</strong> Cada diagrama del documento aparece también en <code>Modelado/</code>, con su fuente al lado.</p><p><strong>Si algo salió mal.</strong> Si un diagrama está en el PDF pero no en <code>Modelado/</code>, el evaluador no puede verificar la fuente. Revisa uno por uno antes de subir.</p></section><section id="s-11-antes-de-entregar" class="activity-section"><h2>11. Antes de entregar</h2><ul class="checklist"><li><input type="checkbox"> Los ocho diagramas están exportados <strong>y</strong> con su archivo fuente.</li><li><input type="checkbox"> El C2 coincide con la decisión escrita en el Entregable B.</li><li><input type="checkbox"> El C1 muestra el sistema como <strong>una</strong> caja.</li><li><input type="checkbox"> Hay al menos tres ADR, cada uno con alternativas descartadas.</li><li><input type="checkbox"> Cada ADR tiene al menos una consecuencia negativa.</li><li><input type="checkbox"> Los tres diagramas de secuencia corresponden a: ingreso, salida + pago, reporte.</li><li><input type="checkbox"> Cada elección del stack (Entregable D) está ligada a un RNF por su número.</li><li><input type="checkbox"> El documento tiene entre 10 y 20 páginas.</li></ul><div class="callout info"><h4>Nota</h4><p>Reparto de la rúbrica, para que priorices: propuesta arquitectónica <strong>25 %</strong>, modelado <strong>20 %</strong>, diagnóstico <strong>15 %</strong>, comparación <strong>15 %</strong>, stack <strong>15 %</strong>, migración y presupuesto <strong>10 %</strong>. El modelado —lo que resuelve este manual— es el segundo bloque más pesado y el más mecánico de asegurar.</p></div></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Arquitectura y Diseño de Software</strong> <span class="sep">·</span> Unidad 1 · Sesión 1 · Modela y documenta tu arquitectura: C4 en PlantUML y ADR, de cero</p>
+  <p>Especialización en Ingeniería de Software · Posgrado <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=9cdae14b"></script>
+</body>
+</html>

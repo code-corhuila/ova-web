@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitectura y Diseño de Software · Unidad 3 · Levanta TechShop Cloud: hexagonal, TDD, Docker, JWT y circuit breaker | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=9cdae14b">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Arquitectura y Diseño de Software</span><span class="brand-topic">Unidad 3 · Sesión 1 · Levanta TechShop Cloud: hexagonal, TDD, Docker, JWT y circuit breaker</span></div>
+    <div class="brand-meta">CORHUILA<br>Especialización en Ingeniería de Software · Posgrado · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-0-antes-de-empezar">Antes de empezar</a></li><li><a href="#s-1-genera-el-proyecto">Genera el proyecto</a></li><li><a href="#s-2-agrega-las-dependencias-que-faltan">Agrega las dependencias que faltan</a></li><li><a href="#s-3-crea-la-estructura-hexagonal">Crea la estructura hexagonal</a></li><li><a href="#s-4-tdd-primero-la-prueba">TDD: primero la prueba</a></li><li><a href="#s-5-ahora-el-dominio">Ahora el dominio</a></li><li><a href="#s-6-puerto-y-caso-de-uso">Puerto y caso de uso</a></li><li><a href="#s-7-adaptadores-rest-y-persistencia">Adaptadores: REST y persistencia</a></li><li><a href="#s-8-seguridad-jwt-y-roles">Seguridad: JWT y roles</a></li><li><a href="#s-9-resiliencia-circuit-breaker-con-fallback">Resiliencia: circuit breaker con fallback</a></li><li><a href="#s-10-empaqueta-con-docker">Empaqueta con Docker</a></li><li><a href="#s-11-mide-la-cobertura">Mide la cobertura</a></li><li><a href="#s-12-antes-de-entregar">Antes de entregar</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 3 · Manual paso a paso</span>
+    <h1>Levanta TechShop Cloud: hexagonal, TDD, Docker, JWT y circuit breaker</h1>
+    <p class="lead">El esqueleto completo del proyecto del 40 %, paso a paso y en orden. Al terminar tendrás una aplicación que arranca, prueba, protege y resiste, lista para que el equipo le agregue funcionalidad.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Generar el proyecto Spring Boot con las dependencias correctas y la estructura hexagonal.</p></div><div class="objective-card"><span class="num">2</span><p>Escribir el dominio con TDD y medir la cobertura con JaCoCo.</p></div><div class="objective-card"><span class="num">3</span><p>Conectar adaptadores REST y JPA sin contaminar el núcleo.</p></div><div class="objective-card"><span class="num">4</span><p>Proteger la API con JWT y autorización por roles.</p></div><div class="objective-card"><span class="num">5</span><p>Aplicar circuit breaker con fallback y exponer salud y métricas.</p></div><div class="objective-card"><span class="num">6</span><p>Empaquetar todo con Docker Compose y dejarlo listo para Kubernetes.</p></div></div>
+  </section>
+  <section id="s-0-antes-de-empezar"><h2>0. Antes de empezar</h2><p>Este manual construye el <strong>esqueleto ejecutable</strong> del proyecto de la Unidad 3. No implementa las seis funcionalidades del enunciado: implementa <strong>una</strong> de punta a punta —productos— con todas las capas, la seguridad y la resiliencia puestas. Repetir el patrón para carrito, pedidos y usuarios es entonces mecánico, y ese es el trabajo del equipo.</p><p>Cada paso tiene tres partes:</p><ul><li><strong>Qué hacer</strong> — la acción concreta.</li><li><strong>Deberías ver</strong> — cómo compruebas que salió bien antes de seguir.</li><li><strong>Si algo salió mal</strong> — el problema típico y su solución.</li></ul><h3>Qué necesitas</h3><div class="table-responsive"><table class="styled-table"><thead><tr><th>Necesitas</th><th>Cómo verificar</th></tr></thead><tbody><tr><td>Java 17 o superior</td><td><code>java -version</code></td></tr><tr><td>Maven (o el wrapper incluido)</td><td><code>mvn -v</code></td></tr><tr><td>Docker Desktop corriendo</td><td><code>docker ps</code></td></tr><tr><td>IntelliJ IDEA, VS Code o Eclipse</td><td>—</td></tr><tr><td>Tiempo</td><td>2 a 3 horas la primera vez</td></tr></tbody></table></div><div class="callout tip"><h4>Tip</h4><p>Si vienes del laboratorio de la Unidad 2 ya tienes Docker funcionando. Si no, vuelve a su paso 1: la instalación y sus problemas típicos están resueltos allí.</p></div></section><section id="s-1-genera-el-proyecto"><h2>1. Genera el proyecto</h2><p><strong>Qué hacer.</strong> Entra a <a href="https://start.spring.io">start.spring.io</a> y configura:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Campo</th><th>Valor</th></tr></thead><tbody><tr><td>Project</td><td>Maven</td></tr><tr><td>Language</td><td>Java</td></tr><tr><td>Spring Boot</td><td>3.3.x (la última estable de la lista)</td></tr><tr><td>Group</td><td><code>co.edu.corhuila</code></td></tr><tr><td>Artifact</td><td><code>techshop-cloud</code></td></tr><tr><td>Packaging</td><td>Jar</td></tr><tr><td>Java</td><td>17</td></tr></tbody></table></div><p>Agrega estas dependencias con <strong>ADD DEPENDENCIES</strong>:</p><p><code>Spring Web</code> · <code>Spring Data JPA</code> · <code>PostgreSQL Driver</code> · <code>Spring Security</code> · <code>Validation</code> · <code>Spring Boot Actuator</code> · <code>Lombok</code></p><p>Presiona <strong>GENERATE</strong>, descomprime el <code>.zip</code> y abre la carpeta en tu IDE.</p><p><strong>Deberías ver.</strong> Un proyecto con <code>pom.xml</code>, <code>src/main/java</code> y <code>TechshopCloudApplication.java</code>.</p><p><strong>Si algo salió mal.</strong> Si el IDE marca errores en todo, aún está descargando dependencias: espera a que termine el indexado. En IntelliJ, si persiste, abre el panel Maven y usa <em>Reload All Maven Projects</em>.</p></section><section id="s-2-agrega-las-dependencias-que-faltan"><h2>2. Agrega las dependencias que faltan</h2><p><strong>Qué hacer.</strong> El generador no incluye JWT, Resilience4j ni JaCoCo. Abre <code>pom.xml</code> y agrega dentro de <code>&lt;dependencies&gt;</code>:</p><pre class="code">&lt;!-- JWT --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;&lt;artifactId&gt;jjwt-api&lt;/artifactId&gt;&lt;version&gt;0.11.5&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;&lt;artifactId&gt;jjwt-impl&lt;/artifactId&gt;&lt;version&gt;0.11.5&lt;/version&gt;
+  &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;&lt;artifactId&gt;jjwt-jackson&lt;/artifactId&gt;&lt;version&gt;0.11.5&lt;/version&gt;
+  &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Resiliencia --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;io.github.resilience4j&lt;/groupId&gt;
+  &lt;artifactId&gt;resilience4j-spring-boot3&lt;/artifactId&gt;&lt;version&gt;2.2.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre><p>Y dentro de <code>&lt;build&gt;&lt;plugins&gt;</code>, el medidor de cobertura:</p><pre class="code">&lt;plugin&gt;
+  &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+  &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;0.8.12&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;&lt;goals&gt;&lt;goal&gt;prepare-agent&lt;/goal&gt;&lt;/goals&gt;&lt;/execution&gt;
+    &lt;execution&gt;&lt;id&gt;report&lt;/id&gt;&lt;phase&gt;test&lt;/phase&gt;&lt;goals&gt;&lt;goal&gt;report&lt;/goal&gt;&lt;/goals&gt;&lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;</pre><p><strong>Deberías ver.</strong> Tras recargar Maven, ningún error en el <code>pom.xml</code>.</p><p><strong>Si algo salió mal.</strong> <code>Could not resolve dependencies</code> casi siempre es falta de red o un proxy corporativo. Si estás detrás de proxy, configúralo en <code>~/.m2/settings.xml</code>.</p><div class="callout warn"><h4>Cuidado</h4><p>La API de JJWT <strong>cambió</strong> en la versión 0.11. El código del enunciado usa <code>signWith(SignatureAlgorithm.HS512, secret)</code>, que es de la 0.9 y ya no compila. En el paso 8 está la versión vigente; si copias del PDF tal cual, no va a funcionar.</p></div></section><section id="s-3-crea-la-estructura-hexagonal"><h2>3. Crea la estructura hexagonal</h2><p><strong>Qué hacer.</strong> Dentro de <code>src/main/java/co/edu/corhuila/techshopcloud/</code>, crea esta estructura de paquetes:</p><pre class="ascii">  techshopcloud/
+  ├── domain/                  ← el núcleo. NO importa nada de Spring
+  │   ├── model/               Product, Order, User…
+  │   └── exception/           InsufficientStockException…
+  ├── application/             ← casos de uso y puertos
+  │   ├── usecase/             ProductUseCase…
+  │   └── port/
+  │       ├── in/              lo que la aplicación ofrece
+  │       └── out/             lo que la aplicación necesita
+  ├── infrastructure/          ← adaptadores secundarios
+  │   ├── persistence/         entidades JPA, repositorios
+  │   ├── security/            JWT, filtros, configuración
+  │   └── config/              beans, Resilience4j
+  └── interfaces/              ← adaptadores primarios
+      └── rest/                controladores y DTO</pre><p><strong>Deberías ver.</strong> Los paquetes vacíos en el árbol del proyecto.</p><p><strong>Si algo salió mal.</strong> En IntelliJ, si un paquete no aparece, es porque está vacío y el árbol los colapsa: activa <em>Compact Middle Packages</em> en las opciones del panel.</p><div class="callout info"><h4>Nota</h4><p><strong>La regla que hay que sostener todo el manual:</strong> una clase de <code>domain</code> no puede tener ningún <code>import</code> de Spring, JPA ni Jackson. Es la comprobación más rápida de que la arquitectura hexagonal está bien puesta, y es lo primero que se revisa al calificar.</p></div></section><section id="s-4-tdd-primero-la-prueba"><h2>4. TDD: primero la prueba</h2><p><strong>Qué hacer.</strong> Crea <code>src/test/java/.../domain/model/ProductTest.java</code> <strong>antes</strong> de crear <code>Product</code>:</p><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.domain.model;
+
+<span class="kw">import</span> org.junit.jupiter.api.*;
+<span class="kw">import</span> java.math.BigDecimal;
+<span class="kw">import</span> <span class="kw">static</span> org.junit.jupiter.api.Assertions.*;
+
+<span class="kw">class</span> ProductTest {
+
+    @Test
+    @DisplayName("Crea el producto con sus valores iniciales")
+    <span class="kw">void</span> creaProductoConValoresIniciales() {
+        Product p = <span class="kw">new</span> Product("Laptop Gaming", "Portátil de alto rendimiento",
+                                <span class="kw">new</span> BigDecimal("1299.99"), "Electronics", 10);
+        assertNotNull(p.getId());
+        assertEquals("Laptop Gaming", p.getName());
+        assertTrue(p.isActive());
+        assertTrue(p.hasStock());
+    }
+
+    @Test
+    @DisplayName("Descuenta inventario cuando hay existencias")
+    <span class="kw">void</span> descuentaInventario() {
+        Product p = <span class="kw">new</span> Product("Mouse", "Inalámbrico",
+                                <span class="kw">new</span> BigDecimal("99.99"), "Accesorios", 5);
+        p.decreaseStock(3);
+        assertEquals(2, p.getStockQuantity());
+    }
+
+    @Test
+    @DisplayName("Rechaza el descuento si no alcanza el inventario")
+    <span class="kw">void</span> rechazaDescuentoSinInventario() {
+        Product p = <span class="kw">new</span> Product("Teclado", "Mecánico",
+                                <span class="kw">new</span> BigDecimal("199.99"), "Accesorios", 2);
+        assertThrows(InsufficientStockException.<span class="kw">class</span>, () -&gt; p.decreaseStock(5));
+        assertEquals(2, p.getStockQuantity(), "el inventario no debe cambiar al fallar");
+    }
+
+    @Test
+    @DisplayName("No acepta precio negativo")
+    <span class="kw">void</span> rechazaPrecioNegativo() {
+        assertThrows(IllegalArgumentException.<span class="kw">class</span>,
+            () -&gt; <span class="kw">new</span> Product("X", "Y", <span class="kw">new</span> BigDecimal("-1"), "Cat", 1));
+    }
+}</pre><p>Ejecuta <code>mvn test</code>.</p><p><strong>Deberías ver.</strong> <strong>Errores de compilación</strong>: <code>Product</code> no existe todavía. Eso es correcto: es la fase <strong>roja</strong> de TDD.</p><p><strong>Si algo salió mal.</strong> Si las pruebas «pasan» sin haber creado <code>Product</code>, no estás ejecutando el módulo correcto. Verifica que estés en la raíz del proyecto.</p></section><section id="s-5-ahora-el-dominio"><h2>5. Ahora el dominio</h2><p><strong>Qué hacer.</strong> Crea <code>domain/exception/InsufficientStockException.java</code> y <code>domain/model/Product.java</code>:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-71744-0">Product</button><button class="tab-btn" data-tab="tab-71744-1">Excepción</button></div><div class="tab-panel active" id="tab-71744-0"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.domain.model;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.domain.exception.InsufficientStockException;
+<span class="kw">import</span> java.math.BigDecimal;
+<span class="kw">import</span> java.time.LocalDateTime;
+<span class="kw">import</span> java.util.UUID;
+
+<span class="kw">public</span> <span class="kw">class</span> Product {
+    <span class="kw">private</span> final UUID id;
+    <span class="kw">private</span> String name;
+    <span class="kw">private</span> String description;
+    <span class="kw">private</span> BigDecimal price;
+    <span class="kw">private</span> String category;
+    <span class="kw">private</span> <span class="kw">int</span> stockQuantity;
+    <span class="kw">private</span> <span class="kw">boolean</span> active;
+    <span class="kw">private</span> final LocalDateTime createdAt;
+    <span class="kw">private</span> LocalDateTime updatedAt;
+
+    <span class="kw">public</span> Product(String name, String description, BigDecimal price,
+                   String category, <span class="kw">int</span> stockQuantity) {
+        <span class="kw">if</span> (name == <span class="kw">null</span> || name.isBlank())
+            throw <span class="kw">new</span> IllegalArgumentException("El nombre es obligatorio");
+        <span class="kw">if</span> (price == <span class="kw">null</span> || price.signum() &lt; 0)
+            throw <span class="kw">new</span> IllegalArgumentException("El precio no puede ser negativo");
+        <span class="kw">if</span> (stockQuantity &lt; 0)
+            throw <span class="kw">new</span> IllegalArgumentException("El inventario no puede ser negativo");
+
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.stockQuantity = stockQuantity;
+        this.active = <span class="kw">true</span>;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> hasStock() { <span class="kw">return</span> stockQuantity &gt; 0; }
+
+    <span class="kw">public</span> <span class="kw">void</span> decreaseStock(<span class="kw">int</span> quantity) {
+        <span class="kw">if</span> (quantity &lt;= 0)
+            throw <span class="kw">new</span> IllegalArgumentException("La cantidad debe ser positiva");
+        <span class="kw">if</span> (stockQuantity &lt; quantity)
+            throw <span class="kw">new</span> InsufficientStockException(id, stockQuantity, quantity);
+        this.stockQuantity -= quantity;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    <span class="cm">// getters; sin setters públicos de inventario: el estado se cambia</span>
+    <span class="cm">// solo por métodos de negocio que protegen las invariantes.</span>
+    <span class="kw">public</span> UUID getId() { <span class="kw">return</span> id; }
+    <span class="kw">public</span> String getName() { <span class="kw">return</span> name; }
+    <span class="kw">public</span> BigDecimal getPrice() { <span class="kw">return</span> price; }
+    <span class="kw">public</span> <span class="kw">int</span> getStockQuantity() { <span class="kw">return</span> stockQuantity; }
+    <span class="kw">public</span> <span class="kw">boolean</span> isActive() { <span class="kw">return</span> active; }
+}</pre></div><div class="tab-panel" id="tab-71744-1"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.domain.exception;
+
+<span class="kw">import</span> java.util.UUID;
+
+<span class="kw">public</span> <span class="kw">class</span> InsufficientStockException extends RuntimeException {
+    <span class="kw">public</span> InsufficientStockException(UUID productId, <span class="kw">int</span> disponible, <span class="kw">int</span> solicitado) {
+        super("Inventario insuficiente para %s: hay %d, se pidieron %d"
+              .formatted(productId, disponible, solicitado));
+    }
+}</pre></div></div><p>Ejecuta <code>mvn test</code> otra vez.</p><p><strong>Deberías ver.</strong> <code>Tests run: 4, Failures: 0, Errors: 0</code>. Fase <strong>verde</strong>.</p><p><strong>Si algo salió mal.</strong></p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Síntoma</th><th>Solución</th></tr></thead><tbody><tr><td><code>cannot find symbol: InsufficientStockException</code></td><td>Falta el <code>import</code> de la excepción en <code>Product</code></td></tr><tr><td><code>formatted</code> no existe</td><td>Estás compilando con Java 11: revisa <code>&lt;java.version&gt;17&lt;/java.version&gt;</code></td></tr><tr><td>La prueba de inventario falla</td><td>Verifica el orden: primero valida, después resta</td></tr></tbody></table></div><div class="callout warn"><h4>Cuidado</h4><p>Fíjate en que <strong>no hay setter de inventario</strong>. El enunciado del proyecto incluye <code>product.setStockQuantity(0)</code> en una de sus pruebas; si lo agregas, cualquiera puede dejar el inventario en un estado imposible sin pasar por la regla. Es mejor una prueba que construya el producto con el inventario que quiere.</p></div></section><section id="s-6-puerto-y-caso-de-uso"><h2>6. Puerto y caso de uso</h2><p><strong>Qué hacer.</strong> El puerto es una <strong>interfaz en `application`</strong>, no en infraestructura.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-71232-0">Puerto de salida</button><button class="tab-btn" data-tab="tab-71232-1">Caso de uso</button><button class="tab-btn" data-tab="tab-71232-2">Prueba con mock</button></div><div class="tab-panel active" id="tab-71232-0"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.application.port.out;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.domain.model.Product;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public</span> interface ProductRepositoryPort {
+    Product save(Product product);
+    Optional&lt;Product&gt; findById(UUID id);
+    List&lt;Product&gt; findAll();
+}</pre></div><div class="tab-panel" id="tab-71232-1"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.application.usecase;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.application.port.out.ProductRepositoryPort;
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.domain.model.Product;
+<span class="kw">import</span> java.math.BigDecimal;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public</span> <span class="kw">class</span> ProductUseCase {
+    <span class="kw">private</span> final ProductRepositoryPort repository;
+
+    <span class="kw">public</span> ProductUseCase(ProductRepositoryPort repository) {
+        this.repository = repository;   <span class="cm">// inyección por constructor: testeable</span>
+    }
+
+    <span class="kw">public</span> Product createProduct(String name, String description, BigDecimal price,
+                                 String category, <span class="kw">int</span> stock) {
+        <span class="kw">return</span> repository.save(<span class="kw">new</span> Product(name, description, price, category, stock));
+    }
+
+    <span class="kw">public</span> Optional&lt;Product&gt; getProductById(UUID id) { <span class="kw">return</span> repository.findById(id); }
+
+    <span class="kw">public</span> List&lt;Product&gt; getAllProducts() { <span class="kw">return</span> repository.findAll(); }
+
+    <span class="kw">public</span> Product purchase(UUID id, <span class="kw">int</span> quantity) {
+        Product p = repository.findById(id)
+            .orElseThrow(() -&gt; <span class="kw">new</span> NoSuchElementException("Producto no encontrado"));
+        p.decreaseStock(quantity);      <span class="cm">// la regla vive en el dominio</span>
+        <span class="kw">return</span> repository.save(p);
+    }
+}</pre></div><div class="tab-panel" id="tab-71232-2"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.application.usecase;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.application.port.out.ProductRepositoryPort;
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.domain.exception.InsufficientStockException;
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.domain.model.Product;
+<span class="kw">import</span> org.junit.jupiter.api.*;
+<span class="kw">import</span> org.mockito.*;
+<span class="kw">import</span> java.math.BigDecimal;
+<span class="kw">import</span> java.util.Optional;
+<span class="kw">import</span> <span class="kw">static</span> org.junit.jupiter.api.Assertions.*;
+<span class="kw">import</span> <span class="kw">static</span> org.mockito.Mockito.*;
+
+<span class="kw">class</span> ProductUseCaseTest {
+
+    <span class="kw">private</span> ProductRepositoryPort repo;
+    <span class="kw">private</span> ProductUseCase useCase;
+
+    @BeforeEach
+    <span class="kw">void</span> setUp() {
+        repo = mock(ProductRepositoryPort.<span class="kw">class</span>);       <span class="cm">// sin BD, sin Spring</span>
+        useCase = <span class="kw">new</span> ProductUseCase(repo);
+    }
+
+    @Test
+    @DisplayName("La compra descuenta inventario y persiste")
+    <span class="kw">void</span> compraDescuentaYPersiste() {
+        Product p = <span class="kw">new</span> Product("SSD", "1 TB", <span class="kw">new</span> BigDecimal("450000"), "Almacenamiento", 4);
+        when(repo.findById(p.getId())).thenReturn(Optional.of(p));
+        when(repo.save(any(Product.<span class="kw">class</span>))).thenAnswer(i -&gt; i.getArgument(0));
+
+        Product resultado = useCase.purchase(p.getId(), 3);
+
+        assertEquals(1, resultado.getStockQuantity());
+        verify(repo).save(p);
+    }
+
+    @Test
+    @DisplayName("La compra falla si no alcanza el inventario y no persiste")
+    <span class="kw">void</span> compraFallaSinInventario() {
+        Product p = <span class="kw">new</span> Product("RAM", "16 GB", <span class="kw">new</span> BigDecimal("300000"), "Componentes", 1);
+        when(repo.findById(p.getId())).thenReturn(Optional.of(p));
+
+        assertThrows(InsufficientStockException.<span class="kw">class</span>, () -&gt; useCase.purchase(p.getId(), 2));
+        verify(repo, never()).save(any());
+    }
+}</pre></div></div><p><strong>Deberías ver.</strong> <code>mvn test</code> con 6 pruebas en verde, <strong>sin levantar base de datos</strong>.</p><p><strong>Si algo salió mal.</strong> Si Mockito no se reconoce, <code>spring-boot-starter-test</code> ya lo incluye: revisa que la dependencia esté con <code>&lt;scope&gt;test&lt;/scope&gt;</code> y recarga Maven.</p><div class="callout tip"><h4>Tip</h4><p>Esas dos pruebas son la demostración de que la arquitectura sirve: se prueba la regla de negocio <strong>sin base de datos, sin red y sin contexto de Spring</strong>. Es el RNF de testabilidad convertido en evidencia, y es lo que sostiene el 20 % de la rúbrica.</p></div></section><section id="s-7-adaptadores-rest-y-persistencia"><h2>7. Adaptadores: REST y persistencia</h2><p><strong>Qué hacer.</strong> Ahora sí entra la infraestructura. Fíjate en que el modelo JPA es una clase <strong>distinta</strong> del dominio.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-71232-0">Entidad JPA</button><button class="tab-btn" data-tab="tab-71232-1">Adaptador</button><button class="tab-btn" data-tab="tab-71232-2">Controlador REST</button><button class="tab-btn" data-tab="tab-71232-3">Config del caso de uso</button></div><div class="tab-panel active" id="tab-71232-0"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.infrastructure.persistence;
+
+<span class="kw">import</span> jakarta.persistence.*;
+<span class="kw">import</span> java.math.BigDecimal;
+<span class="kw">import</span> java.util.UUID;
+
+@Entity @Table(name = "products")
+<span class="kw">public</span> <span class="kw">class</span> ProductEntity {
+    @Id <span class="kw">private</span> UUID id;
+    <span class="kw">private</span> String name;
+    <span class="kw">private</span> String description;
+    <span class="kw">private</span> BigDecimal price;
+    <span class="kw">private</span> String category;
+    <span class="kw">private</span> <span class="kw">int</span> stockQuantity;
+    <span class="kw">private</span> <span class="kw">boolean</span> active;
+    <span class="cm">// getters y setters</span>
+}</pre></div><div class="tab-panel" id="tab-71232-1"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.infrastructure.persistence;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.application.port.out.ProductRepositoryPort;
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.domain.model.Product;
+<span class="kw">import</span> org.springframework.stereotype.Repository;
+<span class="kw">import</span> java.util.*;
+
+@Repository
+<span class="kw">public</span> <span class="kw">class</span> JpaProductRepositoryAdapter implements ProductRepositoryPort {
+
+    <span class="kw">private</span> final SpringDataProductRepository jpa;
+    <span class="kw">private</span> final ProductMapper mapper;
+
+    <span class="kw">public</span> JpaProductRepositoryAdapter(SpringDataProductRepository jpa, ProductMapper mapper) {
+        this.jpa = jpa; this.mapper = mapper;
+    }
+
+    @Override <span class="kw">public</span> Product save(Product p) {
+        <span class="kw">return</span> mapper.toDomain(jpa.save(mapper.toEntity(p)));
+    }
+    @Override <span class="kw">public</span> Optional&lt;Product&gt; findById(UUID id) {
+        <span class="kw">return</span> jpa.findById(id).map(mapper::toDomain);
+    }
+    @Override <span class="kw">public</span> List&lt;Product&gt; findAll() {
+        <span class="kw">return</span> jpa.findAll().stream().map(mapper::toDomain).toList();
+    }
+}</pre></div><div class="tab-panel" id="tab-71232-2"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.interfaces.rest;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.application.usecase.ProductUseCase;
+<span class="kw">import</span> org.springframework.http.ResponseEntity;
+<span class="kw">import</span> org.springframework.security.access.prepost.PreAuthorize;
+<span class="kw">import</span> org.springframework.web.bind.annotation.*;
+<span class="kw">import</span> java.util.UUID;
+
+@RestController
+@RequestMapping("/api/products")
+<span class="kw">public</span> <span class="kw">class</span> ProductController {
+
+    <span class="kw">private</span> final ProductUseCase useCase;
+    <span class="kw">public</span> ProductController(ProductUseCase useCase) { this.useCase = useCase; }
+
+    @GetMapping
+    <span class="kw">public</span> ResponseEntity&lt;?&gt; list() { <span class="kw">return</span> ResponseEntity.ok(useCase.getAllProducts()); }
+
+    @GetMapping("/{id}")
+    <span class="kw">public</span> ResponseEntity&lt;?&gt; byId(@PathVariable UUID id) {
+        <span class="kw">return</span> useCase.getProductById(id)
+                      .map(ResponseEntity::ok)
+                      .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','PROVIDER')")
+    <span class="kw">public</span> ResponseEntity&lt;?&gt; create(@RequestBody CreateProductRequest r) {
+        <span class="kw">var</span> p = useCase.createProduct(r.name(), r.description(),
+                                      r.price(), r.category(), r.stockQuantity());
+        <span class="kw">return</span> ResponseEntity.status(201).body(p);
+    }
+}</pre></div><div class="tab-panel" id="tab-71232-3"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.infrastructure.config;
+
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.application.port.out.ProductRepositoryPort;
+<span class="kw">import</span> co.edu.corhuila.techshopcloud.application.usecase.ProductUseCase;
+<span class="kw">import</span> org.springframework.context.annotation.*;
+
+@Configuration
+<span class="kw">public</span> <span class="kw">class</span> UseCaseConfig {
+    <span class="cm">// El caso de uso NO lleva @Service: así permanece libre de Spring.</span>
+    <span class="cm">// Se declara como bean aquí, en infraestructura.</span>
+    @Bean
+    <span class="kw">public</span> ProductUseCase productUseCase(ProductRepositoryPort port) {
+        <span class="kw">return</span> <span class="kw">new</span> ProductUseCase(port);
+    }
+}</pre></div></div><p><strong>Deberías ver.</strong> El proyecto compila y <code>mvn test</code> sigue en verde.</p><p><strong>Si algo salió mal.</strong> <code>No qualifying bean of type ProductUseCase</code> significa que falta la clase <code>UseCaseConfig</code>. Es el precio de mantener el caso de uso sin anotaciones de Spring, y es una decisión consciente.</p><div class="callout info"><h4>Nota</h4><p>Separar <code>Product</code> de <code>ProductEntity</code> cuesta un <em>mapper</em> y evita que JPA imponga constructor vacío y setters en el dominio. Si tu equipo decide <strong>no</strong> separarlos —una concesión frecuente—, escríbanlo como ADR con sus consecuencias. Lo que no se acepta es no haberlo notado.</p></div></section><section id="s-8-seguridad-jwt-y-roles"><h2>8. Seguridad: JWT y roles</h2><p><strong>Qué hacer.</strong> Crea el proveedor de tokens y la configuración de seguridad.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-71232-0">JwtTokenProvider</button><button class="tab-btn" data-tab="tab-71232-1">SecurityConfig</button><button class="tab-btn" data-tab="tab-71232-2">application.properties</button></div><div class="tab-panel active" id="tab-71232-0"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.infrastructure.security;
+
+<span class="kw">import</span> io.jsonwebtoken.*;
+<span class="kw">import</span> io.jsonwebtoken.security.Keys;
+<span class="kw">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="kw">import</span> org.springframework.stereotype.Component;
+<span class="kw">import</span> javax.crypto.SecretKey;
+<span class="kw">import</span> java.nio.charset.StandardCharsets;
+<span class="kw">import</span> java.util.*;
+
+@Component
+<span class="kw">public</span> <span class="kw">class</span> JwtTokenProvider {
+
+    <span class="kw">private</span> final SecretKey key;
+    <span class="kw">private</span> final long expirationMs;
+
+    <span class="kw">public</span> JwtTokenProvider(@Value("${jwt.secret}") String secret,
+                            @Value("${jwt.expiration-ms}") long expirationMs) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.expirationMs = expirationMs;
+    }
+
+    <span class="kw">public</span> String generateToken(String username, List&lt;String&gt; roles) {
+        Date now = <span class="kw">new</span> Date();
+        <span class="kw">return</span> Jwts.builder()
+                .setSubject(username)
+                .claim("roles", roles)
+                .setIssuedAt(now)
+                .setExpiration(<span class="kw">new</span> Date(now.getTime() + expirationMs))
+                .signWith(key, SignatureAlgorithm.HS512)   <span class="cm">// API 0.11+</span>
+                .compact();
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> validate(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            <span class="kw">return</span> <span class="kw">true</span>;
+        } catch (JwtException | IllegalArgumentException e) {
+            <span class="kw">return</span> <span class="kw">false</span>;
+        }
+    }
+
+    <span class="kw">public</span> Claims claims(String token) {
+        <span class="kw">return</span> Jwts.parserBuilder().setSigningKey(key).build()
+                   .parseClaimsJws(token).getBody();
+    }
+}</pre></div><div class="tab-panel" id="tab-71232-1"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.infrastructure.security;
+
+<span class="kw">import</span> org.springframework.context.annotation.*;
+<span class="kw">import</span> org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+<span class="kw">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
+<span class="kw">import</span> org.springframework.security.config.http.SessionCreationPolicy;
+<span class="kw">import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+<span class="kw">import</span> org.springframework.security.crypto.password.PasswordEncoder;
+<span class="kw">import</span> org.springframework.security.web.SecurityFilterChain;
+<span class="kw">import</span> org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableMethodSecurity            <span class="cm">// habilita @PreAuthorize</span>
+<span class="kw">public</span> <span class="kw">class</span> SecurityConfig {
+
+    <span class="kw">private</span> final JwtAuthenticationFilter jwtFilter;
+    <span class="kw">public</span> SecurityConfig(JwtAuthenticationFilter jwtFilter) { this.jwtFilter = jwtFilter; }
+
+    @Bean
+    <span class="kw">public</span> SecurityFilterChain chain(HttpSecurity http) throws Exception {
+        <span class="kw">return</span> http
+            .csrf(c -&gt; c.disable())                       <span class="cm">// API sin estado: no hay sesión</span>
+            .sessionManagement(s -&gt; s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(a -&gt; a
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/actuator/health").permitAll()
+                .requestMatchers("/api/products/**").authenticated()
+                .anyRequest().authenticated())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.<span class="kw">class</span>)
+            .build();
+    }
+
+    @Bean
+    <span class="kw">public</span> PasswordEncoder passwordEncoder() {
+        <span class="kw">return</span> <span class="kw">new</span> BCryptPasswordEncoder();   <span class="cm">// hash con sal, NO cifrado reversible</span>
+    }
+}</pre></div><div class="tab-panel" id="tab-71232-2"><pre class="code">spring.datasource.url=jdbc:postgresql:<span class="cm">//${DB_HOST:localhost}:5432/techshop</span>
+spring.datasource.username=${DB_USER:techshop}
+spring.datasource.password=${DB_PASSWORD:changeme}
+spring.jpa.hibernate.ddl-auto=update
+
+<span class="cm"># El secreto NUNCA va escrito aquí: se inyecta por variable de entorno.</span>
+jwt.secret=${JWT_SECRET}
+jwt.expiration-ms=900000
+
+management.endpoints.web.exposure.include=health,info,metrics,prometheus
+management.endpoint.health.show-details=when_authorized</pre></div></div><p><strong>Deberías ver.</strong> Al arrancar sin token, <code>GET /api/products</code> responde <strong>401</strong>; con un token válido, responde 200.</p><p><strong>Si algo salió mal.</strong></p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Síntoma</th><th>Solución</th></tr></thead><tbody><tr><td><code>WeakKeyException</code> al firmar</td><td>El secreto es corto: HS512 exige al menos 64 bytes</td></tr><tr><td><code>Could not resolve placeholder 'jwt.secret'</code></td><td>Falta la variable de entorno <code>JWT_SECRET</code></td></tr><tr><td>Todo responde 403 con token válido</td><td>Falta <code>@EnableMethodSecurity</code> o el rol no lleva el prefijo <code>ROLE_</code></td></tr></tbody></table></div><div class="callout warn"><h4>Cuidado</h4><p><code>jwt.expiration-ms=900000</code> son <strong>15 minutos</strong>. Un token que no caduca no se puede revocar: quien lo robe entra para siempre. La vida corta con <em>refresh token</em> es lo que compensa que el JWT no sea revocable, y es un criterio explícito de la rúbrica.</p></div></section><section id="s-9-resiliencia-circuit-breaker-con-fallback"><h2>9. Resiliencia: circuit breaker con fallback</h2><p><strong>Qué hacer.</strong> Configura el breaker y aplícalo sobre la dependencia externa.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-73664-0">Configuración</button><button class="tab-btn" data-tab="tab-73664-1">Uso</button></div><div class="tab-panel active" id="tab-73664-0"><pre class="code">resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 60s
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 2
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 200ms
+        enableExponentialBackoff: <span class="kw">true</span>
+        exponentialBackoffMultiplier: 2</pre></div><div class="tab-panel" id="tab-73664-1"><pre class="code"><span class="kw">package</span> co.edu.corhuila.techshopcloud.infrastructure.payment;
+
+<span class="kw">import</span> io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+<span class="kw">import</span> io.github.resilience4j.retry.annotation.Retry;
+<span class="kw">import</span> org.springframework.stereotype.Service;
+
+@Service
+<span class="kw">public</span> <span class="kw">class</span> PaymentAdapter {
+
+    @Retry(name = "paymentService")
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "pagoDiferido")
+    <span class="kw">public</span> PaymentResult charge(OrderId id, Money amount) {
+        <span class="kw">return</span> gatewayClient.charge(id, amount);
+    }
+
+    <span class="cm">// El fallback define QUÉ VE EL USUARIO cuando la pasarela no está.</span>
+    <span class="kw">private</span> PaymentResult pagoDiferido(OrderId id, Money amount, Throwable cause) {
+        pendingPayments.enqueue(id, amount);
+        <span class="kw">return</span> PaymentResult.pending("Pago en proceso; te confirmamos por correo");
+    }
+}</pre></div></div><p><strong>Deberías ver.</strong> En <code>http://localhost:8080/actuator/health</code>, un bloque <code>circuitBreakers</code> con el estado <code>CLOSED</code>.</p><p><strong>Si algo salió mal.</strong> Si el fallback nunca se invoca, revisa su firma: debe tener <strong>los mismos parámetros</strong> que el método original <strong>más</strong> un <code>Throwable</code> al final. Es el error más frecuente con Resilience4j.</p></section><section id="s-10-empaqueta-con-docker"><h2>10. Empaqueta con Docker</h2><p><strong>Qué hacer.</strong> Crea <code>Dockerfile</code> y <code>docker-compose.yml</code> en la raíz del proyecto.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-73664-0">Dockerfile</button><button class="tab-btn" data-tab="tab-73664-1">docker-compose.yml</button><button class="tab-btn" data-tab="tab-73664-2">Levantar</button></div><div class="tab-panel active" id="tab-73664-0"><pre class="code"><span class="cm"># Construcción en dos etapas: la imagen final no lleva Maven ni el código fuente.</span>
+FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /src
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+COPY src ./src
+RUN mvn -B clean <span class="kw">package</span> -DskipTests
+
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+RUN addgroup -S app &amp;&amp; adduser -S app -G app   <span class="cm"># no ejecutar como root</span>
+COPY --from=build /src/target/*.jar app.jar
+USER app
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]</pre></div><div class="tab-panel" id="tab-73664-1"><pre class="code">services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: techshop
+      POSTGRES_USER: techshop
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes: [ "pgdata:/<span class="kw">var</span>/lib/postgresql/data" ]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U techshop"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports: [ "8080:8080" ]
+    environment:
+      DB_HOST: db
+      DB_USER: techshop
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      db: { condition: service_healthy }
+
+volumes:
+  pgdata:</pre></div><div class="tab-panel" id="tab-73664-2"><pre class="code"><span class="cm"># Los secretos van en un archivo .env que NO se sube al repositorio.</span>
+echo "DB_PASSWORD=$(openssl rand -hex 16)"  &gt;  .env
+echo "JWT_SECRET=$(openssl rand -hex 48)"   &gt;&gt; .env
+echo ".env" &gt;&gt; .gitignore
+
+docker compose up --build
+
+<span class="cm"># En otra terminal, comprueba:</span>
+curl -s http:<span class="cm">//localhost:8080/actuator/health</span></pre></div></div><p><strong>Deberías ver.</strong> <code>{"status":"UP"}</code> y, en los registros, <code>Started TechshopCloudApplication</code>.</p><p><strong>Si algo salió mal.</strong></p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Síntoma</th><th>Solución</th></tr></thead><tbody><tr><td>La API arranca antes que la BD</td><td>Ya está resuelto con <code>depends_on</code> + <code>healthcheck</code>; si falla, sube <code>retries</code></td></tr><tr><td><code>password authentication failed</code></td><td>El volumen <code>pgdata</code> guarda la contraseña vieja: <code>docker compose down -v</code></td></tr><tr><td><code>openssl: command not found</code></td><td>En Windows usa Git Bash, o genera las claves a mano</td></tr></tbody></table></div><div class="callout warn"><h4>Cuidado</h4><p>El archivo <code>.env</code> <strong>no se sube nunca</strong> al repositorio. Una credencial en el historial de Git sigue ahí aunque después la borres, y es exactamente el hallazgo de «configuración insegura» de la lista OWASP.</p></div></section><section id="s-11-mide-la-cobertura"><h2>11. Mide la cobertura</h2><p><strong>Qué hacer.</strong></p><pre class="code">mvn clean test</pre><p>Abre <code>target/site/jacoco/index.html</code> en el navegador.</p><p><strong>Deberías ver.</strong> Un informe con el porcentaje por paquete. El paquete <code>domain</code> debe estar muy alto; <code>infrastructure</code> bajo, y está bien.</p><p><strong>Si algo salió mal.</strong> Si el informe no se genera, falta la ejecución <code>report</code> del plugin de JaCoCo en la fase <code>test</code>. Revisa el paso 2.</p><div class="callout tip"><h4>Tip</h4><p>El enunciado pide <strong>más del 80 %</strong>, pero no todo cuenta igual. Cobertura alta en <code>domain</code> y <code>application</code> demuestra que las reglas están probadas; cobertura inflada con pruebas de <em>getters</em> sube el número y no prueba nada. Prioriza dominio y casos de uso.</p></div></section><section id="s-12-antes-de-entregar" class="activity-section"><h2>12. Antes de entregar</h2><ul class="checklist"><li><input type="checkbox"> Ninguna clase de <code>domain</code> importa Spring, JPA ni Jackson.</li><li><input type="checkbox"> Las reglas de negocio se prueban sin base de datos y sin contexto de Spring.</li><li><input type="checkbox"> Cobertura superior al 80 %, con <code>domain</code> y <code>application</code> altos.</li><li><input type="checkbox"> La API responde 401 sin token y 403 con rol insuficiente.</li><li><input type="checkbox"> Las contraseñas se guardan con BCrypt, no cifradas.</li><li><input type="checkbox"> <code>JWT_SECRET</code> y la contraseña de la base llegan por variable de entorno.</li><li><input type="checkbox"> <code>.env</code> está en <code>.gitignore</code> y no hay secretos en el historial.</li><li><input type="checkbox"> El circuit breaker tiene <strong>fallback</strong> y su firma es correcta.</li><li><input type="checkbox"> <code>/actuator/health</code> verifica la base de datos.</li><li><input type="checkbox"> <code>docker compose up --build</code> levanta todo desde cero en una máquina limpia.</li><li><input type="checkbox"> El contenedor <strong>no</strong> corre como root.</li><li><input type="checkbox"> El manifiesto de Kubernetes tiene <code>minReplicas: 2</code> y su HPA.</li></ul><div class="callout info"><h4>Nota</h4><p>Peso de la rúbrica, para priorizar: arquitectura <strong>30 %</strong>, funcionalidad <strong>25 %</strong>, pruebas <strong>20 %</strong>, seguridad y resiliencia <strong>15 %</strong>, documentación <strong>10 %</strong>. Este manual deja resueltos la arquitectura, las pruebas, la seguridad y la resiliencia —el 65 %—; la funcionalidad de las seis historias y la documentación son el trabajo del equipo.</p></div></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Arquitectura y Diseño de Software</strong> <span class="sep">·</span> Unidad 3 · Sesión 1 · Levanta TechShop Cloud: hexagonal, TDD, Docker, JWT y circuit breaker</p>
+  <p>Especialización en Ingeniería de Software · Posgrado <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=9cdae14b"></script>
+</body>
+</html>
