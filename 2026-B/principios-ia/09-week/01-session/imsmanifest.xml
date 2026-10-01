@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 9 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Evaluación de modelos — validación cruzada y matriz de confusión</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Agrupar sin etiquetas — encontrar parecidos en los datos</title></item>
     </organization>
   </organizations>
   <resources>

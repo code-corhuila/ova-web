@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 16 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Presentaciones finales de proyectos</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Presentación de los proyectos iniciales</title></item>
     </organization>
   </organizations>
   <resources>

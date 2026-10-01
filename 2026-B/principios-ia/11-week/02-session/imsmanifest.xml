@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 11 · Sesión 2 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Panorama del Deep Learning — CNN, RNN y Transformers</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Práctica — un aire acondicionado difuso y el arranque del proyecto</title></item>
     </organization>
   </organizations>
   <resources>

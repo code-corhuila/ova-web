@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 8 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>k-Vecinos más cercanos (kNN)</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Parecerse a los vecinos — el método de los vecinos más cercanos (kNN)</title></item>
     </organization>
   </organizations>
   <resources>

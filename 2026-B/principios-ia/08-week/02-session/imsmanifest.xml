@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 8 · Sesión 2 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Naive Bayes — probabilidad para clasificación</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Decidir contando — cómo un filtro de spam lee pistas (Naive Bayes)</title></item>
     </organization>
   </organizations>
   <resources>

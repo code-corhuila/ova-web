@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 14 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Herramientas de IA para principiantes — Google Colab y scikit-learn</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Integración — de las piezas a una solución completa</title></item>
     </organization>
   </organizations>
   <resources>

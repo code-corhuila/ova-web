@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 12 · Sesión 2 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Inferencia difusa — sistema Mamdani</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Práctica — auditar un modelo en busca de sesgo</title></item>
     </organization>
   </organizations>
   <resources>

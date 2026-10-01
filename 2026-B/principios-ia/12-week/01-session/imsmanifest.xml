@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 12 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Lógica difusa — conjuntos y funciones de membresía</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Cuando la IA se equivoca — sesgo e impactos sociales</title></item>
     </organization>
   </organizations>
   <resources>

@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Principios de Inteligencia Artificial · Semana 15 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Integración end-to-end — de datos crudos al modelo desplegado</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Panorama — redes neuronales y modelos de lenguaje</title></item>
     </organization>
   </organizations>
   <resources>
