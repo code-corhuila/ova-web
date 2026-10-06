@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingeniería para el Desarrollo Móvil · Unidad 1 · Del diseño al esqueleto: gobierno y arquitectura de tu app (H1) | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=9cdae14b">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Ingeniería para el Desarrollo Móvil</span><span class="brand-topic">Unidad 1 · Sesión 1 · Del diseño al esqueleto: gobierno y arquitectura de tu app (H1)</span></div>
+    <div class="brand-meta">CORHUILA<br>Facultad de Ingeniería · Posgrado · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-0-antes-de-empezar">Antes de empezar</a></li><li><a href="#s-1-gobierno-primero-crea-docs-y-acuerden-las-reglas">Gobierno primero: crea docs/ y acuerden las reglas</a></li><li><a href="#s-2-crear-el-proyecto">Crear el proyecto</a></li><li><a href="#s-3-estructura-por-feature-y-capas">Estructura por feature y capas</a></li><li><a href="#s-4-raiz-de-composicion-y-tabla-de-rutas-con-guard">Raíz de composición y tabla de rutas con guard</a></li><li><a href="#s-5-tu-primer-caso-de-uso-y-su-puerto">Tu primer caso de uso y su puerto</a></li><li><a href="#s-6-decisiones-los-adr-del-h1">Decisiones: los ADR del H1</a></li><li><a href="#s-7-c4-en-plantuml">C4 en PlantUML</a></li><li><a href="#s-8-backlog-moscow-y-prototipo">Backlog MoSCoW y prototipo</a></li><li><a href="#s-9-el-documento-de-la-actividad-1">El documento de la Actividad 1</a></li><li><a href="#s-10-checklist-de-entrega">Checklist de entrega</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Unidad 1 · Manual paso a paso</span>
+    <h1>Del diseño al esqueleto: gobierno y arquitectura de tu app (H1)</h1>
+    <p class="lead">El H1 vale 20 % y es el cimiento del proyecto ABP. Este manual te lleva de una carpeta vacía a un repositorio con 00 Gobierno y 01 Arquitectura diligenciados, un esqueleto Ionic que compila, una regla de capas que la máquina verifica, los primeros ADR, el backlog y el documento de la Actividad 1 listo para subir.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Crear la carpeta docs/ del marco de gobierno móvil y acordar en pareja la definición de listo, la definición de hecho y las convenciones git.</p></div><div class="objective-card"><span class="num">2</span><p>Generar el proyecto Ionic + Angular standalone + Capacitor con las versiones vigentes y organizarlo por feature, con capas y una regla de dependencias que falla en el lint.</p></div><div class="objective-card"><span class="num">3</span><p>Escribir la raíz de composición, la tabla de rutas con guard y un primer caso de uso con su puerto y su prueba, tomando como modelo la app de referencia.</p></div><div class="objective-card"><span class="num">4</span><p>Registrar los ADR del H1 (patrón de estado, navegación y framework) y dibujar el C4 de contexto y de contenedores en PlantUML.</p></div><div class="objective-card"><span class="num">5</span><p>Armar el backlog MoSCoW con trazabilidad historia → criterio → prueba, el prototipo y el documento APA de la Actividad 1.</p></div></div>
+  </section>
+  <section id="s-0-antes-de-empezar"><h2>0. Antes de empezar</h2><p>Este manual sirve para <strong>ejecutar</strong> el <strong>hito H1 = Actividad de aprendizaje 1</strong> (20 %), que vence el <strong>domingo 18 de octubre a las 11:59 p. m.</strong> No repite la OVA de la unidad —ahí están los conceptos de híbrido, Capacitor, SDD, capas y C4—: te dice <strong>qué hacer, en qué orden y cómo comprobarlo</strong>, con la app de referencia <strong>Bitácora de Campo</strong> como ejemplo trabajado.</p><p>Cada paso tiene tres partes:</p><ul><li><strong>Qué hacer</strong> — la acción concreta, con el comando o el archivo.</li><li><strong>Deberías ver</strong> — cómo compruebas que salió bien antes de seguir.</li><li><strong>Si algo salió mal</strong> — el problema típico y su solución.</li></ul><div class="callout tip"><h4>Tip</h4><p><strong>Descarga la app de referencia completa:</strong> <a href="https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/referencia/bitacora-campo-referencia.zip">bitacora-campo-referencia.zip</a> — código, pruebas, documentación del marco diligenciada y API simulada. Es <strong>material de apoyo para estudiar la arquitectura</strong>, no para entregar: Bitácora de Campo <strong>no es elegible</strong> como proyecto ABP. Tu pareja resuelve su propio problema, con su dominio y sus casos de uso.</p></div><h3>Qué produce el H1</h3><div class="table-responsive"><table class="styled-table"><thead><tr><th>Producto</th><th>Dónde queda</th><th>Paso</th></tr></thead><tbody><tr><td>Carpeta <code>docs/</code> con las seis secciones del marco</td><td>Repositorio de la pareja</td><td>1</td></tr><tr><td>00 Gobierno: DoR, DoD, convenciones git, reglas de seguridad, backlog</td><td><code>docs/00-gobierno/</code></td><td>1 y 8</td></tr><tr><td>Esqueleto Ionic + Angular standalone + Capacitor que compila y prueba</td><td>Raíz del repositorio</td><td>2</td></tr><tr><td>Estructura por feature con capas y regla de dependencias en el lint</td><td><code>src/app/</code> y <code>eslint.config.js</code></td><td>3</td></tr><tr><td>Raíz de composición, tabla de rutas central y guard</td><td><code>core/di/</code>, <code>app.routes.ts</code></td><td>4</td></tr><tr><td>Primer caso de uso con su puerto y su prueba</td><td><code>features/&lt;feature&gt;/domain/</code></td><td>5</td></tr><tr><td>ADR de estado, de navegación y del framework (este último «Propuesto»)</td><td><code>docs/01-arquitectura/decisiones/</code></td><td>6</td></tr><tr><td>C4 de contexto y de contenedores con su fuente</td><td><code>docs/01-arquitectura/diagramas/</code></td><td>7</td></tr><tr><td>Prototipo con fichas de pantalla</td><td>Figma + <code>docs/01-arquitectura/pantallas/</code></td><td>8</td></tr><tr><td>Documento técnico APA de 8 a 12 páginas, en PDF</td><td>Tarea de la Actividad 1 (ambos lo suben)</td><td>9</td></tr></tbody></table></div><h3>Requisitos</h3><div class="table-responsive"><table class="styled-table"><thead><tr><th>Herramienta</th><th>Versión</th><th>Para qué</th></tr></thead><tbody><tr><td>Node.js + npm</td><td><strong>≥ 24.15</strong> (LTS vigente)</td><td>Angular CLI 22 no arranca con una versión menor</td></tr><tr><td>Git</td><td>Cualquiera reciente</td><td>Repositorio de la pareja, ramas y commits</td></tr><tr><td>VS Code</td><td>Reciente</td><td>Editor; extensiones <em>Angular Language Service</em>, <em>ESLint</em> y, opcional, <em>PlantUML</em></td></tr><tr><td>Android Studio</td><td>Reciente, con SDK 36</td><td>Emulador, SDK y el JDK que trae incorporado</td></tr><tr><td>JDK</td><td><strong>21</strong></td><td>Lo exige Gradle para Capacitor 8; usa el de Android Studio</td></tr><tr><td>Cuenta de GitHub</td><td>—</td><td>Repositorio privado compartido con el tutor</td></tr><tr><td>Figma</td><td>Cuenta gratuita</td><td>Prototipo de interfaces</td></tr></tbody></table></div><p><strong>Qué hacer.</strong> Abre <strong>Git Bash</strong> y verifica cada herramienta:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-23392-0">Verificar</button><button class="tab-btn" data-tab="tab-23392-1">Configurar JDK y SDK (Git Bash)</button></div><div class="tab-panel active" id="tab-23392-0"><pre class="code">node --version     <span class="cm"># v24.15.0 o superior</span>
+npm --version
+git --version
+code --version
+java -version      <span class="cm"># openjdk version "21..."</span>
+adb --version      <span class="cm"># Android Debug Bridge, de platform-tools</span></pre></div><div class="tab-panel" id="tab-23392-1"><pre class="code"><span class="cm"># El JDK 21 viene con Android Studio (carpeta jbr); el SDK queda en AppData.</span>
+echo 'export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"' &gt;&gt; ~/.bashrc
+echo 'export ANDROID_HOME="$LOCALAPPDATA/Android/Sdk"' &gt;&gt; ~/.bashrc
+echo 'export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$PATH"' &gt;&gt; ~/.bashrc
+source ~/.bashrc</pre></div></div><p>En Android Studio abre <strong>Settings → Languages &amp; Frameworks → Android SDK</strong> y marca <strong>Android 16 (API 36)</strong> en <em>SDK Platforms</em> y <em>Android SDK Build-Tools</em>, <em>Platform-Tools</em> y <em>Emulator</em> en <em>SDK Tools</em>. Luego crea un emulador en <strong>Device Manager</strong> con una imagen de API 36.</p><p><strong>Deberías ver.</strong> <code>node --version</code> imprime <code>v24.15.0</code> o una versión mayor, <code>java -version</code> dice <code>21</code> y <code>adb --version</code> responde sin error.</p><p><strong>Si algo salió mal.</strong> Si Node es menor, instala la <strong>LTS vigente</strong> desde <a href="https://nodejs.org">nodejs.org</a> (instalador de Windows), cierra y abre Git Bash, y vuelve a verificar. Con Node viejo, cualquier comando <code>ng</code> termina con <code>The Angular CLI requires a minimum Node.js version of v22.22.3 or v24.15.0</code>. Si <code>java</code> o <code>adb</code> no se encuentran, revisa que las rutas del bloque anterior existan en tu equipo (Android Studio pudo instalarse en otra carpeta).</p><div class="callout warn"><h4>Cuidado</h4><p>Los dos integrantes deben tener <strong>las mismas versiones mayores</strong> de Node y del JDK. Un «en mi máquina sí compila» a dos días de la entrega casi siempre es una diferencia de versión.</p></div></section><section id="s-1-gobierno-primero-crea-docs-y-acuerden-las-reglas"><h2>1. Gobierno primero: crea docs/ y acuerden las reglas</h2><p>El método <strong>SDD</strong> pide que la documentación de diseño <strong>preceda</strong> al código. El primer artefacto del proyecto no es una pantalla: es la carpeta <code>docs/</code> con la estructura del marco y los tres acuerdos de la pareja.</p><h3>1.1 Crea la estructura del marco</h3><p><strong>Qué hacer.</strong> Descarga el paquete de <a href="https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/abp/plantillas/">Plantillas del proyecto</a> y descomprímelo. El repositorio lo creará <code>ionic start</code> en el paso 2, así que por ahora prepara <code>docs/</code> en una carpeta de trabajo <code>~/abp</code>:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21728-0">Crear las carpetas (ESTRUCTURA.md)</button><button class="tab-btn" data-tab="tab-21728-1">Copiar acuerdos y plantillas del H1</button></div><div class="tab-panel active" id="tab-21728-0"><pre class="code">mkdir -p ~/abp &amp;&amp; cd ~/abp
+mkdir -p docs/00-gobierno/retros \
+         docs/01-arquitectura/{features,pantallas,diagramas,decisiones/registros} \
+         docs/02-codigo-y-ui/componentes \
+         docs/03-api-y-datos/{endpoints,entidades} \
+         docs/04-calidad/casos \
+         docs/05-release/releases</pre></div><div class="tab-panel" id="tab-21728-1"><pre class="code">P=~/Downloads/plantillas-proyecto-abp      <span class="cm"># carpeta donde descomprimiste el .zip</span>
+cp "$P/00-definicion-de-listo.md"      docs/00-gobierno/definicion-de-listo.md
+cp "$P/00-definicion-de-hecho.md"      docs/00-gobierno/definicion-de-hecho.md
+cp "$P/00-convenciones-git.md"         docs/00-gobierno/convenciones-git.md
+cp "$P/00-plantilla-retro-sprint.md"   docs/00-gobierno/_plantilla-retro-sprint.md
+cp "$P/01-plantilla-adr.md"            docs/01-arquitectura/decisiones/_plantilla-adr.md
+cp "$P/01-plantilla-feature.md"        docs/01-arquitectura/_plantilla-feature.md
+cp "$P/01-plantilla-pantalla.md"       docs/01-arquitectura/_plantilla-pantalla.md
+touch docs/README.md docs/00-gobierno/{README,reglas-de-seguridad,backlog}.md
+touch docs/01-arquitectura/{README,estructura-del-proyecto,capas-y-estado,navegacion}.md
+touch docs/01-arquitectura/decisiones/README.md</pre></div></div><p><strong>Deberías ver.</strong> <code>find docs -type f | sort</code> lista los acuerdos de 00, las plantillas con prefijo <code>_plantilla-</code> y los documentos vacíos de 00 y 01. Las secciones 02 a 05 quedan como carpetas: se llenan en H2 y H3.</p><p><strong>Si algo salió mal.</strong> Si <code>cp</code> dice <em>No such file or directory</em>, la variable <code>P</code> no apunta a la carpeta descomprimida: ábrela en el Explorador y copia su ruta. Si las llaves <code>{…}</code> crean una carpeta literal llamada <code>{features,…}</code>, no estás en Git Bash.</p><div class="callout info"><h4>Nota</h4><p><strong>Las plantillas nunca se editan en su sitio.</strong> Se copian, se renombran, se diligencian, se les borran los bloques «Instrucción» y se registran en el <code>README.md</code> de su sección. La referencia guarda sus ADR directamente en <code>decisiones/</code>; tu repositorio sigue <code>ESTRUCTURA.md</code> y los guarda en <code>decisiones/registros/</code>.</p></div><h3>1.2 Definición de listo y definición de hecho</h3><p><strong>Qué hacer.</strong> Lean juntos los dos acuerdos y <strong>adáptenlos</strong>: cada casilla debe nombrar los comandos, carpetas y estados de su app. Así quedaron en la referencia:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21344-0">definicion-de-listo.md (checklist)</button><button class="tab-btn" data-tab="tab-21344-1">definicion-de-hecho.md (fragmento)</button></div><div class="tab-panel active" id="tab-21344-0"><pre class="code">- [ ] Valor escrito en formato *Como / Quiero / Para*.
+- [ ] Criterios de aceptación verificables en *Dado / Cuando / Entonces*, cada uno con el nombre
+      de la prueba que lo va a cubrir (`unidad_condicion_resultado`).
+- [ ] Boceto de la pantalla enlazado si toca la UI (un dibujo a mano fotografiado sirve).
+- [ ] Contrato de la API disponible en [`03-api-y-datos/endpoint-visitas.md`](../03-api-y-datos/endpoint-visitas.md)
+      o simulado en `api-simulada/` si la historia llama al backend.
+- [ ] Estados **cargando / vacío / error / offline** descritos (y *permiso denegado* si usa cámara o GPS).
+- [ ] Capa afectada identificada: ¿cambia `domain/` (regla de negocio), `data/` (contrato) o solo `presentation/`?
+- [ ] Dependencias con otras historias identificadas.
+- [ ] Estimada por el equipo (Fibonacci) y cabe en un sprint (≤ 8 puntos).</pre></div><div class="tab-panel" id="tab-21344-1"><pre class="code">- [ ] Criterios de aceptación cumplidos y verificados en un emulador Android (y en navegador con `ionic serve`).
+- [ ] Integrada a `main` por PR revisado y aprobado (squash).
+- [ ] Pruebas unitarias nuevas en verde: cada caso de uso y cada ViewModel tocado tiene prueba
+      (`npm run test:ci`), con dobles escritos a mano en `src/testing/`.
+- [ ] `npm run lint` sin errores: incluye la **regla de capas** (domain/ sin Angular ni data/,
+      presentation/ sin HTTP ni plugins, shared/ sin negocio).</pre></div></div><p>La DoR de la referencia trae una historia «lista» de ejemplo. Esta tabla es la que debe tener cada historia <strong>Must</strong> de tu backlog antes de programarla:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>#</th><th>Dado</th><th>Cuando</th><th>Entonces</th><th>Prueba</th></tr></thead><tbody><tr><td>1</td><td>una visita sin foto</td><td>la marco «Realizada» y guardo</td><td>veo «Para marcar la visita como realizada, captura la foto de evidencia.» y no se envía nada</td><td><code>registrar_realizadaSinFoto_lanzaErrorValidacion</code></td></tr><tr><td>2</td><td>permiso de cámara concedido y GPS encendido</td><td>pulso «Tomar foto y ubicación»</td><td>veo la foto y las coordenadas</td><td><code>capturar_conCamaraYUbicacion_devuelveFotoYCoordenadasSinAviso</code></td></tr><tr><td>3</td><td>GPS apagado</td><td>capturo la evidencia</td><td>conservo la foto y veo el aviso de «sin coordenadas»</td><td><code>capturar_conGpsFallando_conservaLaFotoYAvisa</code></td></tr><tr><td>4</td><td>permiso de cámara negado</td><td>capturo la evidencia</td><td>veo cómo activarlo en Ajustes</td><td><code>tomarEvidencia_sinPermisoDeCamara_muestraElErrorYNoCambiaLaFoto</code></td></tr></tbody></table></div><p><strong>Deberías ver.</strong> Dos acuerdos sin corchetes ni bloques «Instrucción», con las rutas y comandos de <strong>su</strong> proyecto.</p><p><strong>Si algo salió mal.</strong> Si su DoD cabe en cualquier app («el código funciona», «se probó»), no está adaptada: cada casilla debe poder verificarse con un comando, una ruta o una captura.</p><h3>1.3 Convenciones git de la pareja</h3><p><strong>Qué hacer.</strong> Diligencien <code>convenciones-git.md</code>. Decidan el modelo de ramas, el formato de commits, cómo se revisa un PR y qué nunca entra al repositorio. Ramas de ejemplo de la referencia:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Ejemplo real</th><th>Para qué</th></tr></thead><tbody><tr><td><code>feat/visitas-evidencia-gps</code></td><td>HU-VIS-04: captura de foto y ubicación</td></tr><tr><td><code>fix/auth-refresh-concurrente</code></td><td>Dos 401 simultáneos disparaban dos refresh</td></tr><tr><td><code>docs/adr-004-tokens</code></td><td>Registrar la decisión de almacenamiento seguro</td></tr><tr><td><code>chore/android-firma</code></td><td>signingConfig y script del keystore</td></tr></tbody></table></div><p>Commits de ejemplo (<em>Conventional Commits</em>, en español, modo imperativo, ≤ 72 caracteres):</p><pre class="ascii">feat(visitas): exigir foto para marcar una visita como realizada
+fix(network): serializar el refresh cuando llegan dos 401 a la vez
+test(visitas): cubrir la caché de lectura sin conexión
+docs(arquitectura): agregar ADR-002 de persistencia local
+build(android): firmar el AAB de release con keystore.properties</pre><ul><li><strong>Pull requests:</strong> un PR = una historia o un arreglo, idealmente &lt; 400 líneas; antes de pedir revisión, <code>npm run lint</code>, <code>npm run test:ci</code> y <code>npm run build</code> en verde; al menos una aprobación del otro integrante.</li><li><strong>Nunca entra al repositorio:</strong> <code>node_modules/</code>, <code>www/</code>, <code>android/app/build/</code>, llaves de firma (<code>*.jks</code>, <code>*.keystore</code>) ni archivos de contraseñas.</li><li><strong>Roles:</strong> en <code>00-gobierno/README.md</code> escriban quién es dueño del producto (prioriza y acepta historias) y quién líder técnico (cuida ADR, capas y DoD). Los dos programan.</li></ul><div class="callout tip"><h4>Tip</h4><p>El historial es la evidencia de SDD: el commit <code>docs(...)</code> de un documento va <strong>antes</strong> que el <code>feat(...)</code> del código que describe. El tutor lo puede comprobar con <code>git log --oneline</code>.</p></div></section><section id="s-2-crear-el-proyecto"><h2>2. Crear el proyecto</h2><h3>2.1 Genera el esqueleto</h3><p><strong>Qué hacer.</strong> Desde <code>~/abp</code> (donde está <code>docs/</code>), genera el proyecto. Cambia <code>mi-app</code> por el nombre de su app y el <code>package-id</code> por uno propio:</p><pre class="code">cd ~/abp
+npx -y @ionic/cli@7.2.1 start mi-app blank --type=angular-standalone --capacitor --<span class="kw">package</span>-id=co.edu.corhuila.miapp</pre><div class="table-responsive"><table class="styled-table"><thead><tr><th>Parte del comando</th><th>Qué hace</th></tr></thead><tbody><tr><td><code>npx -y @ionic/cli@7.2.1</code></td><td>Ejecuta la versión fijada del Ionic CLI sin instalarla global; <code>-y</code> acepta la descarga. Los dos integrantes usan la misma</td></tr><tr><td><code>start mi-app</code></td><td>Crea la carpeta <code>mi-app/</code> con el proyecto y, normalmente, un repositorio git con el primer commit</td></tr><tr><td><code>blank</code></td><td>Plantilla mínima: una página de inicio y nada más. Las pestañas o el menú lateral los decide su arquitectura</td></tr><tr><td><code>--type=angular-standalone</code></td><td>Angular con componentes <strong>standalone</strong> (sin <code>NgModule</code>), como la referencia</td></tr><tr><td><code>--capacitor</code></td><td>Integra Capacitor: crea <code>capacitor.config.ts</code> y registra la integración en <code>ionic.config.json</code></td></tr><tr><td><code>--package-id=co.edu.corhuila.miapp</code></td><td>El <code>appId</code> de la app en notación de dominio inverso: minúsculas, sin guiones. <strong>No cambia</strong> después de publicar</td></tr></tbody></table></div><p><strong>Deberías ver.</strong> La carpeta <code>mi-app/</code> con <code>src/</code>, <code>angular.json</code>, <code>capacitor.config.ts</code> e <code>ionic.config.json</code>. Este último debe decir <code>"type": "angular-standalone"</code>, igual que el de la referencia.</p><p><strong>Si algo salió mal.</strong> Si el CLI pregunta por un framework o por <em>standalone</em>, revisa que escribiste <code>--type=angular-standalone</code> sin espacios. Si la instalación de dependencias falla a mitad, entra a <code>mi-app/</code> y ejecuta <code>npm install</code>.</p><h3>2.2 Mueve docs/ al repositorio y haz el commit de gobierno</h3><pre class="code">cd ~/abp &amp;&amp; mv docs mi-app/ &amp;&amp; cd mi-app
+git log --oneline                     <span class="cm"># si no hay repositorio: git init &amp;&amp; git add -A &amp;&amp; git commit -m "chore: esqueleto ionic start"</span>
+git add docs
+git commit -m "docs(gobierno): agregar estructura del marco, DoR, DoD y convenciones git"</pre><p><strong>Deberías ver.</strong> <code>git log --oneline</code> con dos commits: el esqueleto y el de gobierno, <strong>antes</strong> de cualquier <code>feat</code>.</p><p><strong>Si algo salió mal.</strong> Si <code>git commit</code> pide nombre y correo, configúralos una vez con <code>git config --global user.name "…"</code> y <code>git config --global user.email "…"</code>.</p><h3>2.3 Fija versiones, Node y el script de pruebas</h3><p><strong>Qué hacer.</strong> Revisa las versiones instaladas y deja en <code>package.json</code> la versión mínima de Node y el script <code>test:ci</code>, como en la referencia:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-23392-0">Revisar versiones</button><button class="tab-btn" data-tab="tab-23392-1">package.json (fragmento de la referencia)</button><button class="tab-btn" data-tab="tab-23392-2">package.json → engines (referencia)</button></div><div class="tab-panel active" id="tab-23392-0"><pre class="code">npm ls @ionic/angular @angular/core @capacitor/core --depth=0
+grep -n '"builder"' angular.json      <span class="cm"># ¿qué runner de pruebas trae el starter?</span></pre></div><div class="tab-panel" id="tab-23392-1"><pre class="code">    "test": "ng test",
+    "lint": "ng lint",
+    "test:ci": "ng test --watch=<span class="kw">false</span>"
+  },</pre></div><div class="tab-panel" id="tab-23392-2"><pre class="code">  "engines": {
+    "node": "&gt;=24.15.0"
+  }</pre></div></div><p>Luego ejecuta:</p><pre class="code">npm run test:ci
+npm start                             <span class="cm"># ng serve → http://localhost:4200</span></pre><p><strong>Deberías ver.</strong> <code>@ionic/angular</code> 8 o superior (la referencia usa 9.0.6), <code>@angular/core</code> 22.x y <code>@capacitor/core</code> 8.x; la prueba del starter en verde y la página <em>blank</em> en el navegador.</p><p><strong>Si algo salió mal.</strong> Si <code>angular.json</code> muestra el builder <code>@angular/build:unit-test</code>, las pruebas corren con <strong>Vitest</strong> (como la referencia). Si muestra uno de <strong>Karma</strong>, también es válido según la Guía; en ese caso <code>test:ci</code> necesita un navegador sin ventana: <code>ng test --watch=false --browsers=ChromeHeadless</code>. Regístrenlo en <code>convenciones-git.md</code> o en la DoD.</p><h3>2.4 Agrega Android y ábrelo una vez</h3><pre class="code">npm run build                         <span class="cm"># genera www/, el webDir de capacitor.config.ts</span>
+npm install @capacitor/android
+npx cap add android
+npx cap run android                   <span class="cm"># compila e instala en el emulador</span></pre><p><strong>Deberías ver.</strong> La carpeta <code>android/</code> en el repositorio (se versiona: es código fuente) y la página inicial de Ionic en el emulador.</p><p><strong>Si algo salió mal.</strong> <code>SDK location not found</code> o un error de versión de Java: abre <code>android/</code> una vez con <code>npx cap open android</code> y deja que Android Studio sincronice Gradle con su JDK 21. Pantalla en blanco: falta <code>npm run build</code> antes de <code>npx cap sync android</code>.</p></section><section id="s-3-estructura-por-feature-y-capas"><h2>3. Estructura por feature y capas</h2><h3>3.1 El árbol que debes llegar a tener</h3><p><strong>Qué hacer.</strong> Reorganiza <code>src/app/</code> <strong>por feature</strong>, con <code>presentation/</code>, <code>domain/</code> y <code>data/</code> dentro de cada una, más <code>core/</code> y <code>shared/</code>. Este es el árbol real de la referencia (<code>docs/01-arquitectura/estructura-del-proyecto.md</code>):</p><pre class="ascii">src/app/
+├── app.component.ts|html      Shell: menú lateral + ion-router-outlet; navega a /login si la sesión expira
+├── app.config.ts              Composición de la app: Ionic, router, provideCore(), provideAuth(), locale es-CO
+├── app.routes.ts              TABLA DE RUTAS CENTRAL + guards (ver navegacion.md)
+├── core/                      Compartido por todas las features
+│   ├── di/                    RAÍZ DE COMPOSICIÓN: único lugar que une dominio con implementaciones
+│   │   ├── core.providers.ts      EL cliente HTTP con sus 4 interceptores + restaurar sesión al arrancar
+│   │   ├── auth.providers.ts      AUTH_REPOSITORY → AuthHttpRepository; IniciarSesion, CerrarSesion
+│   │   └── visitas.providers.ts   VISITAS_REPOSITORY → VisitasHttpRepository; 6 casos de uso
+│   ├── errores/               Errores de dominio (TypeScript puro)
+│   ├── network/               api-url, interceptores (correlation-id, errores, auth+refresh, timeout), mapear-error-http
+│   ├── sesion/                SesionService (dueño de los tokens, refresh serializado) + authGuard
+│   ├── storage/               Puertos TokenStore y CacheLocal + adaptadores (secure storage, Preferences) + tokens DI
+│   ├── nativo/                Puertos Camara y Ubicacion + adaptadores Capacitor + PermisoDenegadoError + tokens DI
+│   └── theme/                 tokens.scss: variables CSS del sistema de diseño
+├── features/
+│   ├── auth/
+│   │   ├── domain/            Sesion, AuthRepository (puerto), IniciarSesion, CerrarSesion, CredencialesInvalidasError
+│   │   ├── data/              login.dto.ts, sesion.mapper.ts, auth-http.repository.ts
+│   │   └── presentation/login/  login.page.* + login.view-model.ts
+│   └── visitas/
+│       ├── domain/            visita.ts (entidad), visitas.repository.ts (puerto), reglas-visita.ts,
+│       │   └── casos-de-uso/  listar-, obtener-, registrar-, actualizar-, eliminar-visita, capturar-evidencia
+│       ├── data/              visita.dto.ts, visita.mapper.ts, visitas-http.repository.ts (caché de lectura)
+│       └── presentation/
+│           ├── estado-visita.presentacion.ts   etiqueta y color de cada estado
+│           ├── lista/         visitas-lista.page.* + visitas-lista.view-model.ts
+│           └── form/          visita-form.page.* + visita-form.view-model.ts + validadores.ts
+└── shared/                    UI reutilizable SIN negocio: estado-vacio, mensaje-error, banner-offline
+src/testing/                   Dobles de prueba escritos a mano (repositorio, almacenamiento, cámara, GPS)</pre><p>En el H1 tu árbol no tiene que estar lleno: basta con las carpetas de <strong>tus</strong> features y capas, <code>core/di/</code>, la tabla de rutas y el primer caso de uso (paso 5). Las carpetas <code>network/</code>, <code>storage/</code> y <code>nativo/</code> se llenan en H2.</p><pre class="code"><span class="cm"># Crea las capas de tu primera feature (cambia "pedidos" por la tuya)</span>
+mkdir -p src/app/features/pedidos/{presentation,domain/casos-de-uso,data} src/app/core/di src/app/shared src/testing
+npx ionic generate page features/pedidos/presentation/lista/pedidos-lista --standalone</pre><div class="table-responsive"><table class="styled-table"><thead><tr><th>Regla (de la referencia)</th><th>Cómo se verifica</th></tr></thead><tbody><tr><td>Una feature = una carpeta en <code>features/</code>; sin imports entre features</td><td>Revisión de PR. Las features se comunican por <strong>rutas</strong></td></tr><tr><td><code>domain/</code> es TypeScript puro</td><td><code>npm run lint</code> (regla <code>no-restricted-imports</code> en <code>eslint.config.js</code>)</td></tr><tr><td><code>presentation/</code> no usa HTTP, <code>data/</code> ni plugins</td><td><code>npm run lint</code></td></tr><tr><td><code>shared/</code> sin negocio: recibe <code>input()</code>, emite <code>output()</code></td><td><code>npm run lint</code> (no puede importar <code>core/</code> ni <code>features/</code>)</td></tr><tr><td>Solo <code>core/di/</code> conoce las implementaciones concretas</td><td>Las páginas inyectan <strong>casos de uso</strong>; los casos de uso reciben <strong>puertos</strong> por constructor</td></tr><tr><td>Un archivo = un tipo principal; el nombre del archivo lo refleja</td><td>Revisión de PR</td></tr></tbody></table></div><p><strong>Deberías ver.</strong> <code>estructura-del-proyecto.md</code> con <strong>tu</strong> árbol real (pégalo con <code>find src/app -type d | sort</code> como base) y esta tabla de reglas adaptada.</p><p><strong>Si algo salió mal.</strong> Si <code>ionic generate</code> deja la página en <code>src/app/</code> y no en la ruta de la feature, escribiste la ruta sin <code>features/…</code>. Mueve los archivos y corrige el <code>import</code> de la ruta.</p><h3>3.2 La regla de capas en el lint</h3><p><strong>Qué hacer.</strong> La regla que no se automatiza, se viola. Copia los bloques de capas de la referencia a tu <code>eslint.config.js</code> (si <code>npm run lint</code> dice que no hay <em>target</em> de lint, ejecuta antes <code>npx ng add angular-eslint</code>):</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21536-0">eslint.config.js · constante</button><button class="tab-btn" data-tab="tab-21536-1">eslint.config.js · domain/</button><button class="tab-btn" data-tab="tab-21536-2">eslint.config.js · presentation/</button></div><div class="tab-panel active" id="tab-21536-0"><pre class="code"><span class="cm">// Regla de dependencias entre capas (docs/01-arquitectura/capas-y-estado.md):</span>
+<span class="cm">//   presentation → domain ← data      y      core/di es la única raíz de composición.</span>
+<span class="cm">// ESLint la hace cumplir: `npm run lint` falla si alguien la rompe.</span>
+<span class="kw">const</span> FRAMEWORKS = ["@angular/*", "@ionic/*", "@capacitor/*", "@aparajita/*", "rxjs", "rxjs/*"];</pre></div><div class="tab-panel" id="tab-21536-1"><pre class="code">  {
+    <span class="cm">// domain/: TypeScript puro. De core/ solo puede usar errores y puertos (archivos sin framework).</span>
+    files: ["src/app/features/*/domain/**/*.ts"],
+    ignores: ["**/*.spec.ts"],
+    rules: {
+      "no-restricted-imports": ["error", {
+        patterns: [
+          { group: FRAMEWORKS, message: "domain/ es TypeScript puro: sin Angular, Ionic, Capacitor ni RxJS." },
+          { group: ["**/data/*", "**/presentation/*"], message: "domain/ no depende de data/ ni de presentation/." },
+          {
+            group: ["**/core/network/*", "**/core/storage/*", "**/core/sesion/*", "**/core/di/*", "**/core/theme/*",
+              "**/core/nativo/*-capacitor", "**/core/nativo/nativo.tokens"],
+            message: "domain/ solo usa de core/ los errores (core/errores) y los puertos (*.port, *.error).",
+          },
+        ],
+      }],
+    },
+  },</pre></div><div class="tab-panel" id="tab-21536-2"><pre class="code">  {
+    <span class="cm">// presentation/: habla con casos de uso; nunca con data/ ni con adaptadores concretos.</span>
+    files: ["src/app/features/*/presentation/**/*.ts"],
+    rules: {
+      "no-restricted-imports": ["error", {
+        patterns: [
+          { group: ["**/data/*", "@angular/common/http"], message: "presentation/ no usa HTTP ni data/: inyecta casos de uso." },
+          { group: ["@capacitor/*", "@aparajita/*", "**/core/storage/*", "**/core/nativo/*-capacitor"],
+            message: "presentation/ no toca plugins ni almacenamiento: van detrás de un puerto." },
+        ],
+      }],
+    },
+  },</pre></div></div><p>Los bloques van dentro de <code>tseslint.config( … )</code>, después del bloque general de <code>**/*.ts</code> que generó <code>angular-eslint</code>.</p><h3>3.3 Comprueba que la regla muerde</h3><p><strong>Qué hacer.</strong> Rompe la regla a propósito, mira el error y deshaz el cambio:</p><pre class="code">F=src/app/features/pedidos/domain          <span class="cm"># tu feature</span>
+printf "<span class="kw">import</span> { HttpClient } from '@angular/common/http';\nexport type SoloParaProbar = HttpClient;\n" &gt; "$F/prueba-capas.ts"
+npm run lint
+rm "$F/prueba-capas.ts" &amp;&amp; npm run lint</pre><p><strong>Deberías ver.</strong> El primer <code>npm run lint</code> termina con error y señala la línea 1 del archivo con <code>no-restricted-imports</code>: <em>'@angular/common/http' import is restricted from being used by a pattern. domain/ es TypeScript puro: sin Angular, Ionic, Capacitor ni RxJS.</em> El segundo pasa limpio. <strong>Guarda la captura</strong>: es evidencia del mínimo 2 en el documento.</p><p><strong>Si algo salió mal.</strong> Si el lint pasa con el import prohibido, el patrón <code>files</code> no coincide con tu ruta: debe ser <code>src/app/features/*/domain/**/*.ts</code>, relativo a la raíz del proyecto.</p><div class="callout info"><h4>Nota</h4><p><strong>Observable o Promise: decídanlo una vez.</strong> La OVA muestra el contrato del repositorio con <code>Observable</code>; la referencia usa <code>Promise</code> porque cada operación produce <strong>una sola respuesta</strong>, y por eso su lint prohíbe <code>rxjs</code> en <code>domain/</code>. Las dos opciones son válidas si el ADR lo registra. Si eligen <code>Observable</code>, quiten <code>"rxjs", "rxjs/*"</code> de <code>FRAMEWORKS</code> y díganlo en <code>capas-y-estado.md</code>.</p></div></section><section id="s-4-raiz-de-composicion-y-tabla-de-rutas-con-guard"><h2>4. Raíz de composición y tabla de rutas con guard</h2><p><strong>Qué hacer.</strong> Dos piezas unen todo: <code>core/di/</code> construye los casos de uso con sus implementaciones y <code>app.routes.ts</code> declara qué pantallas existen y cuáles protege el guard. (<code>app.config.ts</code> registra lo transversal —router, Ionic, <code>provideCore()</code> y <code>provideAuth()</code>— y <code>core/di/core.providers.ts</code> el cliente HTTP con sus interceptores, que es de H2.) Así quedaron en la referencia:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21728-0">src/app/core/di/visitas.providers.ts (fragmento)</button><button class="tab-btn" data-tab="tab-21728-1">src/app/app.routes.ts (fragmento)</button><button class="tab-btn" data-tab="tab-21728-2">src/app/core/sesion/auth.guard.ts</button></div><div class="tab-panel active" id="tab-21728-0"><pre class="code">export <span class="kw">const</span> VISITAS_REPOSITORY = <span class="kw">new</span> InjectionToken&lt;VisitasRepository&gt;('VISITAS_REPOSITORY', {
+  providedIn: 'root',
+  factory: () =&gt; inject(VisitasHttpRepository),
+});
+
+export <span class="kw">function</span> provideVisitas(): Provider[] {
+  <span class="kw">return</span> [
+    { provide: ListarVisitas, useFactory: () =&gt; <span class="kw">new</span> ListarVisitas(inject(VISITAS_REPOSITORY)) },
+    { provide: ObtenerVisita, useFactory: () =&gt; <span class="kw">new</span> ObtenerVisita(inject(VISITAS_REPOSITORY)) },
+    { provide: RegistrarVisita, useFactory: () =&gt; <span class="kw">new</span> RegistrarVisita(inject(VISITAS_REPOSITORY)) },
+    { provide: ActualizarVisita, useFactory: () =&gt; <span class="kw">new</span> ActualizarVisita(inject(VISITAS_REPOSITORY)) },
+    { provide: EliminarVisita, useFactory: () =&gt; <span class="kw">new</span> EliminarVisita(inject(VISITAS_REPOSITORY)) },
+    { provide: CapturarEvidencia, useFactory: () =&gt; <span class="kw">new</span> CapturarEvidencia(inject(CAMARA), inject(UBICACION)) },
+  ];
+}</pre></div><div class="tab-panel" id="tab-21728-1"><pre class="code">export <span class="kw">const</span> routes: Routes = [
+  { path: '', redirectTo: 'visitas', pathMatch: 'full' },
+  {
+    path: 'login',
+    canActivate: [invitadoGuard],
+    loadComponent: () =&gt; <span class="kw">import</span>('./features/auth/presentation/login/login.page').then((m) =&gt; m.LoginPage),
+  },
+  {
+    path: 'visitas',
+    canActivate: [authGuard],
+    providers: [provideVisitas()],
+    children: [
+      {
+        path: '',
+        loadComponent: () =&gt; <span class="kw">import</span>('./features/visitas/presentation/lista/visitas-lista.page').then((m) =&gt; m.VisitasListaPage),
+      },
+      {
+        path: 'nueva',
+        loadComponent: () =&gt; <span class="kw">import</span>('./features/visitas/presentation/form/visita-form.page').then((m) =&gt; m.VisitaFormPage),
+      },
+      {
+        path: ':id',
+        loadComponent: () =&gt; <span class="kw">import</span>('./features/visitas/presentation/form/visita-form.page').then((m) =&gt; m.VisitaFormPage),
+      },
+    ],
+  },
+  { path: '**', redirectTo: 'visitas' },
+];</pre></div><div class="tab-panel" id="tab-21728-2"><pre class="code"><span class="kw">import</span> { inject } from '@angular/core';
+<span class="kw">import</span> { CanActivateFn, Router } from '@angular/router';
+<span class="kw">import</span> { SesionService } from './sesion.service';
+
+/** Rutas protegidas: sin sesión, redirige a /login. Se declara en app.routes.ts, no en las pantallas. */
+export <span class="kw">const</span> authGuard: CanActivateFn = () =&gt;
+  inject(SesionService).autenticado() ? <span class="kw">true</span> : inject(Router).createUrlTree(['/login']);
+
+/** /login solo para quien no tiene sesión: con sesión, va directo a /visitas. */
+export <span class="kw">const</span> invitadoGuard: CanActivateFn = () =&gt;
+  inject(SesionService).autenticado() ? inject(Router).createUrlTree(['/visitas']) : <span class="kw">true</span>;</pre></div></div><p>Lo que debes copiar es <strong>la forma</strong>, no los nombres:</p><ul><li><strong>Un token por puerto</strong> (<code>VISITAS_REPOSITORY</code>) cuya <code>factory</code> devuelve la implementación de <code>data/</code>: el dominio sigue siendo una interfaz pura y solo <code>core/di/</code> sabe qué clase la cumple.</li><li><strong>Una función `provideX()` por feature</strong> que construye los casos de uso con <code>new</code>, registrada en la <strong>ruta</strong> de la feature (<code>providers: [provideVisitas()]</code>).</li><li><strong>El guard en la tabla</strong>, sobre el grupo: cualquier pantalla nueva bajo <code>/visitas</code> queda protegida sin tocarla. <code>nueva</code> va <strong>antes</strong> de <code>:id</code>, o «nueva» se leería como un id.</li><li><strong>El cliente HTTP y sus interceptores</strong> son de H2 (03 API y datos): en el H1, <code>core.providers.ts</code> puede no existir todavía.</li></ul><p><strong>Deberías ver.</strong> <code>navegacion.md</code> con una tabla <strong>igual</strong> a tu <code>app.routes.ts</code>: ruta, pantalla, argumentos, guard y providers. La referencia la llama «copia fiel de <code>app.routes.ts</code>» y la actualiza en el mismo PR.</p><p><strong>Si algo salió mal.</strong> Si en el H1 aún no tienen <code>SesionService</code>, el guard puede consultar un servicio de sesión provisional; lo que no puede faltar es la protección <strong>declarada en la tabla</strong>. La referencia prueba el guard en <code>sesion.service.spec.ts</code> con <code>authGuard_sinSesion_redirigeALogin</code> y <code>authGuard_conSesion_dejaPasar</code>.</p><div class="callout tip"><h4>Tip</h4><p><strong>Interfaz + `InjectionToken` o clase abstracta.</strong> La OVA usa una clase abstracta como contrato porque sirve directamente de token de inyección; la referencia deja el puerto como <code>interface</code> en <code>domain/</code> y pone el token en <code>core/di/</code>, para que el dominio no tenga nada de Angular. Las dos son correctas: elijan una y regístrenla en <code>capas-y-estado.md</code>.</p></div></section><section id="s-5-tu-primer-caso-de-uso-y-su-puerto"><h2>5. Tu primer caso de uso y su puerto</h2><p><strong>Qué hacer.</strong> Escribe, para la historia <strong>Must</strong> más importante de tu backlog, cuatro archivos en <code>domain/</code>: la <strong>entidad</strong>, el <strong>puerto</strong> (interfaz del repositorio), la <strong>regla</strong> y el <strong>caso de uso</strong>. Así es <code>ListarVisitas</code> en la referencia:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21344-0">features/visitas/domain/visita.ts</button><button class="tab-btn" data-tab="tab-21344-1">features/visitas/domain/visitas.repository.ts</button><button class="tab-btn" data-tab="tab-21344-2">features/visitas/domain/reglas-visita.ts (fragmento)</button><button class="tab-btn" data-tab="tab-21344-3">features/visitas/domain/casos-de-uso/listar-visitas.ts</button></div><div class="tab-panel active" id="tab-21344-0"><pre class="code"><span class="kw">import</span> type { Coordenadas } from '../../../core/nativo/ubicacion.port';
+
+export type EstadoVisita = 'pendiente' | 'realizada' | 'cancelada';
+
+export <span class="kw">const</span> ESTADOS_VISITA: readonly EstadoVisita[] = ['pendiente', 'realizada', 'cancelada'];
+
+/** Entidad del dominio. Inmutable; usa tipos del negocio (Date, Coordenadas), no los del JSON. */
+export interface Visita {
+  readonly id: string;
+  readonly cliente: string;
+  readonly direccion: string;
+  readonly estado: EstadoVisita;
+  readonly observaciones: string;
+  /** Foto de evidencia como data URL, o <span class="kw">null</span> si aún no se tomó. */
+  readonly foto: string | <span class="kw">null</span>;
+  readonly ubicacion: Coordenadas | <span class="kw">null</span>;
+  readonly creadaEn: Date;
+  readonly actualizadaEn: Date;
+}
+
+/** Lo que la persona técnica escribe o captura: la visita sin identidad ni fechas. */
+export type DatosVisita = Omit&lt;Visita, 'id' | 'creadaEn' | 'actualizadaEn'&gt;;
+
+/** Resultado de listar: además de las visitas, dice si vienen de la caché (offline). */
+export interface ListaVisitas {
+  readonly visitas: readonly Visita[];
+  /** <span class="kw">true</span> si la red falló y estas son las últimas visitas guardadas en el dispositivo. */
+  readonly desactualizado: <span class="kw">boolean</span>;
+  /** Cuándo se obtuvieron del servidor. */
+  readonly sincronizadoEn: Date;
+}
+
+export type { Coordenadas };</pre></div><div class="tab-panel" id="tab-21344-1"><pre class="code"><span class="kw">import</span> { DatosVisita, ListaVisitas, Visita } from './visita';
+
+/**
+ * Puerto del dominio de visitas. El dominio declara QUÉ necesita; data/ decide CÓMO
+ * (HTTP + caché de lectura en visitas-http.repository.ts). Los errores que lanza son de dominio.
+ */
+export interface VisitasRepository {
+  /** Lee en línea; si no hay red devuelve la caché marcada como desactualizada. */
+  listar(): Promise&lt;ListaVisitas&gt;;
+  obtener(id: string): Promise&lt;Visita&gt;;
+  crear(datos: DatosVisita): Promise&lt;Visita&gt;;
+  actualizar(id: string, datos: DatosVisita): Promise&lt;Visita&gt;;
+  eliminar(id: string): Promise&lt;<span class="kw">void</span>&gt;;
+}</pre></div><div class="tab-panel" id="tab-21344-2"><pre class="code">/** Orden de la jornada: primero las pendientes; dentro de cada grupo, las más recientes arriba. */
+export <span class="kw">function</span> ordenarParaJornada(visitas: readonly Visita[]): Visita[] {
+  <span class="kw">return</span> [...visitas].sort((a, b) =&gt; {
+    <span class="kw">const</span> prioridad = Number(b.estado === 'pendiente') - Number(a.estado === 'pendiente');
+    <span class="kw">return</span> prioridad !== 0 ? prioridad : b.creadaEn.getTime() - a.creadaEn.getTime();
+  });
+}</pre></div><div class="tab-panel" id="tab-21344-3"><pre class="code"><span class="kw">import</span> { ordenarParaJornada } from '../reglas-visita';
+<span class="kw">import</span> { ListaVisitas } from '../visita';
+<span class="kw">import</span> { VisitasRepository } from '../visitas.repository';
+
+/** Caso de uso: listar las visitas de la jornada, ordenadas (pendientes primero). */
+export <span class="kw">class</span> ListarVisitas {
+  constructor(<span class="kw">private</span> readonly repositorio: VisitasRepository) {}
+
+  async ejecutar(): Promise&lt;ListaVisitas&gt; {
+    <span class="kw">const</span> lista = await this.repositorio.listar();
+    <span class="kw">return</span> { ...lista, visitas: ordenarParaJornada(lista.visitas) };
+  }
+}</pre></div></div><p>Fíjate en tres cosas: la entidad usa tipos del negocio (<code>Date</code>, no el texto ISO del JSON); el puerto habla el idioma del dominio y no menciona HTTP; y el caso de uso recibe el puerto <strong>por constructor</strong>, sin <code>inject()</code>, así que se prueba con <code>new</code>.</p><p><strong>Qué hacer después.</strong> Escribe la prueba con un <strong>doble escrito a mano</strong> del puerto, en <code>src/testing/</code>. Sin <code>vi.fn</code> ni <code>jasmine.createSpyObj</code>, la misma prueba corre en Vitest o en Karma:</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21728-0">features/visitas/domain/casos-de-uso/listar-visitas.spec.ts (fragmento)</button><button class="tab-btn" data-tab="tab-21728-1">src/testing/visitas-repository.falso.ts (fragmento)</button></div><div class="tab-panel active" id="tab-21728-0"><pre class="code"><span class="kw">import</span> { VisitasRepositoryFalso } from '../../../../../testing/visitas-repository.falso';
+<span class="kw">import</span> { unaVisita } from '../../../../../testing/visitas.ejemplo';
+<span class="kw">import</span> { ListarVisitas } from './listar-visitas';
+
+describe('ListarVisitas', () =&gt; {
+  it('listar_conVariosEstados_ponePendientesPrimeroYLuegoLasMasRecientes', async () =&gt; {
+    <span class="kw">const</span> repo = <span class="kw">new</span> VisitasRepositoryFalso();
+    repo.lista = {
+      ...repo.lista,
+      visitas: [
+        unaVisita({ id: 'realizada-nueva', estado: 'realizada', creadaEn: <span class="kw">new</span> Date('2026-10-05T10:00:00Z') }),
+        unaVisita({ id: 'pendiente-vieja', estado: 'pendiente', creadaEn: <span class="kw">new</span> Date('2026-10-01T10:00:00Z') }),
+        unaVisita({ id: 'pendiente-nueva', estado: 'pendiente', creadaEn: <span class="kw">new</span> Date('2026-10-04T10:00:00Z') }),
+      ],
+    };
+
+    <span class="kw">const</span> resultado = await <span class="kw">new</span> ListarVisitas(repo).ejecutar();
+
+    expect(resultado.visitas.map((v) =&gt; v.id)).toEqual(['pendiente-nueva', 'pendiente-vieja', 'realizada-nueva']);
+  });</pre></div><div class="tab-panel" id="tab-21728-1"><pre class="code">/**
+ * Doble de prueba del puerto VisitasRepository: respuestas configurables y registro de llamadas.
+ * Escrito a mano (sin jasmine.createSpyObj ni vi.fn) para que las pruebas corran en Karma o Vitest.
+ */
+export <span class="kw">class</span> VisitasRepositoryFalso implements VisitasRepository {
+  lista: ListaVisitas = { visitas: [], desactualizado: <span class="kw">false</span>, sincronizadoEn: <span class="kw">new</span> Date('2026-10-05T15:00:00.000Z') };
+  errorAlListar: unknown = <span class="kw">null</span>;
+  errorAlEscribir: unknown = <span class="kw">null</span>;
+  visitaPorId: Visita | <span class="kw">null</span> = unaVisita();
+  /** Si se asigna, listar() espera esta promesa antes de responder (para probar el orden de cargas). */
+  pausa: Promise&lt;<span class="kw">void</span>&gt; | <span class="kw">null</span> = <span class="kw">null</span>;
+
+  readonly creadas: DatosVisita[] = [];
+  readonly actualizadas: { id: string; datos: DatosVisita }[] = [];
+  readonly eliminadas: string[] = [];
+  llamadasListar = 0;
+
+  async listar(): Promise&lt;ListaVisitas&gt; {
+    this.llamadasListar++;
+    <span class="kw">if</span> (this.pausa) await this.pausa;
+    <span class="kw">if</span> (this.errorAlListar) throw this.errorAlListar;
+    <span class="kw">return</span> this.lista;
+  }</pre></div></div><p>La fábrica <code>unaVisita()</code> de <code>src/testing/visitas.ejemplo.ts</code> devuelve una visita válida con valores fijos y deja que cada prueba cambie solo lo que le importa. Ejecuta las pruebas y el lint:</p><pre class="code">npm run test:ci &amp;&amp; npm run lint
+git add src docs &amp;&amp; git commit -m "feat(pedidos): agregar caso de uso ListarPedidos con su puerto y prueba"</pre><p><strong>Deberías ver.</strong> El resumen del runner con tus pruebas nuevas en verde y cero fallas, y el lint limpio. La referencia completa reporta <strong>18 archivos y 81 pruebas</strong> en verde.</p><p><strong>Si algo salió mal.</strong> Si Vitest no reconoce <code>describe</code> o <code>it</code>, falta <code>"types": ["vitest/globals"]</code> en <code>tsconfig.spec.json</code> (así está en la referencia). Si la prueba necesita <code>TestBed</code> para un caso de uso, el caso de uso está usando <code>inject()</code>: pásale el puerto por constructor.</p><div class="callout info"><h4>Nota</h4><p><strong>El nombre de la prueba es el criterio de aceptación.</strong> <code>listar_conVariosEstados_ponePendientesPrimeroYLuegoLasMasRecientes</code> sigue la forma <code>unidad_condicion_resultado</code> que exige la DoR. Así, en el backlog, cada criterio apunta a una prueba que existe (paso 8).</p></div></section><section id="s-6-decisiones-los-adr-del-h1"><h2>6. Decisiones: los ADR del H1</h2><p>El H1 exige el <strong>ADR del patrón de estado</strong> y el <strong>de navegación</strong>, y el <strong>ADR del framework en estado «Propuesto»</strong>: se acepta en el H2, después del análisis del foro. La referencia los numera 001, 003 y 005 porque también registró persistencia y tokens; ustedes numeren en el orden en que deciden.</p><h3>6.1 ADR-001 · Patrón de estado</h3><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21536-0">Encabezado</button><button class="tab-btn" data-tab="tab-21536-1">Decisión</button><button class="tab-btn" data-tab="tab-21536-2">Consecuencias</button></div><div class="tab-panel active" id="tab-21536-0"><pre class="code"><span class="cm"># ADR-001 — Patrón de estado: MVVM con estado inmutable</span>
+
+- **ID:** ADR-001
+- **Fecha:** 2026-10-05
+- **Estado:** Aceptado
+- **Autores:** equipo de Bitácora de Campo (app de referencia; Jesús Ariel González Bonilla)</pre></div><div class="tab-panel" id="tab-21536-1"><pre class="code">**Decidimos:** un **ViewModel por pantalla** (MVVM) que guarda **un único objeto de estado
+inmutable** en un `BehaviorSubject` privado y lo expone a la vista como **signal de solo
+lectura** con `toSignal(…, { requireSync: <span class="kw">true</span> })`.
+
+**Justificación:**
+- Un solo objeto con un campo `fase` hace imposibles las combinaciones inválidas y la plantilla
+  lo recorre con `@switch`.
+- `BehaviorSubject` da el valor actual de forma síncrona (`.value`) para construir la transición
+  siguiente (`{ ...previo, cambio }`) y es RxJS estándar, sin librerías extra.
+- `toSignal` conecta con la detección de cambios *zoneless* sin `async` pipes ni suscripciones
+  manuales.
+- El ViewModel es una clase `@Injectable()` que se prueba con `TestBed.inject` y casos de uso
+  construidos sobre un repositorio falso. Desempate: **cero dependencias nuevas**.</pre></div><div class="tab-panel" id="tab-21536-2"><pre class="code">**Positivas:**
+- Todas las pantallas se leen igual: estado → `@switch (estado().fase)` → intenciones.
+- 21 pruebas de ViewModel corren en milisegundos sin dispositivo.
+
+**Negativas / costos:**
+- Cada pantalla repite la estructura (estado, inicial, `emitir`).
+- Hay que disciplinarse a no mutar: TypeScript `readonly` ayuda, pero no lo impide en tiempo de ejecución.</pre></div></div><p>Las alternativas evaluadas, tal como están en el ADR:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Alternativa</th><th>Pros</th><th>Contras</th><th>Razón del descarte</th></tr></thead><tbody><tr><td><strong>MVVM + BehaviorSubject → signal (elegida)</strong></td><td>Simple, sin dependencias, probable sin UI, funciona <em>zoneless</em></td><td>Algo de código repetido por pantalla</td><td>— (elegida)</td></tr><tr><td>ViewModel solo con <code>signal()</code></td><td>Aún más corto</td><td>Mezcla dos APIs al combinar con RxJS de <code>HttpClient</code>; menos material de clase sobre RxJS</td><td>El curso trabaja RxJS en la U2; el BehaviorSubject lo hace visible</td></tr><tr><td>NgRx Store (Redux)</td><td>Muy explícito, <em>devtools</em>, escala a apps grandes</td><td>Mucha ceremonia (acciones, reducers, efectos) para 3 pantallas; dependencia grande</td><td>Sobredimensionado para el alcance</td></tr><tr><td>NgRx SignalStore</td><td>Moderno, menos ceremonia que Store</td><td>Dependencia y API nuevas que aprender en 5 semanas</td><td>Costo de aprendizaje sin beneficio claro aquí</td></tr><tr><td>Estado mutable en el componente</td><td>Rápido de escribir</td><td>No se prueba sin renderizar; estados imposibles; lógica en la vista</td><td>Rechazada: viola las capas</td></tr></tbody></table></div><h3>6.2 ADR-003 · Navegación y guard</h3><pre class="code">**Decidimos:** **una sola tabla de rutas** en `src/app/app.routes.ts` con carga perezosa
+(`loadComponent`), guards **funcionales** (`CanActivateFn`) declarados en la tabla
+(`authGuard` en el grupo `/visitas`, `invitadoGuard` en `/login`), rutas que pasan **ids**
+(`/visitas/:id` → `input()` por `withComponentInputBinding`) y providers de la feature en la ruta
+(`providers: [provideVisitas()]`). La sesión se restaura con `provideAppInitializer` antes de la
+primera navegación.
+
+**Justificación:** un solo lugar para auditar qué está protegido; los guards funcionales son
+funciones puras de 1 línea sobre `SesionService.autenticado()` y se prueban con
+`TestBed.runInInjectionContext`. Desempate: el guard en el **grupo** protege automáticamente
+cualquier pantalla nueva que se agregue bajo `/visitas`.</pre><div class="table-responsive"><table class="styled-table"><thead><tr><th>Alternativa</th><th>Pros</th><th>Contras</th><th>Razón del descarte</th></tr></thead><tbody><tr><td><strong>Tabla central + guard funcional en el grupo (elegida)</strong></td><td>Una fuente de verdad; protección por defecto</td><td>El orden de las rutas importa (<code>nueva</code> antes de <code>:id</code>)</td><td>— (elegida)</td></tr><tr><td>Revisar la sesión en <code>ngOnInit</code> de cada pantalla</td><td>Nada que configurar</td><td>Se olvida; la pantalla alcanza a pintarse; lógica duplicada</td><td>Rechazada: viola «guard centralizado» del marco</td></tr><tr><td>Rutas por feature con <code>loadChildren</code></td><td>Cada feature dueña de sus rutas</td><td>La tabla queda partida en varios archivos</td><td>Para 4 rutas, la tabla única se lee mejor; se reconsidera con &gt;3 features</td></tr><tr><td>Guards de clase (<code>CanActivate</code> con <code>@Injectable</code>)</td><td>Familiar en tutoriales viejos</td><td>API en desuso en Angular moderno; más código</td><td>Obsoleto</td></tr></tbody></table></div><h3>6.3 ADR-005 · Framework (en el H1, «Propuesto»)</h3><p>El enunciado pide «selección y justificación del framework (Angular, React o Vue)». En este curso Angular está fijado: justifíquenlo como ADR con React y Vue como <strong>alternativas evaluadas</strong>. La referencia muestra el ADR ya <strong>Aceptado</strong> porque es su estado final; en su H1 escriban <code>- **Estado:** Propuesto</code>.</p><pre class="code">**Decidimos:** **Angular 22 standalone** (signals, `inject()`, control flow `@<span class="kw">if</span>/@<span class="kw">for</span>/@switch`)
+con **@ionic/angular 9** y **Capacitor 8**.
+
+**Justificación:** desempata la **DI nativa**: los contratos del dominio se resuelven en una
+raíz de composición (`core/di/`) y se cambian por dobles en las pruebas
+(`{ provide: TOKEN_STORE, useValue: <span class="kw">new</span> TokenStoreFalso() }`) sin librerías extra. Router con
+guards, formularios reactivos y `HttpClient` con interceptores vienen incluidos.</pre><p>Su consecuencia negativa más concreta para ustedes: «Angular CLI 22 exige Node ≥ 24.15 (o ≥ 22.22.3)», fijado en <code>engines</code>. Y su verificación es comprobable por cualquiera: <code>package.json</code> fija <code>@angular/core</code> 22.x y <code>@ionic/angular</code> 9.x y no contiene <code>react</code> ni <code>vue</code>.</p><p>La matriz de decisión del ADR (puntaje 1 a 5 × peso). Los <strong>pesos</strong> son lo que la pareja discute: cámbienlos según su contexto y su experiencia.</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Criterio</th><th>Peso</th><th>Angular</th><th>React</th><th>Vue</th></tr></thead><tbody><tr><td>Estructura incluida (rutas, DI, formularios, HTTP)</td><td>3</td><td>5 → 15</td><td>2 → 6</td><td>4 → 12</td></tr><tr><td>DI nativa para sustituir contratos por dobles</td><td>3</td><td>5 → 15</td><td>2 → 6</td><td>3 → 9</td></tr><tr><td>Experiencia de la pareja</td><td>2</td><td>4 → 8</td><td>3 → 6</td><td>2 → 4</td></tr><tr><td>Madurez de la integración con Ionic</td><td>2</td><td>5 → 10</td><td>4 → 8</td><td>4 → 8</td></tr><tr><td>Curva de aprendizaje y tamaño del bundle</td><td>2</td><td>3 → 6</td><td>4 → 8</td><td>5 → 10</td></tr><tr><td><strong>Total (máximo 60)</strong></td><td></td><td><strong>54</strong></td><td><strong>34</strong></td><td><strong>43</strong></td></tr></tbody></table></div><h3>6.4 Escribe los tuyos con la plantilla</h3><p><strong>Qué hacer.</strong> Por cada decisión, copia la plantilla, numérala y diligénciala:</p><pre class="code">cd docs/01-arquitectura/decisiones
+cp _plantilla-adr.md registros/ADR-001-patron-de-estado.md
+cp _plantilla-adr.md registros/ADR-002-navegacion-y-guard.md
+cp _plantilla-adr.md registros/ADR-003-framework-angular.md        <span class="cm"># Estado: Propuesto</span></pre><p>Registra cada uno en <code>decisiones/README.md</code> con una fila <code>| # | Título | Estado | Fecha |</code>, como la referencia.</p><p><strong>Deberías ver.</strong> Tres ADR de una página, cada uno con contexto propio, <strong>una</strong> frase de decisión, al menos <strong>dos</strong> alternativas reales descartadas con razón y al menos <strong>una</strong> consecuencia negativa.</p><p><strong>Si algo salió mal.</strong> Si no se les ocurre ninguna alternativa, probablemente no era una decisión. Si el ADR de estado no dice cómo se ve el patrón en código, agreguen la «forma obligatoria» con la ruta del archivo que la materializa.</p></section><section id="s-7-c4-en-plantuml"><h2>7. C4 en PlantUML</h2><p>El enunciado pide un diagrama de arquitectura «tipo C4 o UML» y la Guía precisa: <strong>C4 de contexto, C4 de contenedores y el diagrama de capas de una feature</strong>. Estos son los de la Bitácora, escritos a partir de su documentación (<code>docs/01-arquitectura/</code> y <code>docs/03-api-y-datos/</code>).</p><p><strong>Qué hacer.</strong> Entra a <a href="https://www.plantuml.com/plantuml/uml/">plantuml.com/plantuml</a>, borra el cuadro de la izquierda, pega cada diagrama y presiona <strong>Submit</strong>. No hay que instalar nada.</p><div class="tabs"><div class="tab-btns"><button class="tab-btn active" data-tab="tab-21024-0">c4-contexto.puml</button><button class="tab-btn" data-tab="tab-21024-1">c4-contenedores.puml</button></div><div class="tab-panel active" id="tab-21024-0"><pre class="code">@startuml C4-Contexto
+!include &lt;C4/C4_Context&gt;
+title C1 · Contexto — Bitácora de Campo
+
+Person(tecnico, "Técnica o técnico de campo", "Registra las visitas de su jornada con evidencia")
+
+<span class="kw">System</span>(bitacora, "Bitácora de Campo", "App móvil híbrida: visitas técnicas con foto y ubicación, consultables sin señal")
+
+System_Ext(api, "API de visitas", "Autentica y guarda las visitas (en la referencia, la API simulada)")
+System_Ext(so, "Sistema operativo del teléfono", "Cámara, GPS y permisos")
+
+Rel(tecnico, bitacora, "Registra, consulta y cierra visitas")
+Rel(bitacora, api, "Inicia sesión y sincroniza visitas", "JSON/HTTPS")
+Rel(bitacora, so, "Pide foto y ubicación", "Capacitor")
+@enduml</pre></div><div class="tab-panel" id="tab-21024-1"><pre class="code">@startuml C4-Contenedores
+!include &lt;C4/C4_Container&gt;
+title C2 · Contenedores — Bitácora de Campo
+
+Person(tecnico, "Técnica o técnico de campo")
+
+System_Boundary(sb, "Bitácora de Campo") {
+  Container(app, "App móvil", "Ionic 9 + Angular 22 + Capacitor 8 · Android", "Features auth y visitas; presentation → domain ← data")
+  ContainerDb(cache, "Caché de lectura", "Capacitor Preferences", "Última lista de visitas (visitas.lista.v1)")
+  ContainerDb(tokens, "Almacén seguro de tokens", "Android Keystore / iOS Keychain", "Access y refresh token")
+  Container(api, "API de visitas", "Node 24 + Express 5", "POST /auth/* · CRUD /visitas")
+  ContainerDb(db, "Datos", "Archivo JSON (db.json)", "Visitas y usuario de prueba")
+}
+
+System_Ext(camara, "Cámara del dispositivo")
+System_Ext(gps, "GPS del dispositivo")
+
+Rel(tecnico, app, "Usa")
+Rel(app, api, "Inicia sesión y lee/escribe visitas", "JSON/HTTPS")
+Rel(app, cache, "Guarda y lee la última lista")
+Rel(app, tokens, "Guarda y lee los tokens")
+Rel(app, camara, "Toma la foto de evidencia", "@capacitor/camera")
+Rel(app, gps, "Lee la ubicación", "@capacitor/geolocation")
+Rel(api, db, "Lee y escribe")
+@enduml</pre></div></div><p><strong>Deberías ver.</strong> En el C1, una persona, <strong>una sola caja</strong> azul del sistema y dos cajas grises externas; en el C2, un recuadro punteado con la app, sus dos almacenes en el dispositivo, la API y su archivo de datos, y la cámara y el GPS por fuera.</p><p><strong>Si algo salió mal.</strong> Si <code>ContainerDb</code> no se reconoce, incluiste <code>C4_Context</code> en el C2: debe ser <code>&lt;C4/C4_Container&gt;</code>. Si una flecha no aparece, el identificador de <code>Rel(…)</code> no coincide con el declarado.</p><p>El tercer diagrama es el de <strong>capas de una feature</strong>. Basta un esquema como este, con los nombres reales de tu código:</p><pre class="ascii">   PRESENTATION                        DOMAIN                          DATA
+  ┌───────────────────────────┐      ┌───────────────────────────┐    ┌──────────────────────────────┐
+  │ VisitasListaPage          │────► │ Visita (entidad)          │ ◄──│ VisitasHttpRepository        │
+  │ VisitasListaViewModel     │      │ ListarVisitas (caso uso)  │    │ VisitaDto + visita.mapper    │
+  └───────────────────────────┘      │ VisitasRepository (puerto)│    └──────────────────────────────┘
+   inyecta casos de uso              └───────────────────────────┘     implementa el puerto
+                                      TypeScript puro, sin Angular
+                  core/di/visitas.providers.ts  ──►  une puerto e implementación</pre><p><strong>Qué hacer al final.</strong> Descarga cada diagrama con el enlace <strong>PNG</strong> (para el PDF) y guarda el texto como <code>.puml</code> en <code>docs/01-arquitectura/diagramas/</code>. La fuente versionada es la que permite corregirlo en segundos.</p><div class="callout warn"><h4>Cuidado</h4><p>En el C1 el sistema es <strong>una sola caja</strong>: las features, las capas y los plugins aparecen en el C2 o en el diagrama de capas, no antes. Y cada flecha lleva un <strong>verbo</strong>.</p></div></section><section id="s-8-backlog-moscow-y-prototipo"><h2>8. Backlog MoSCoW y prototipo</h2><h3>8.1 El backlog</h3><p><strong>Qué hacer.</strong> Escribe en <code>docs/00-gobierno/backlog.md</code> <strong>al menos 10 historias</strong> con formato <em>Como / Quiero / Para</em>, criterios <em>Dado / Cuando / Entonces</em>, estimación y prioridad <strong>MoSCoW</strong> (<em>Must</em>, <em>Should</em>, <em>Could</em>, <em>Won't</em> en esta versión). Cada criterio de las historias <em>Must</em> nombra la prueba que lo cubrirá.</p><p>La trazabilidad de la referencia (<code>docs/README.md</code>) cubre siete historias; las filas marcadas con * se agregaron para este ejemplo a partir de lo que la referencia implementa sin historia propia o deja fuera de la v1.0.0 en su documentación. La prioridad MoSCoW también es de este ejemplo:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Historia</th><th>MoSCoW</th><th>Criterio verificable</th><th>Prueba automatizada</th></tr></thead><tbody><tr><td>HU-AUTH-01 Ingresar con usuario y clave</td><td>Must</td><td>Clave mala → «Usuario o clave incorrectos.»</td><td><code>login.view-model.spec.ts</code> › <code>ingresar_credencialesInvalidas_terminaEnErrorConMensajeClaro</code></td></tr><tr><td>HU-AUTH-02 No perder la sesión por un token vencido</td><td>Must</td><td>Un 401 renueva el token una vez y reintenta</td><td><code>interceptores.spec.ts</code> › <code>refresh_tras401_renuevaUnaVezYReintentaConElTokenNuevo</code></td></tr><tr><td>HU-VIS-01 Ver mis visitas de la jornada</td><td>Must</td><td>Pendientes primero, más recientes arriba</td><td><code>listar-visitas.spec.ts</code> › <code>listar_conVariosEstados_ponePendientesPrimeroYLuegoLasMasRecientes</code></td></tr><tr><td>HU-VIS-02 Consultar visitas sin señal</td><td>Must</td><td>Sin red se muestran las guardadas con aviso</td><td><code>visitas-http.repository.spec.ts</code> › <code>listar_sinConexionConCache_devuelveLoGuardadoMarcadoDesactualizado</code></td></tr><tr><td>HU-VIS-03 Registrar una visita</td><td>Must</td><td>Cliente de solo espacios se rechaza</td><td><code>registrar-visita.spec.ts</code> › <code>registrar_conClienteDeSoloEspacios_lanzaErrorValidacionSinIrALaRed</code></td></tr><tr><td>HU-VIS-04 Cerrar una visita con evidencia</td><td>Must</td><td>«Realizada» exige foto; la ubicación es mejor esfuerzo</td><td><code>registrar-visita.spec.ts</code> › <code>registrar_realizadaSinFoto_lanzaErrorValidacion</code> y <code>capturar-evidencia.spec.ts</code></td></tr><tr><td>HU-VIS-05 Eliminar una visita equivocada</td><td>Should</td><td>Las realizadas no se eliminan</td><td><code>eliminar-visita.spec.ts</code> › <code>eliminar_visitaRealizada_lanzaErrorValidacionYNoLlamaAlRepositorio</code></td></tr><tr><td>HU-VIS-06* Corregir una visita registrada</td><td>Should</td><td>Mismas reglas que el registro</td><td><code>actualizar-visita.spec.ts</code> › <code>actualizar_conDatosValidos_enviaElIdYLosDatosNormalizados</code></td></tr><tr><td>HU-AUTH-03* Cerrar sesión sin dejar datos en el teléfono</td><td>Should</td><td>Cerrar borra tokens y caché, aun sin red</td><td><code>sesion.service.spec.ts</code> › <code>cerrar_sinRed_igualBorraTodoLocalmente</code></td></tr><tr><td>HU-VIS-07* Usar la app en iOS</td><td>Could</td><td>Mismos flujos en iPhone</td><td>Pendiente: sin Mac en el módulo (desviación de la DoD)</td></tr><tr><td>HU-VIS-08* Registrar sin señal y sincronizar después</td><td>Won't (v1.0.0)</td><td>—</td><td>Sin cola de sincronización en v1.0.0 (<code>offline.md</code>)</td></tr><tr><td>HU-VIS-09* Abrir una visita desde un enlace</td><td>Won't (v1.0.0)</td><td>—</td><td>No hay <em>deep links</em> en v1.0.0 (<code>navegacion.md</code>)</td></tr></tbody></table></div><p><strong>Deberías ver.</strong> Un backlog donde las <em>Must</em> caben en cuatro semanas, cada <em>Must</em> tiene al menos un criterio con su prueba y las <em>Won't</em> dicen <strong>por qué</strong> quedan fuera. Ese «fuera» es el <strong>alcance funcional</strong> que pide el enunciado.</p><p><strong>Si algo salió mal.</strong> Si todo es <em>Must</em>, no priorizaron. Si una historia no se puede probar («la app debe ser rápida»), conviértanla en un criterio medible o llévenla a 04 Calidad como presupuesto.</p><div class="callout tip"><h4>Tip</h4><p><strong>Trazabilidad en una línea:</strong> historia → criterio → nombre de prueba. En el H1 la prueba de la mayoría de historias todavía no existe, pero <strong>ya tiene nombre</strong>: el que escribieron en la DoR. Cuando la escriban, el nombre ya estaba acordado.</p></div><h3>8.2 El prototipo</h3><p><strong>Qué hacer.</strong> Diseña en <strong>Figma</strong> (o Adobe XD) las pantallas de tus historias <em>Must</em>:</p><ul><li>Un <em>frame</em> por pantalla con tamaño de teléfono Android (por ejemplo 360 × 800) y los componentes de Ionic (<code>ion-header</code>, <code>ion-list</code>, <code>ion-fab</code>…), para que el prototipo se pueda construir tal cual.</li><li>Por cada pantalla, sus <strong>cinco estados</strong>: cargando, cargado, vacío, error con «Reintentar» y sin conexión con la fecha de la caché. Si usa un plugin, agrega el de <strong>permiso denegado</strong> con la ruta a Ajustes.</li><li>Conecta los <em>frames</em> en modo <strong>Prototype</strong> para mostrar el flujo principal (iniciar sesión → lista → formulario → volver).</li><li>Por cada pantalla, una ficha en <code>docs/01-arquitectura/pantallas/&lt;pantalla&gt;.md</code> copiada de <code>_plantilla-pantalla.md</code>: ruta, regiones, estados, acciones, permisos y accesibilidad, con el enlace al <em>frame</em>.</li></ul><p>Las capturas que van en el documento: una por pantalla en estado <strong>cargado</strong>, el estado <strong>vacío</strong> o <strong>sin conexión</strong> de la pantalla principal, el <strong>permiso denegado</strong> si aplica, y una vista del flujo conectado. Debajo de cada captura, la ruta de la ficha y la historia que la justifica.</p><p><strong>Deberías ver.</strong> Que cada pantalla del prototipo corresponde a una ruta de <code>navegacion.md</code> y a una historia del backlog; ninguna pantalla «huérfana».</p><p><strong>Si algo salió mal.</strong> Si una pantalla no tiene historia, o sobra o falta la historia. Si una ruta no tiene pantalla, la tabla de rutas está adelantada al diseño.</p></section><section id="s-9-el-documento-de-la-actividad-1" class="activity-section"><h2>9. El documento de la Actividad 1</h2><p><strong>Qué hacer.</strong> Arma el documento técnico en <strong>Word o Google Docs</strong> con estilos de título (para el índice automático) y expórtalo a PDF. Formato del enunciado: <strong>8 a 12 páginas sin contar portada ni bibliografía</strong>, márgenes de 2,5 cm, Arial o Times New Roman 12, interlineado 1,5, APA 7.ª edición. Organiza el <strong>desarrollo técnico</strong> como <strong>00 Gobierno → 01 Arquitectura</strong>, como pide la Guía:</p><pre class="ascii">  Portada ......... título del informe, los DOS nombres, fecha            (no cuenta)
+  Índice automático                                                      ~0,5 p
+  1. Introducción                                                        ~1 p
+     1.1 Descripción del proyecto (nombre, propósito, público objetivo)
+     1.2 Planteamiento del problema y alcance funcional (Must → Won't)
+  2. 00 Gobierno                                                         ~2–3 p
+     2.1 Entorno de desarrollo y pruebas iniciales
+     2.2 Acuerdos de la pareja: DoR, DoD, convenciones git, seguridad
+     2.3 Backlog priorizado (tabla MoSCoW con trazabilidad)
+  3. 01 Arquitectura                                                     ~4–6 p
+     3.1 Selección y justificación del framework (ADR · Propuesto)
+     3.2 Arquitectura general: C4 contexto, C4 contenedores, capas
+     3.3 Estructura base del proyecto Ionic con Capacitor
+     3.4 Capas, regla de dependencias y patrón de estado (ADR-001)
+     3.5 Navegación y guard (ADR de navegación)
+     3.6 Prototipo de interfaces (fichas + capturas)
+  4. Conclusiones                                                        ~0,5–1 p
+  Referencias (APA 7)                                                    (no cuenta)</pre><h3>9.1 Del enunciado al documento, elemento por elemento</h3><div class="table-responsive"><table class="styled-table"><thead><tr><th>Elemento que pide el enunciado</th><th>Apartado</th><th>Sección del marco</th><th>Qué pones (y de dónde sale)</th></tr></thead><tbody><tr><td>Descripción del proyecto</td><td>1.1</td><td>Introducción</td><td>Nombre, propósito, usuario y la pregunta motriz aplicada (del H0)</td></tr><tr><td>Planteamiento del problema y alcance funcional</td><td>1.2</td><td>Introducción + 00</td><td>El problema en dos frases; qué entra (<em>Must/Should</em>) y qué no (<em>Won't</em>)</td></tr><tr><td>Consideraciones sobre el entorno y pruebas iniciales</td><td>2.1</td><td>00 · convenciones git y DoD</td><td>Tabla de herramientas con versiones (paso 0), repositorio y ramas, captura de <code>npm run test:ci</code> en verde y de <code>npm run lint</code> fallando con el import prohibido</td></tr><tr><td>Backlog de producto por prioridad</td><td>2.3</td><td>00 · <code>backlog.md</code></td><td>Tabla de ≥ 10 historias con MoSCoW, criterio y prueba (paso 8.1)</td></tr><tr><td>Selección y justificación del framework</td><td>3.1</td><td>01 · ADR del stack (Propuesto)</td><td>Comparativa Angular/React/Vue, matriz con pesos y el ADR resumido</td></tr><tr><td>Diagrama de arquitectura general</td><td>3.2</td><td>01 · <code>diagramas/</code></td><td>C4 de contexto, de contenedores y capas de una feature (paso 7)</td></tr><tr><td>Estructura base del proyecto Ionic con Capacitor</td><td>3.3</td><td>01 · <code>estructura-del-proyecto.md</code></td><td>Árbol real de <code>src/app/</code> por feature y sus reglas (paso 3); <code>capacitor.config.ts</code></td></tr><tr><td>(Profundidad: separación de capas y componentes clave)</td><td>3.4 y 3.5</td><td>01 · <code>capas-y-estado.md</code>, <code>navegacion.md</code></td><td>Regla de dependencias y su verificación; ADR de estado; tabla de rutas con guard (pasos 4 a 6)</td></tr><tr><td>Prototipo de interfaces</td><td>3.6</td><td>01 · <code>pantallas/</code></td><td>Capturas de Figma con su ficha y su historia (paso 8.2)</td></tr></tbody></table></div><h3>9.2 Lo que el contenido debe resaltar</h3><ul><li><strong>Estructura modular en Ionic:</strong> por feature y por capas, con la razón (paso 3) y no solo el árbol.</li><li><strong>Capacitor como puente:</strong> qué hace el puente entre el WebView y la API nativa, y por qué cada plugin queda detrás de un puerto; apóyate en la sección 3 de la OVA.</li><li><strong>Comparativa de frameworks:</strong> la matriz del ADR, con los pesos discutidos por la pareja.</li><li><strong>Arquitectura base desde el inicio:</strong> qué costaría cambiar después lo que el H1 fija (capas, estado, rutas).</li><li><strong>Prácticas de prototipado, requisitos y backlog:</strong> DoR, cinco estados por pantalla y trazabilidad.</li><li><strong>Relevancia:</strong> una o dos apps reales hechas con Ionic, tomadas de los casos de clientes del sitio oficial de Ionic, y el papel de Figma, Android Studio y GitHub en su plan.</li></ul><h3>9.3 Referencias en APA 7</h3><p>Cita la documentación oficial que usaste. Ejemplos con el formato correcto:</p><pre class="ascii">Angular. (s. f.). Angular documentation. https://angular.dev
+Capacitor. (s. f.). Capacitor documentation. https://capacitorjs.com/docs
+Ionic. (s. f.). Ionic Framework documentation. https://ionicframework.com/docs
+Meta. (s. f.). React documentation. https://react.dev
+Vue.js. (s. f.). Vue.js guide. https://vuejs.org/guide
+Brown, S. (s. f.). The C4 model for visualising software architecture. https://c4model.com
+Nygard, M. (2011, 15 de noviembre). Documenting architecture decisions. Cognitect.
+    https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions</pre><p><strong>Deberías ver.</strong> Un PDF de 8 a 12 páginas útiles en el que cada afirmación técnica se puede encontrar en el repositorio: el árbol, los ADR, la tabla de rutas y el backlog son los mismos.</p><p><strong>Si algo salió mal.</strong> Si pasa de 12 páginas, mueve los ADR completos y las fichas de pantalla a un anexo o enlázalos en el repositorio, y deja en el cuerpo la decisión, la matriz y las capturas. Si el índice no se actualiza, los títulos no usan los estilos <em>Título 1</em> y <em>Título 2</em>.</p><div class="callout warn"><h4>Cuidado</h4><p>El documento y el repositorio deben decir lo mismo. Un C2 que muestra algo que el código no tiene, o un árbol que no coincide con <code>src/app/</code>, pierde puntos aquí y vuelve a pesar en el Documento ABP, que revisa la trazabilidad de H1 a H3.</p></div></section><section id="s-10-checklist-de-entrega" class="activity-section"><h2>10. Checklist de entrega</h2><ul class="checklist"><li><input type="checkbox"> Node ≥ 24.15, JDK 21 y SDK 36 verificados en el equipo de <strong>los dos</strong> integrantes.</li><li><input type="checkbox"> El repositorio tiene <code>docs/</code> con la estructura del marco y el commit <code>docs(gobierno)</code> antes del primer <code>feat</code>.</li><li><input type="checkbox"> DoR, DoD y convenciones git están adaptadas al proyecto, sin corchetes ni bloques «Instrucción».</li><li><input type="checkbox"> <code>00-gobierno/README.md</code> dice quién es dueño del producto y quién líder técnico.</li><li><input type="checkbox"> El proyecto se creó con <code>--type=angular-standalone --capacitor</code> y un <code>package-id</code> propio, y existe <code>android/</code>.</li><li><input type="checkbox"> <code>package.json</code> tiene <code>engines</code> con Node ≥ 24.15 y el script <code>test:ci</code>.</li><li><input type="checkbox"> <code>src/app/</code> está organizado por feature con <code>presentation/</code>, <code>domain/</code> y <code>data/</code>, más <code>core/di/</code> y <code>shared/</code>.</li><li><input type="checkbox"> <code>eslint.config.js</code> tiene la regla de capas y hay captura de <code>npm run lint</code> fallando con un import prohibido.</li><li><input type="checkbox"> Hay un caso de uso con su puerto y su prueba con un doble escrito a mano, y <code>npm run test:ci</code> está en verde.</li><li><input type="checkbox"> <code>app.routes.ts</code> es la única tabla de rutas, el guard está declarado en ella y <code>navegacion.md</code> la copia fielmente.</li><li><input type="checkbox"> Hay ADR de patrón de estado y de navegación, y el del framework en estado <strong>Propuesto</strong>, registrados en <code>decisiones/README.md</code>.</li><li><input type="checkbox"> Cada ADR tiene al menos dos alternativas descartadas con razón y al menos una consecuencia negativa.</li><li><input type="checkbox"> El C4 de contexto, el de contenedores y el de capas están en el documento y su <code>.puml</code> en <code>docs/01-arquitectura/diagramas/</code>.</li><li><input type="checkbox"> El backlog tiene al menos 10 historias con criterios <em>Dado / Cuando / Entonces</em> y prioridad MoSCoW.</li><li><input type="checkbox"> El prototipo tiene una ficha por pantalla con sus cinco estados y las capturas están en el documento.</li><li><input type="checkbox"> El PDF tiene portada con los dos nombres, índice automático, introducción, desarrollo técnico, conclusiones y referencias APA 7.</li><li><input type="checkbox"> El PDF tiene entre 8 y 12 páginas sin contar portada ni bibliografía, Arial o Times 12, interlineado 1,5 y márgenes de 2,5 cm.</li><li><input type="checkbox"> El tutor tiene acceso al repositorio y el enlace está en el documento.</li><li><input type="checkbox"> <strong>Ambos integrantes suben el mismo PDF</strong> a la tarea de la Actividad 1 antes del domingo 18 de octubre a las 11:59 p. m.</li></ul><div class="callout info"><h4>Nota</h4><p><strong>Lleguen a la clínica.</strong> El encuentro 2 (viernes 16 de octubre, 6:00 a 7:00 p. m., <a href="https://meet.google.com/pzh-kxer-pnx">meet.google.com/pzh-kxer-pnx</a>) revisa el H1 en borrador: lleguen con el H0 publicado, el repositorio abierto, <code>docs/00</code> y <code>docs/01</code> avanzados y el árbol de <code>src/app/</code>. Lo que el tutor señale ahí es la primera fila de su tabla de trazabilidad.</p></div></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Ingeniería para el Desarrollo Móvil</strong> <span class="sep">·</span> Unidad 1 · Sesión 1 · Del diseño al esqueleto: gobierno y arquitectura de tu app (H1)</p>
+  <p>Facultad de Ingeniería · Posgrado <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=9cdae14b"></script>
+</body>
+</html>
