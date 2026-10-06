@@ -6,7 +6,7 @@
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
       <title>Diseño y Patrones Arquitectónicos · Semana 1–3 · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Guía del proyecto ABP — un reto, cuatro hitos, una entrega final</title></item>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Guía del proyecto de aula — un reto, cuatro hitos y el informe FO-IV-159</title></item>
     </organization>
   </organizations>
   <resources>

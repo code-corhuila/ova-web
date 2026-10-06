@@ -22,7 +22,7 @@ patrón en un sistema y **escribir** los atributos de calidad con medida. Esta p
 **opcional y no calificable**.
 
 > **Nota:** Lo que produzcas en la Parte B es el borrador del **Hito 1** del
-> [proyecto ABP](../../abp/): el diagnóstico arquitectónico del reto de tu equipo. Si todavía
+> [proyecto de aula](../../proyecto-aula/): el diagnóstico arquitectónico del reto de tu equipo. Si todavía
 > no tienen reto, haz la Parte B con el que más te interese del catálogo.
 
 ## 2. Parte A — Clasifica seis sistemas
