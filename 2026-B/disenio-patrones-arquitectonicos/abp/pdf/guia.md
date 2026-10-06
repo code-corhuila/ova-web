@@ -81,7 +81,7 @@ sincrónicos son los **martes de 8:20 a 9:10 p. m.** por Google Meet
 - **H4.** La v2 se compara contra la v1 con criterios medibles. El documento ABP cuenta la
   historia completa.
 
-> **Consejo:** Marca la v1 en el repositorio con una etiqueta de git (`git tag v1` y
+> **Tip:** Marca la v1 en el repositorio con una etiqueta de git (`git tag v1` y
 > `git push --tags`) antes de empezar la v2. Así la comparación es reproducible: cualquiera
 > puede ejecutar las dos versiones.
 
@@ -91,7 +91,7 @@ Cada equipo elige **uno**. Todos están situados en el Huila y tienen una versi�
 un patrón clásico y al menos dos caminos modernos defendibles. Los requisitos son el
 **mínimo**: puedes ampliarlos, no recortarlos.
 
-> **Atención:** **Mercado Campesino** (pedidos y entregas de una asociación de productores) es el
+> **Cuidado:** **Mercado Campesino** (pedidos y entregas de una asociación de productores) es el
 > reto de demostración que resuelven los manuales paso a paso. **No se puede elegir.**
 
 ### Reto 1 · TrazaCafé — trazabilidad de café especial
@@ -215,8 +215,9 @@ Elige **al menos tres** y mídelos en las dos versiones:
 
 ## 7. Rúbrica integradora
 
-Los **pesos son los del aula** (20 % · 20 % · 20 % · 40 %); aquí no se crea ninguna nota
-nueva. La tabla dice qué evidencia del proyecto responde a cada criterio de los enunciados.
+Los pesos son los que **declaran los enunciados** de las actividades (20 % · 20 % · 20 % ·
+40 %); aquí no se crea ninguna nota nueva. La tabla dice qué evidencia del proyecto responde
+a cada criterio de los enunciados.
 
 | Hito | Criterio del enunciado | Evidencia esperada en el proyecto |
 |---|---|---|
@@ -252,16 +253,16 @@ justificaría su costo en un sistema más pequeño?*, *¿qué pasa si cae el com
 
 ## 9. Errores comunes
 
-> **Atención:** **Elegir el patrón moderno por moda.** «Microservicios porque es lo que usan las
+> **Cuidado:** **Elegir el patrón moderno por moda.** «Microservicios porque es lo que usan las
 > grandes» no es un argumento. El argumento sale de los atributos de calidad de tu reto y de
 > los límites que mostró tu v1.
 
-> **Atención:** **Comparar contra un sistema imaginario.** La comparación es contra **tu** v1, que
+> **Cuidado:** **Comparar contra un sistema imaginario.** La comparación es contra **tu** v1, que
 > existe y se puede ejecutar. Si la v1 no corre, no hay comparación.
 
-> **Atención:** **El documento ABP como collage.** Pegar el informe de la A1 y el documento de la A2
+> **Cuidado:** **El documento ABP como collage.** Pegar el informe de la A1 y el documento de la A2
 > uno detrás del otro no es un documento ABP. Las secciones 3 a 5 se **sintetizan**; el
 > centro del documento son la v2 y la comparación.
 
-> **Atención:** **Empezar la v2 borrando la v1.** Etiqueta la v1 en git antes de tocarla.
+> **Cuidado:** **Empezar la v2 borrando la v1.** Etiqueta la v1 en git antes de tocarla.
 

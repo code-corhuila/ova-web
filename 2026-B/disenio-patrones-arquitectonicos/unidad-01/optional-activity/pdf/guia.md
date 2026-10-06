@@ -40,7 +40,7 @@ despliegue, atributo que manda, patrones) y escribe en una línea el **patrón d
 | 5 | Portal de pagos de impuestos de un municipio | Formulario web, liquidación del impuesto, pasarela de pagos y generación del recibo |
 | 6 | Sistema de alertas de una estación meteorológica | Sensores que envían lecturas cada minuto; el sistema avisa cuando la lluvia supera un umbral |
 
-> **Consejo:** Casi ningún sistema tiene un solo patrón. Nombra el **dominante** y, si lo ves, uno
+> **Tip:** Casi ningún sistema tiene un solo patrón. Nombra el **dominante** y, si lo ves, uno
 > secundario. Por ejemplo: «MVC sobre capas».
 
 ## 3. Parte B — Ensaya el diagnóstico de tu reto
