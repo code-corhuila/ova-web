@@ -309,18 +309,9 @@ justificaría su costo en un sistema más pequeño?*, *¿qué pasa si cae el com
 
 ## 10. Errores comunes
 
-> **Cuidado:** **Elegir el patrón moderno por moda.** «Microservicios porque es lo que usan las
-> grandes» no es un argumento. El argumento sale de los atributos de calidad de tu reto y de
-> los límites que mostró tu v1.
-
-> **Cuidado:** **Comparar contra un sistema imaginario.** La comparación es contra **tu** v1, que
-> existe y se puede ejecutar. Si la v1 no corre, no hay comparación.
-
-> **Cuidado:** **Un FO-IV-159 con las instrucciones todavía puestas.** Cada campo trae su
-> instrucción en la celda de la derecha: se reemplaza por el texto del equipo, no se deja.
-
-> **Cuidado:** **Juicios de valor en el planteamiento.** El formato pide evitar «bueno», «malo»,
-> «mejor», «peor»: usa datos y fuentes.
-
-> **Cuidado:** **Empezar la v2 borrando la v1.** Etiqueta la v1 en git antes de tocarla.
+- **Elegir el patrón moderno por moda.** «Microservicios porque es lo que usan las grandes» no es un argumento. El argumento sale de los atributos de calidad de tu reto y de los límites que mostró tu v1.
+- **Comparar contra un sistema imaginario.** La comparación es contra **tu** v1, que existe y se puede ejecutar. Si la v1 no corre, no hay comparación.
+- **Un FO-IV-159 con las instrucciones todavía puestas.** Cada campo trae su instrucción en la celda de la derecha: se reemplaza por el texto del equipo, no se deja.
+- **Juicios de valor en el planteamiento.** El formato pide evitar «bueno», «malo», «mejor», «peor»: usa datos y fuentes.
+- **Empezar la v2 borrando la v1.** Etiqueta la v1 en git antes de tocarla.
 
