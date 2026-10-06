@@ -22,17 +22,17 @@ H2 te pide argumentar. La práctica es **opcional y no calificable**; prepara di
 **Actividad de aprendizaje 2 (20 %, individual)**, que vence el **domingo 25 de octubre a las
 11:59 p. m.** Dedícale entre 3 y 4 horas.
 
-Elige la feature: una de **tu proyecto ABP** (recomendado: la que tenga lista y formulario)
+Elige la feature: una de **tu proyecto de aula** (recomendado: la que tenga lista y formulario)
 o la feature `visitas` de **Bitácora de Campo**, la app de referencia del curso. El orden es
 de adentro hacia afuera: documento → dominio → datos → presentación.
 
-> **Nota:** Todo lo que produzcas es reutilizable: la Parte A alimenta lo que tu publicación del
-> foro dice sobre estructura y estado (sección 01 del marco); las Partes B y C, lo que dice
-> sobre APIs, tokens y datos (sección 03); la Parte D, lo que dice sobre interfaz (sección 02).
+**Nota.** Todo lo que produzcas es reutilizable: la Parte A alimenta lo que tu publicación del
+foro dice sobre estructura y estado (sección 01 del marco); las Partes B y C, lo que dice
+sobre APIs, tokens y datos (sección 03); la Parte D, lo que dice sobre interfaz (sección 02).
 
 ## 2. Parte A — Documenta la feature con la plantilla del marco
 
-Copia la plantilla **«feature»** de [Plantillas del proyecto](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/abp/plantillas/)
+Copia la plantilla **«feature»** de [Plantillas del proyecto](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/proyecto-aula/plantillas/)
 y llénala **antes** de escribir código (método SDD: diseño primero).
 
 | Apartado de la plantilla | Qué escribir | Ejemplo con Bitácora · visitas |
@@ -48,7 +48,7 @@ y llénala **antes** de escribir código (método SDD: diseño primero).
 Para el endpoint principal llena también la plantilla **«integración de endpoint»** (mapeo
 DTO → dominio, tabla de errores y estrategia de caché).
 
-> **Atención:** Si no puedes llenar «Estado» y «Bordes y estados», todavía no estás listo para la
+> **Cuidado:** Si no puedes llenar «Estado» y «Bordes y estados», todavía no estás listo para la
 > Parte D. Ese vacío es exactamente lo que después aparece como una pantalla en blanco.
 
 ## 3. Parte B — Dominio: entidad, caso de uso y contrato
@@ -124,10 +124,10 @@ es cambiar, en la raíz de composición, `useClass: VisitasEnMemoriaRepository` 
 `useClass: VisitasHttpRepository`. Nada más.
 
 Si tu feature lo pide, envuelve el repositorio HTTP con un **decorador de caché de lectura**
-que devuelva `desactualizado: true` cuando sirva la copia local (es un mínimo del ABP).
+que devuelva `desactualizado: true` cuando sirva la copia local (es un mínimo del proyecto de aula).
 
-> **Consejo:** Si al cambiar de repositorio tuviste que tocar la página o el ViewModel, hay una fuga
-> entre capas. Encuéntrala y anótala: es un excelente ejemplo para tu publicación del foro.
+**Consejo.** Si al cambiar de repositorio tuviste que tocar la página o el ViewModel, hay una fuga
+entre capas. Encuéntrala y anótala: es un excelente ejemplo para tu publicación del foro.
 
 ## 5. Parte D — Presentación: ViewModel, lista y formulario
 
@@ -147,7 +147,7 @@ Fuerza cada estado con el `modo` del repositorio falso y toma una captura de cad
 | Offline | `modo = 'sin-red'` | Aviso de sin conexión y «Reintentar» |
 | Error | `modo = 'error'` | Mensaje y «Reintentar» que funciona **dos veces seguidas** |
 
-> **Atención:** La prueba de «Reintentar dos veces seguidas» no es un capricho: si el segundo intento
+> **Cuidado:** La prueba de «Reintentar dos veces seguidas» no es un capricho: si el segundo intento
 > no hace nada, el `catchError` está fuera del `switchMap` y el flujo murió con el primer error.
 
 ## 6. Entrega y autoevaluación
@@ -171,9 +171,9 @@ Fuerza cada estado con el `modo` del repositorio falso y toma una captura de cad
 | Datos | Falso y HTTP intercambiables; DTO y mapper que valida | HTTP sin mapper o sin mapeo de errores | La página usa `HttpClient` |
 | Presentación | Un ViewModel, cinco estados y el formulario consulta al dominio | Faltan estados o la regla está duplicada | Lógica de negocio en la plantilla |
 
-> **Consejo:** **Hacia el H2.** Cierra con tres frases para tu publicación del foro: la estructura por
-> capas, tu patrón de estado (con la alternativa descartada) y cómo tratas errores, tokens y
-> falta de red. [Guía del proyecto ABP](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/abp/guia/).
+**Hacia el H2.** Cierra con tres frases para tu publicación del foro: la estructura por
+capas, tu patrón de estado (con la alternativa descartada) y cómo tratas errores, tokens y
+falta de red. [Guía del proyecto de aula](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/proyecto-aula/guia/).
 
 > **Nota:** **Versión imprimible.** [Descarga esta práctica en PDF](pdf/Practica-Unidad02.pdf), con el membrete institucional.
 

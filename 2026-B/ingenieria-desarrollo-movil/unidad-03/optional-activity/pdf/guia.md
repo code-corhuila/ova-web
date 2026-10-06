@@ -19,12 +19,12 @@
 
 Llegar a la **Actividad de aprendizaje 3 (H3, vence el domingo 1 de noviembre, 11:59 p. m.)** con
 la parte más delicada ya resuelta: **un plugin nativo integrado como adaptador, de punta a punta**.
-Esta práctica es **opcional y no calificable**. Hazla sobre tu proyecto ABP (uno de tus dos
+Esta práctica es **opcional y no calificable**. Hazla sobre tu proyecto de aula (uno de tus dos
 plugins) o, si aún no lo tienes, sobre un proyecto mínimo con Ionic 9 + Angular 22 + Capacitor 8.
 
-> **Nota:** Todo es reutilizable. Las partes A y B adelantan el **mínimo 7** del ABP (dos plugins como
-> adaptadores con permisos *just-in-time*); las partes C y D, el **mínimo 8** (pruebas de casos de
-> uso + binario + checklist de release). Las evidencias van directo a la memoria técnica de la A3.
+**Todo es reutilizable.** Las partes A y B adelantan el **mínimo 7** del proyecto de aula (dos plugins como
+adaptadores con permisos *just-in-time*); las partes C y D, el **mínimo 8** (pruebas de casos de
+uso + binario + checklist de release). Las evidencias van directo a la memoria técnica de la A3.
 
 Elige **un** recurso: cámara o geolocalización (o push o biometría, si tu problema lo exige).
 Tiempo estimado: de 3 a 4 horas. El ejemplo de referencia es **CapturarEvidencia** de Bitácora de
@@ -53,7 +53,7 @@ grep -rn "@capacitor/" src/app/features/*/domain
 grep -rn "/data/" src/app/features/*/presentation
 ```
 
-> **Atención:** Una interfaz que devuelve `Promise<Photo>` o recibe `CameraResultType` no es un puerto:
+> **Cuidado:** Una interfaz que devuelve `Promise<Photo>` o recibe `CameraResultType` no es un puerto:
 > es el plugin con otro nombre. Si cambiar de plugin te obligaría a tocar el dominio, la
 > abstracción tiene fuga.
 
@@ -75,9 +75,9 @@ Prueba los cuatro escenarios en un dispositivo o emulador Android y guarda una c
 | Negado definitivo | Negar dos veces (Android 11+) | Explicación + acceso a ajustes; la app no se bloquea |
 | Revocado desde Ajustes | Conceder y luego quitarlo en Ajustes › Apps | La app detecta el cambio y vuelve al flujo sin fallar |
 
-> **Consejo:** Para repetir los escenarios, desinstala y reinstala la app, o revoca el permiso con
-> `adb shell pm revoke <applicationId> android.permission.CAMERA`. Si tienes un iPhone con Xcode,
-> repite el negado definitivo en iOS: allí basta **una** negativa.
+**Consejo.** Para repetir los escenarios, desinstala y reinstala la app, o revoca el permiso con
+`adb shell pm revoke <applicationId> android.permission.CAMERA`. Si tienes un iPhone con Xcode,
+repite el negado definitivo en iOS: allí basta **una** negativa.
 
 ## 4. Parte C — Prueba del caso de uso con un fake del puerto
 

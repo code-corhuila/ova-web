@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="OVA-INGENIERIA-P-SABP-SESION01" version="1.2"
+<manifest identifier="OVA-INGENIERIA-P-Sde aula-SESION01" version="1.2"
   xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <organizations default="ORG-OVA">
     <organization identifier="ORG-OVA">
-      <title>Ingeniería para el Desarrollo Móvil · Semana ABP · Sesión 1 · CORHUILA</title>
-      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Guía del proyecto ABP: una app móvil gobernada por su arquitectura</title></item>
+      <title>Ingeniería para el Desarrollo Móvil · Semana de aula · Sesión 1 · CORHUILA</title>
+      <item identifier="ITEM-OVA" identifierref="RES-OVA"><title>Plantillas del proyecto: el marco de gobierno móvil listo para usar</title></item>
     </organization>
   </organizations>
   <resources>

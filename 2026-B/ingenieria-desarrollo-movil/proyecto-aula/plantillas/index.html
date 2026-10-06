@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingeniería para el Desarrollo Móvil · Proyecto de aula · Plantillas del proyecto: el marco de gobierno móvil listo para usar | CORHUILA</title>
+<link rel="stylesheet" href="css/style.css?v=9cdae14b">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="readingBar"></div>
+<header class="main-header">
+  <div class="top-bar"><div class="container">
+    <div class="brand-badge">UH</div>
+    <div class="brand-text"><span class="brand-course">Ingeniería para el Desarrollo Móvil</span><span class="brand-topic">Proyecto de aula · Sesión 1 · Plantillas del proyecto: el marco de gobierno móvil listo para usar</span></div>
+    <div class="brand-meta">CORHUILA<br>Facultad de Ingeniería · Posgrado · 2026-B</div>
+  </div></div>
+  <nav class="main-nav"><div class="container"><button class="nav-toggle" aria-label="Mostrar secciones" aria-expanded="false">☰ Secciones</button><ul><li><a href="#introduccion" class="active">Inicio</a></li><li><a href="#s-1-como-usar-este-paquete">Cómo usar este paquete</a></li><li><a href="#s-2-00-gobierno">00 · Gobierno</a></li><li><a href="#s-3-01-arquitectura">01 · Arquitectura</a></li><li><a href="#s-4-02-codigo-y-ui">02 · Código y UI</a></li><li><a href="#s-5-03-api-y-datos">03 · API y datos</a></li><li><a href="#s-6-04-calidad">04 · Calidad</a></li><li><a href="#s-7-05-release">05 · Release</a></li><li><a href="#s-8-informe-del-proyecto-de-aula-fo-iv-159">Informe del proyecto de aula (FO-IV-159)</a></li><li><a href="#s-9-antes-de-entregar">Antes de entregar</a></li></ul></div></nav>
+</header>
+<main class="container main-content">
+  <section id="introduccion" class="hero-section">
+    <span class="eyebrow">Proyecto de aula · Plantillas del marco de gobierno móvil</span>
+    <h1>Plantillas del proyecto: el marco de gobierno móvil listo para usar</h1>
+    <p class="lead">Las plantillas del marco de gobierno móvil del curso, en español y adaptadas a Ionic + Angular + Capacitor. Descarga el paquete, crea la carpeta docs/ en el repositorio de la pareja y diligencia cada sección en el hito que le corresponde, antes de escribir el código que gobierna. El paquete trae también el formato FO-IV-159 del informe final.</p>
+    <div class="objectives-grid"><div class="objective-card"><span class="num">1</span><p>Crear en el repositorio de la pareja la estructura docs/00-gobierno … 05-release del marco de gobierno móvil.</p></div><div class="objective-card"><span class="num">2</span><p>Elegir la plantilla correcta para cada decisión, feature, pantalla, endpoint, entidad, prueba o release.</p></div><div class="objective-card"><span class="num">3</span><p>Diligenciar las plantillas con decisiones concretas del proyecto y antes del código, como pide el método SDD.</p></div></div>
+  </section>
+  <section id="s-1-como-usar-este-paquete"><h2>1. Cómo usar este paquete</h2><p>El marco de gobierno móvil del curso tiene seis secciones —00 Gobierno, 01 Arquitectura, 02 Código y UI, 03 API y datos, 04 Calidad y 05 Release— y cada una trae dos tipos de documento: <strong>acuerdos</strong> que la pareja adapta una sola vez y <strong>plantillas</strong> que se copian cada vez que se documenta algo concreto. Esta página reúne todas las plantillas, traducidas y ajustadas a Ionic + Angular + Capacitor, y explica para qué sirve cada una, cuándo se usa y en qué hito del proyecto se entrega.</p><div class="callout info"><h4>Nota</h4><p><strong>Descarga el paquete:</strong> <a href="plantillas-proyecto-de-aula.zip">plantillas-proyecto-de-aula.zip</a> — 13 archivos Markdown (<code>ESTRUCTURA.md</code> con el árbol de la carpeta <code>docs/</code> y las 12 plantillas, de 00 Gobierno a 05 Release) y el formato FO-IV-159 del Informe del proyecto de aula. Es el mismo contenido que ves abajo en cada sección.</p></div><ol><li>Descomprime el paquete y abre <code>ESTRUCTURA.md</code>.</li><li>Crea en la raíz del repositorio de la pareja la carpeta <code>docs/</code> con las seis secciones.</li><li>Copia los tres acuerdos (definición de listo, definición de hecho y convenciones git) a <code>docs/00-gobierno/</code>, adáptalos y acuérdenlos entre los dos en el H1.</li><li>Deja cada plantilla en su sección con el prefijo <code>_plantilla-</code> y <strong>cópiala</strong> cada vez que documentes una decisión, una feature, una pantalla, un endpoint, una entidad, un caso de prueba o un release.</li><li>Al diligenciar una copia: borra los bloques «Instrucción», no dejes corchetes sin llenar y registra el documento en la tabla del <code>README.md</code> de su sección.</li><li>Haz el commit <code>docs(...)</code> del documento <strong>antes</strong> que el <code>feat(...)</code> del código que describe: el historial del repositorio es la prueba de que aplicaste SDD.</li></ol><div class="table-responsive"><table class="styled-table"><thead><tr><th>Sección</th><th>Archivo del paquete</th><th>Tipo</th><th>Se usa cuando…</th><th>Hito</th></tr></thead><tbody><tr><td>00 Gobierno</td><td><code>00-definicion-de-listo.md</code></td><td>Acuerdo</td><td>una historia va a entrar a un sprint</td><td>H1</td></tr><tr><td>00 Gobierno</td><td><code>00-definicion-de-hecho.md</code></td><td>Acuerdo</td><td>una historia se va a cerrar</td><td>H1</td></tr><tr><td>00 Gobierno</td><td><code>00-convenciones-git.md</code></td><td>Acuerdo</td><td>se crea una rama, un commit, un PR o una versión</td><td>H1</td></tr><tr><td>00 Gobierno</td><td><code>00-plantilla-retro-sprint.md</code></td><td>Plantilla</td><td>se cierra un sprint o un hito</td><td>H1 → H4</td></tr><tr><td>01 Arquitectura</td><td><code>01-plantilla-adr.md</code></td><td>Plantilla</td><td>se toma una decisión cara de revertir</td><td>H1, H2</td></tr><tr><td>01 Arquitectura</td><td><code>01-plantilla-feature.md</code></td><td>Plantilla</td><td>se planea una feature</td><td>H1</td></tr><tr><td>01 Arquitectura</td><td><code>01-plantilla-pantalla.md</code></td><td>Plantilla</td><td>se especifica una pantalla del prototipo</td><td>H1</td></tr><tr><td>02 Código y UI</td><td><code>02-plantilla-componente.md</code></td><td>Plantilla</td><td>nace un componente compartido</td><td>H2</td></tr><tr><td>03 API y datos</td><td><code>03-plantilla-integracion-endpoint.md</code></td><td>Plantilla</td><td>la app va a consumir un endpoint</td><td>H2</td></tr><tr><td>03 API y datos</td><td><code>03-plantilla-entidad-local.md</code></td><td>Plantilla</td><td>la app va a guardar algo en el dispositivo</td><td>H2</td></tr><tr><td>04 Calidad</td><td><code>04-plantilla-caso-de-prueba.md</code></td><td>Plantilla</td><td>se prueba a mano un flujo en dispositivo</td><td>H3</td></tr><tr><td>05 Release</td><td><code>05-plantilla-checklist-release.md</code></td><td>Plantilla</td><td>se decide publicar una versión</td><td>H3, H4</td></tr><tr><td>Entrega final</td><td><code>FO-IV-159-informe-proyectos-de-aula.xlsx</code></td><td>Formato institucional</td><td>se reporta el proyecto de aula al programa</td><td>H4</td></tr></tbody></table></div><div class="callout warn"><h4>Cuidado</h4><p>Una plantilla con corchetes sin llenar, o llenada con frases que servirían para cualquier app, <strong>no cuenta como diligenciada</strong>. Cada documento debe nombrar las features, rutas, endpoints y decisiones reales de tu proyecto.</p></div><h3>La estructura de la carpeta docs/</h3><p><code>ESTRUCTURA.md</code> es lo primero que se usa: dice qué carpetas crear, dónde va cada archivo del paquete, cómo se organiza <code>src/app/</code> por feature y qué debe responder cada documento de la sección que no tiene plantilla (por ejemplo <code>capas-y-estado.md</code> o <code>red.md</code>). Se aplica en el H1, antes del primer commit de código.</p><pre class="code"><span class="cm"># Estructura de la carpeta `docs/` del proyecto</span>
+
+&gt; **Instrucción:** crea esta estructura en la raíz del repositorio de la pareja **antes** de
+&gt; escribir código de producto. Es el marco de gobierno móvil del curso aplicado a tu app:
+&gt; seis secciones, de 00 Gobierno a 05 Release, que se diligencian en ese orden. Borra los
+&gt; bloques «Instrucción» cuando la estructura exista.
+
+<span class="cm">### Árbol del repositorio</span>
+
+~~~text
+mi-app/                                   raíz del repositorio de la pareja
+├── README.md                             qué es la app y cómo ejecutarla y probarla
+├── docs/
+│   ├── README.md                         índice del marco y estado de cada sección
+│   ├── 00-gobierno/
+│   │   ├── README.md                     acuerdos de la pareja y roles
+│   │   ├── definicion-de-listo.md        (desde 00-definicion-de-listo.md)
+│   │   ├── definicion-de-hecho.md        (desde 00-definicion-de-hecho.md)
+│   │   ├── convenciones-git.md           (desde 00-convenciones-git.md)
+│   │   ├── reglas-de-seguridad.md        reglas no negociables de la app
+│   │   ├── backlog.md                    historias de usuario priorizadas (MoSCoW)
+│   │   ├── _plantilla-retro-sprint.md    (desde 00-plantilla-retro-sprint.md)
+│   │   └── retros/                       sprint-01.md, sprint-02.md …
+│   ├── 01-arquitectura/
+│   │   ├── README.md
+│   │   ├── estructura-del-proyecto.md    árbol real de src/app y sus reglas
+│   │   ├── capas-y-estado.md             presentation → domain ← data y patrón de estado
+│   │   ├── navegacion.md                 tabla de rutas (espejo de app.routes.ts) y guards
+│   │   ├── _plantilla-feature.md         (desde 01-plantilla-feature.md)
+│   │   ├── _plantilla-pantalla.md        (desde 01-plantilla-pantalla.md)
+│   │   ├── features/                     una ficha por feature
+│   │   ├── pantallas/                    una ficha por pantalla
+│   │   └── decisiones/
+│   │       ├── README.md                 registro de ADR
+│   │       ├── _plantilla-adr.md         (desde 01-plantilla-adr.md)
+│   │       └── registros/                ADR-001-patron-de-estado.md …
+│   ├── 02-codigo-y-ui/
+│   │   ├── README.md
+│   │   ├── estandares-de-codigo.md
+│   │   ├── sistema-de-diseno.md          tokens (variables CSS de Ionic) y modos md/ios
+│   │   ├── accesibilidad.md
+│   │   ├── i18n.md
+│   │   ├── _plantilla-componente.md      (desde 02-plantilla-componente.md)
+│   │   └── componentes/
+│   ├── 03-api-y-datos/
+│   │   ├── README.md
+│   │   ├── red.md                        cliente HTTP único e interceptores
+│   │   ├── autenticacion.md              tokens, refresh y cierre de sesión
+│   │   ├── persistencia.md               almacén local elegido y migraciones
+│   │   ├── offline.md                    estrategia sin conexión por feature
+│   │   ├── _plantilla-integracion-endpoint.md
+│   │   ├── _plantilla-entidad-local.md
+│   │   ├── endpoints/
+│   │   └── entidades/
+│   ├── 04-calidad/
+│   │   ├── README.md
+│   │   ├── estrategia-de-pruebas.md
+│   │   ├── presupuestos-de-rendimiento.md
+│   │   ├── seguridad-movil.md            checklist previo a cada release
+│   │   ├── _plantilla-caso-de-prueba.md  (desde 04-plantilla-caso-de-prueba.md)
+│   │   └── casos/
+│   └── 05-release/
+│       ├── README.md
+│       ├── ci-cd.md
+│       ├── firma-y-tiendas.md
+│       ├── observabilidad.md
+│       ├── _plantilla-checklist-release.md
+│       └── releases/                     v1.0.0.md …
+└── src/app/                              ver «Árbol del código» abajo
+~~~
+
+<span class="cm">### Árbol del código (Ionic + Angular + Capacitor)</span>
+
+~~~text
+src/app/
+├── core/                       transversal a todas las features
+│   ├── di/                     providers y tokens de inyección (raíz de composición)
+│   ├── network/                cliente HTTP único e interceptores (token y refresh, timeout, errores)
+│   ├── storage/                puertos y adaptadores: almacenamiento seguro y caché local
+│   ├── nativo/                 puertos de capacidades nativas y sus adaptadores Capacitor
+│   └── theme/                  tokens de diseño (o src/theme/variables.scss)
+├── features/
+│   └── &lt;feature&gt;/              kebab-case: registro-pedidos/
+│       ├── presentation/       páginas, componentes propios y ViewModel (state holder)
+│       ├── domain/             entidades, casos de uso e interfaces de repositorio
+│       └── data/               repositorios, DTO, mappers y fuentes remota y local
+├── shared/                     componentes de UI reutilizables, sin lógica de negocio
+├── app.routes.ts               tabla de rutas central y guards
+└── app.config.ts               providers raíz: router, HttpClient con interceptores
+~~~
+
+Reglas que el árbol debe cumplir:
+
+- Una feature = una carpeta en `features/`. Ninguna feature importa de otra: lo común va a
+  `core/` o a `shared/`.
+- `domain/` no importa nada de Angular, de `HttpClient` ni de Capacitor.
+- `presentation/` habla con `domain/` (casos de uso o interfaces), nunca con `data/`.
+- Los plugins de Capacitor solo se importan dentro de un adaptador.
+
+<span class="cm">### De dónde sale cada archivo del paquete</span>
+
+| Archivo del paquete | Dónde va en tu repositorio | Tipo | Hito |
+|---------------------|----------------------------|------|------|
+| `00-definicion-de-listo.md` | `docs/00-gobierno/definicion-de-listo.md` | Acuerdo (una vez) | H1 |
+| `00-definicion-de-hecho.md` | `docs/00-gobierno/definicion-de-hecho.md` | Acuerdo (una vez) | H1 |
+| `00-convenciones-git.md` | `docs/00-gobierno/convenciones-git.md` | Acuerdo (una vez) | H1 |
+| `00-plantilla-retro-sprint.md` | `docs/00-gobierno/_plantilla-retro-sprint.md` | Plantilla (se copia) | H1 → H4 |
+| `01-plantilla-adr.md` | `docs/01-arquitectura/decisiones/_plantilla-adr.md` | Plantilla (se copia) | H1, H2 |
+| `01-plantilla-feature.md` | `docs/01-arquitectura/_plantilla-feature.md` | Plantilla (se copia) | H1 |
+| `01-plantilla-pantalla.md` | `docs/01-arquitectura/_plantilla-pantalla.md` | Plantilla (se copia) | H1 |
+| `02-plantilla-componente.md` | `docs/02-codigo-y-ui/_plantilla-componente.md` | Plantilla (se copia) | H2 |
+| `03-plantilla-integracion-endpoint.md` | `docs/03-api-y-datos/_plantilla-integracion-endpoint.md` | Plantilla (se copia) | H2 |
+| `03-plantilla-entidad-local.md` | `docs/03-api-y-datos/_plantilla-entidad-local.md` | Plantilla (se copia) | H2 |
+| `04-plantilla-caso-de-prueba.md` | `docs/04-calidad/_plantilla-caso-de-prueba.md` | Plantilla (se copia) | H3 |
+| `05-plantilla-checklist-release.md` | `docs/05-release/_plantilla-checklist-release.md` | Plantilla (se copia) | H3, H4 |
+| `FO-IV-159-informe-proyectos-de-aula.xlsx` | Fuera del repositorio: se diligencia como `FO-IV-159-&lt;proyecto&gt;.xlsx` y se sube a Moodle | Formato institucional | H4 |
+
+&gt; **Instrucción:** una plantilla (`_plantilla-*.md`) **nunca se edita en su sitio**. Se
+&gt; copia, se renombra (`_plantilla-feature.md` → `features/registro-pedidos.md`), se
+&gt; diligencia, se le borran los bloques «Instrucción» y se registra en la tabla del
+&gt; `README.md` de su sección.
+
+<span class="cm">### Documentos sin plantilla: qué debe responder cada uno</span>
+
+| Documento | Debe responder | Hito |
+|-----------|----------------|------|
+| `00-gobierno/README.md` | ¿Cómo planea, estima y cierra el trabajo la pareja? ¿Quién hace qué? | H1 |
+| `00-gobierno/reglas-de-seguridad.md` | ¿Qué reglas de secretos, transporte, datos y permisos son innegociables? | H1 |
+| `00-gobierno/backlog.md` | ¿Qué historias (≥ 10) componen el producto y en qué prioridad? | H1 |
+| `01-arquitectura/estructura-del-proyecto.md` | ¿Dónde va el código de una feature nueva? | H1 |
+| `01-arquitectura/capas-y-estado.md` | ¿Qué capa puede depender de cuál? ¿Qué único patrón de estado se usa? | H1 |
+| `01-arquitectura/navegacion.md` | ¿Qué rutas existen, qué argumentos piden y cuáles protege el guard? | H1 |
+| `02-codigo-y-ui/estandares-de-codigo.md` | ¿Cómo se nombra el código y cómo se manejan los errores y la asincronía? | H2 |
+| `02-codigo-y-ui/sistema-de-diseno.md` | ¿De dónde salen colores, espaciados y tipografía? ¿Cómo se ve en md e ios? | H2 |
+| `02-codigo-y-ui/accesibilidad.md` y `i18n.md` | ¿Cómo se garantiza que la app sea accesible? ¿Cómo se centralizan los textos? | H2 |
+| `03-api-y-datos/red.md` y `autenticacion.md` | ¿Cómo se hacen y reintentan las peticiones? ¿Dónde viven los tokens y cómo se refrescan? | H2 |
+| `03-api-y-datos/persistencia.md` y `offline.md` | ¿Qué se guarda localmente? ¿Qué pasa sin conexión en cada feature? | H2 |
+| `04-calidad/estrategia-de-pruebas.md` | ¿Qué se prueba, en qué nivel y cuánto? | H3 |
+| `04-calidad/presupuestos-de-rendimiento.md` | ¿Qué presupuestos tiene la app y cómo se detecta una regresión? | H3 |
+| `04-calidad/seguridad-movil.md` | ¿Qué se revisa en seguridad antes de cada release? | H3 |
+| `05-release/ci-cd.md` y `firma-y-tiendas.md` | ¿Cómo se convierte un commit en un artefacto firmado? ¿Dónde vive la llave? | H3 |
+| `05-release/observabilidad.md` | ¿Cómo se observa la salud de la app en producción? | H3 |
+
+<span class="cm">### Entrega final: informe FO-IV-159 y anexos</span>
+
+&gt; **Instrucción:** el informe y el `.zip` de anexos **no** se versionan en `docs/`: se arman
+&gt; al final (H4) a partir del repositorio y se suben a la tarea «Entrega final del proyecto de
+&gt; aula [40%]». Los dos integrantes suben los mismos dos archivos.
+
+~~~text
+entrega-final/                                 fuera del repositorio (carpeta local de la pareja)
+├── FO-IV-159-&lt;proyecto&gt;.xlsx                  copia diligenciada de FO-IV-159-informe-proyectos-de-aula.xlsx
+└── anexos-&lt;proyecto&gt;.zip                      campo 20 del informe
+    ├── anexo-1-fotografias/
+    │   ├── 01-&lt;pantalla-o-flujo&gt;.png          capturas de la app: flujo, permisos, modo avión, error
+    │   ├── …
+    │   └── NN-socializacion.png               captura o foto de la socialización
+    └── anexo-2-productos/
+        ├── documento-tecnico-&lt;proyecto&gt;.pdf   marco 00–05 de docs/ diligenciado, en PDF
+        ├── &lt;proyecto&gt;-v1.0.0.aab              artefacto firmado (o .apk); nunca entra al repositorio
+        └── enlaces.txt                        repositorio (con README) y video demo de 5 a 7 minutos
+~~~
+
+| Lo que se entrega | De dónde sale |
+|-------------------|---------------|
+| Campos 1, 2 y 12 a 17 del informe | Introducción del H1, `00-gobierno/` y retros |
+| Campos 18 a 20 del informe | `05-release/releases/v1.0.0.md`, retros y la socialización |
+| `documento-tecnico-&lt;proyecto&gt;.pdf` | Las seis secciones de `docs/`, más la tabla de evidencia de los mínimos y la trazabilidad |
+| `&lt;proyecto&gt;-v1.0.0.aab` | El build firmado de la etiqueta `v1.0.0` (H3, actualizado en el H4) |</pre></section><section id="s-2-00-gobierno"><h2>2. 00 · Gobierno</h2><p>La sección 00 responde cómo planea, estima y cierra el trabajo la pareja, qué significan «listo» y «hecho», cómo se nombran ramas, commits y versiones, y cuáles son las reglas de seguridad que no se negocian. Envuelve todo el proyecto: si una convención local choca con el gobierno, gana el gobierno, salvo que un ADR diga lo contrario. Se entrega en el <strong>H1</strong> (Actividad 1) y se evidencia en la entrega final (anexo técnico y campo 17 del informe FO-IV-159) con el historial del repositorio.</p><h3>Definición de listo (DoR)</h3><ul><li><strong>Para qué sirve:</strong> es el filtro de entrada del backlog. Una historia sin criterios verificables, sin referencia de UI o sin el contrato de la API no entra a un sprint.</li><li><strong>Cuándo se usa:</strong> en cada refinamiento, sobre cada historia; también trae el formato de historia con MoSCoW para el backlog de la Actividad 1 (al menos 10 historias).</li><li><strong>Hito:</strong> se acuerda y se entrega en el <strong>H1</strong>.</li></ul><pre class="code"><span class="cm"># Definición de listo (DoR)</span>
+
+&gt; **Instrucción:** acuerdo de la pareja. Copia este archivo a
+&gt; `docs/00-gobierno/definicion-de-listo.md`, ajústalo a tu proyecto y borra este bloque. Se
+&gt; acuerda en el H1 y se aplica a **cada** historia antes de que entre a un sprint.
+
+Una historia de usuario puede entrar a un sprint **solo si se cumple todo lo siguiente**:
+
+- [ ] El valor para el usuario está escrito (Como / Quiero / Para).
+- [ ] Los criterios de aceptación están escritos y son verificables (Dado / Cuando / Entonces).
+- [ ] Hay una referencia de UI enlazada (pantalla del prototipo), si la historia toca la interfaz.
+- [ ] El contrato de la API existe o está simulado (método, ruta, cuerpo y respuesta), si la
+      historia llama al backend.
+- [ ] Están descritos los estados de carga, vacío, error y sin conexión.
+- [ ] Si usa una capacidad nativa, está identificado el permiso que pide y el momento exacto
+      en que lo pide (*just-in-time*).
+- [ ] Las dependencias con otras historias están identificadas.
+- [ ] La pareja la estimó en puntos de historia (1, 2, 3, 5, 8, 13).
+- [ ] Cabe en un sprint: una historia de más de 8 puntos se divide antes de entrar.
+
+&gt; Si alguna casilla queda sin marcar, la historia sigue en refinamiento: **no entra al sprint**.
+
+<span class="cm">### Formato de historia para `backlog.md`</span>
+
+| ID | Historia | Criterios de aceptación | MoSCoW | Puntos | Feature |
+|----|----------|-------------------------|--------|--------|---------|
+| HU-01 | Como [rol], quiero [acción], para [beneficio] | Dado [contexto], cuando [acción], entonces [resultado verificable] | Must | 3 | [feature] |
+| HU-02 | … | … | Should | 5 | … |
+
+&gt; **Instrucción:** MoSCoW = *Must* (sin esto no hay producto), *Should* (importante, no
+&gt; vital), *Could* (deseable), *Won't* (fuera de alcance en esta versión, dicho en voz alta).
+&gt; Las historias *Must* deben cubrir los ocho mínimos del proyecto.</pre><h3>Definición de hecho (DoD)</h3><ul><li><strong>Para qué sirve:</strong> es el filtro de salida. Evita el «ya casi está»: una historia sin pruebas, sin estados de error o con la regla de dependencias rota sigue abierta.</li><li><strong>Cuándo se usa:</strong> antes de cerrar cada historia y antes de cada release.</li><li><strong>Hito:</strong> se acuerda en el <strong>H1</strong>; su cumplimiento se evidencia en el H3 y en el H4.</li></ul><pre class="code"><span class="cm"># Definición de hecho (DoD)</span>
+
+&gt; **Instrucción:** acuerdo de la pareja. Copia este archivo a
+&gt; `docs/00-gobierno/definicion-de-hecho.md`, ajústalo y borra este bloque. Se acuerda en el
+&gt; H1; desde ese momento **ninguna** historia se cierra sin cumplirla.
+
+Una historia de usuario está **hecha solo cuando todo esto es cierto**:
+
+- [ ] Los criterios de aceptación se cumplen y se verificaron en un dispositivo o emulador.
+- [ ] El código llegó a `main` mediante un PR revisado y aprobado por el otro integrante.
+- [ ] Hay pruebas unitarias del caso de uso y del *state holder* (ViewModel o servicio de
+      estado) y pasan (`npm test`).
+- [ ] Funciona en Android sin regresiones; en iOS si la pareja tiene cómo probarlo.
+- [ ] No introduce advertencias nuevas de lint (`ng lint`), de tipos (TypeScript estricto) ni
+      de accesibilidad.
+- [ ] Respeta la regla de dependencias: `presentation → domain ← data`.
+- [ ] La pantalla resuelve los estados de carga, vacío, error y sin conexión.
+- [ ] Si usa una capacidad nativa, pide el permiso en el momento de uso y maneja la negativa.
+- [ ] Los textos visibles no están quemados en las plantillas HTML: salen de un archivo de
+      textos por clave.
+- [ ] Hay eventos de analítica o de reporte de errores donde aplica.
+- [ ] La documentación está al día: ficha de la feature, tabla de rutas y un ADR si se tomó
+      una decisión de arquitectura.
+
+&gt; Una historia que no cumple **toda** la DoD no está hecha: sigue abierta. El trabajo parcial
+&gt; no se cierra «para terminarlo después».</pre><h3>Convenciones git</h3><ul><li><strong>Para qué sirve:</strong> que el historial cuente la historia del proyecto: ramas cortas, commits convencionales, PR revisados por el otro integrante y versiones SemVer con <code>versionCode</code> creciente.</li><li><strong>Cuándo se usa:</strong> desde el primer commit. Incluye lo que nunca debe entrar al repositorio (keystore y contraseñas).</li><li><strong>Hito:</strong> se acuerda en el <strong>H1</strong>; el historial es evidencia del criterio «Objetivos y metodología» de la entrega final (H4).</li></ul><pre class="code"><span class="cm"># Convenciones git</span>
+
+&gt; **Instrucción:** acuerdo de la pareja. Copia este archivo a
+&gt; `docs/00-gobierno/convenciones-git.md`, ajústalo y borra este bloque. Se acuerda en el H1,
+&gt; antes del primer commit de código.
+
+<span class="cm">### Ramas</span>
+
+- Desarrollo basado en tronco: ramas cortas que salen de `main` y vuelven a `main`.
+- Nombres: `feat/&lt;alcance&gt;`, `fix/&lt;alcance&gt;`, `docs/&lt;alcance&gt;`, `test/&lt;alcance&gt;`,
+  `chore/&lt;alcance&gt;`.
+  - Ejemplos: `feat/pedidos-formulario`, `fix/auth-refresh-token`, `docs/adr-estado`.
+- Una rama vive pocos días. Actualízala con `main` antes de abrir el PR.
+
+<span class="cm">### Commits</span>
+
+- [Conventional Commits](https:<span class="cm">//www.conventionalcommits.org/es/v1.0.0/):</span>
+  `tipo(alcance): resumen`.
+- Tipos: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `perf`, `build`, `ci`.
+- Resumen en imperativo, sin punto final, de 72 caracteres como máximo.
+  - Ejemplo: `feat(auth): refrescar el token al recibir 401`.
+- SDD en el historial: los commits `docs(...)` de una feature van **antes** que sus
+  `feat(...)`.
+
+<span class="cm">### Pull requests</span>
+
+- Un PR = una historia o una corrección. Que se pueda revisar (menos de ~400 líneas).
+- La descripción enlaza la historia (`HU-NN`) y dice qué probar en el dispositivo.
+- El CI debe estar en verde (lint + pruebas unitarias) antes de pedir revisión.
+- Lo aprueba el otro integrante. Se integra con *squash merge* a `main`.
+
+<span class="cm">### Versiones</span>
+
+- La versión sigue [SemVer](https:<span class="cm">//semver.org/lang/es/): `MAYOR.MENOR.PARCHE`. Se refleja</span>
+  en `<span class="kw">package</span>.json` y en `versionName` de `android/app/build.gradle`.
+- El número de build (`versionCode`) es un entero que solo crece: sube en cada artefacto que
+  se distribuye y nunca se reutiliza.
+- Cada release se etiqueta `vX.Y.Z` sobre `main`; la etiqueta dispara el flujo de release
+  si existe.
+
+<span class="cm">### Lo que nunca entra al repositorio</span>
+
+~~~text
+<span class="cm"># .gitignore (además del que genera Ionic)</span>
+*.jks
+*.keystore
+keystore.properties
+.env
+*.aab
+*.apk
+www/
+node_modules/
+~~~
+
+&gt; La carpeta `android/` **sí** se versiona: con Capacitor, el proyecto nativo es código
+&gt; fuente. Lo que no se versiona es la llave con la que se firma.</pre><h3>Retrospectiva de sprint</h3><ul><li><strong>Para qué sirve:</strong> convertir lo aprendido en acciones con responsable, y registrar la retroalimentación recibida (clínicas, foro, tutor) con la decisión que se tomó.</li><li><strong>Cuándo se usa:</strong> al cierre de cada hito como mínimo (H1, H2 y H3).</li><li><strong>Hito:</strong> acompaña cada hito; sus tablas de retroalimentación alimentan la <strong>trazabilidad</strong> (antes → después → razón) y los resultados (campo 18) del Informe del proyecto de aula (FO-IV-159) en el <strong>H4</strong>.</li></ul><pre class="code"><span class="cm"># Retrospectiva — Sprint [N]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/00-gobierno/retros/sprint-NN.md`. Una por
+&gt; sprint; en este módulo, como mínimo una al cerrar cada hito (H1, H2 y H3). La última
+&gt; alimenta los resultados (campo 18) del Informe del proyecto de aula (FO-IV-159). Borra
+&gt; este bloque al diligenciarla.
+
+- **Sprint:** [N]
+- **Hito del curso:** H1 | H2 | H3
+- **Fecha:** AAAA-MM-DD
+- **Participantes:** [nombres]
+
+---
+
+<span class="cm">### Foto del sprint</span>
+
+| Métrica | Valor |
+|---------|-------|
+| Puntos comprometidos | [n] |
+| Puntos completados (cumplen la DoD) | [n] |
+| Puntos arrastrados al siguiente sprint | [n] |
+| Pruebas unitarias en verde | [n de n] |
+| Sesiones sin fallos (si ya hay release) | [%] |
+
+---
+
+<span class="cm">### Qué salió bien</span>
+
+- [Ítem]
+
+<span class="cm">### Qué no salió bien</span>
+
+- [Ítem]
+
+<span class="cm">### Retroalimentación recibida y qué hacemos con ella</span>
+
+| Retroalimentación (tutor, clínica o foro) | Decisión | ¿Entra a la trazabilidad de la entrega final? |
+|-------------------------------------------|----------|-----------------------------------------------|
+| [qué nos dijeron] | [qué cambiamos o por qué no] | Sí / No |
+
+<span class="cm">### Qué vamos a cambiar (acciones)</span>
+
+| Acción | Responsable | Para |
+|--------|-------------|------|
+| [Acción concreta y verificable] | [nombre] | Sprint [N+1] |
+
+---
+
+&gt; Al empezar la siguiente retro, revisen primero las acciones de esta. Una acción sin
+&gt; terminar se arrastra con una razón o se descarta de forma explícita.</pre></section><section id="s-3-01-arquitectura"><h2>3. 01 · Arquitectura</h2><p>La sección 01 responde dónde va el código de una feature nueva, qué capa puede depender de cuál (<code>presentation → domain ← data</code>), qué <strong>único</strong> patrón de estado usa la app y cómo navegan las pantallas desde una tabla de rutas central con guard. Es la sección que más pesa en la rúbrica de la entrega final del proyecto de aula (25 de 100 puntos). Se entrega en el <strong>H1</strong>; el ADR del stack se completa en el <strong>H2</strong>.</p><h3>ADR — registro de decisión arquitectónica</h3><ul><li><strong>Para qué sirve:</strong> dejar por escrito una decisión cara de revertir, con su contexto, las alternativas descartadas y lo que cuesta. Un ADR aceptado no se borra: se reemplaza.</li><li><strong>Cuándo se usa:</strong> cada vez que la pareja elige algo que condiciona el resto de la app: el patrón de estado, la navegación, el stack y sus librerías, la persistencia local, el almacenamiento seguro o los puertos de las capacidades nativas.</li><li><strong>Hito:</strong> ADR de estado y de navegación en el <strong>H1</strong>; ADR del stack en el <strong>H2</strong>; al menos <strong>tres</strong> ADR aceptados en el <strong>H4</strong>.</li></ul><pre class="code"><span class="cm"># ADR-NNN — [Título de la decisión]</span>
+
+&gt; **Instrucción:** copia este archivo a
+&gt; `docs/01-arquitectura/decisiones/registros/ADR-NNN-titulo-corto.md` y reemplaza NNN por el
+&gt; consecutivo (001, 002, 003…). Diligéncialo completo, en especial las alternativas
+&gt; evaluadas. Un ADR aceptado no se borra: si cambia la decisión, se marca «Reemplazado por
+&gt; ADR-NNN» y se escribe uno nuevo. Borra los bloques «Instrucción» al terminar.
+
+- **ID:** ADR-NNN
+- **Fecha:** AAAA-MM-DD
+- **Estado:** Propuesto | Aceptado | Rechazado | Reemplazado por ADR-NNN
+- **Autores:** [nombres]
+
+---
+
+<span class="cm">### Contexto</span>
+
+&gt; **Instrucción:** describe el problema que obliga a decidir. ¿Por qué decidir ahora? ¿Qué
+&gt; pasa si no se decide? Usa hechos del proyecto, no generalidades.
+
+[Descripción del contexto…]
+
+**Restricciones conocidas:**
+- [Técnica, de tiempo, de plataforma, de conocimiento de la pareja, etc.]
+
+---
+
+<span class="cm">### Decisión</span>
+
+&gt; **Instrucción:** una sola frase que diga con claridad qué se decide.
+
+**Decidimos:** [descripción]
+
+**Justificación:**
+[Por qué esta opción es la correcta en este contexto. Cuál fue el criterio que desempató.]
+
+---
+
+<span class="cm">### Alternativas evaluadas</span>
+
+| Alternativa | A favor | En contra | Razón para descartarla |
+|-------------|---------|-----------|------------------------|
+| [Opción A — elegida] | [ventajas] | [desventajas] | — (elegida) |
+| [Opción B] | [ventajas] | [desventajas] | [por qué no] |
+| [Opción C] | [ventajas] | [desventajas] | [por qué no] |
+
+---
+
+<span class="cm">### Consecuencias</span>
+
+**Positivas:**
+- [Beneficio]
+
+**Negativas / costos asumidos:**
+- [Costo o limitación — todo ADR tiene al menos una]
+
+**Impacto en el sistema:**
+- Features y pantallas afectadas: [lista]
+- Documentos que se actualizan: [lista, p. ej. `capas-y-estado.md`, `navegacion.md`]
+- Cómo se verifica en el código: [regla de lint, prueba o ruta del archivo que lo materializa]
+
+---
+
+<span class="cm">### Referencias</span>
+
+- [Documentación oficial, artículos — en APA 7]
+- Relacionado con: [otros ADR]
+
+---
+
+&gt; **Instrucción — registro:** agrega una fila en `decisiones/README.md` por cada ADR:
+&gt;
+&gt; | <span class="cm"># | Título | Estado | Fecha |</span>
+&gt; |---|--------|--------|-------|
+&gt; | ADR-001 | Patrón de estado | Aceptado | AAAA-MM-DD |
+&gt;
+&gt; **ADR mínimos del proyecto:** patrón de estado (obligatorio) y al menos dos más; por
+&gt; ejemplo navegación (tabla central y guard), stack y librerías complementarias,
+&gt; persistencia local, almacenamiento seguro de tokens o puertos de capacidades nativas.
+&gt;
+&gt; **Antes de aceptarlo, revisa:** ¿la decisión cabe en una frase? ¿hay al menos dos
+&gt; alternativas reales descartadas con razón? ¿hay al menos una consecuencia negativa? Si
+&gt; no se te ocurre ninguna alternativa, probablemente no era una decisión.</pre><h3>Feature</h3><ul><li><strong>Para qué sirve:</strong> documentar una feature de punta a punta antes de construirla: pantallas, estado, casos de uso, repositorios, endpoints, estrategia sin conexión y capacidades nativas con sus permisos.</li><li><strong>Cuándo se usa:</strong> una por feature, al planearla; se mantiene viva mientras la feature cambia.</li><li><strong>Hito:</strong> fichas de las features planeadas en el <strong>H1</strong>; actualizadas en el <strong>H4</strong> para que coincidan con lo construido.</li></ul><pre class="code"><span class="cm"># Feature — [Nombre de la feature]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/01-arquitectura/features/&lt;feature&gt;.md` y
+&gt; diligéncialo **antes** de escribir el código de la feature (SDD). Un documento por feature;
+&gt; se mantiene al día mientras la feature cambia. Borra los bloques «Instrucción» al terminar.
+
+- **Responsable:** [nombre]
+- **Estado:** Planeada | En curso | Entregada
+- **Historias relacionadas:** [HU-01, HU-04, …]
+
+---
+
+<span class="cm">### Propósito</span>
+
+&gt; **Instrucción:** en una o dos frases, ¿qué problema del usuario resuelve esta feature?
+
+---
+
+<span class="cm">### Estructura de carpetas</span>
+
+~~~text
+src/app/features/&lt;feature&gt;/
+├── presentation/
+│   ├── &lt;pantalla&gt;/&lt;pantalla&gt;.page.ts      página standalone
+│   └── &lt;pantalla&gt;/&lt;pantalla&gt;.view-model.ts  state holder de la pantalla
+├── domain/
+│   ├── &lt;entidad&gt;.ts                        entidad (sin Angular ni Capacitor)
+│   ├── &lt;feature&gt;.repository.ts             interfaz del repositorio
+│   └── &lt;accion&gt;.use-case.ts                un caso de uso por acción de negocio
+└── data/
+    ├── &lt;entidad&gt;.dto.ts                    forma del JSON de la API
+    ├── &lt;entidad&gt;.mapper.ts                 DTO ↔ dominio
+    └── &lt;feature&gt;-http.repository.ts        implementación del repositorio
+~~~
+
+---
+
+<span class="cm">### Pantallas</span>
+
+| Pantalla | Ruta | Propósito |
+|----------|------|-----------|
+| [Pantalla] | `/ruta` | [qué hace] |
+
+&gt; **Instrucción:** cada pantalla se especifica con `_plantilla-pantalla.md` y su ruta se
+&gt; registra en `navegacion.md` y en `app.routes.ts`.
+
+---
+
+<span class="cm">### Estado</span>
+
+- **Patrón:** [el del ADR-001, p. ej. ViewModel por pantalla con estado inmutable en RxJS o Signals]
+- **Objeto(s) de estado:** [p. ej. `interface PedidosListaState { readonly estado: …; readonly items: … }`]
+- **Transiciones clave:** [cargando → cargado | vacío | error | sin conexión]
+
+---
+
+<span class="cm">### Datos</span>
+
+- **Casos de uso:** [ListarPedidos, RegistrarPedido, …]
+- **Repositorios:** [interfaz `PedidosRepository` en `domain/`; implementación en `data/`]
+- **Endpoints:** [método + ruta — cada uno documentado en `03-api-y-datos/endpoints/`]
+- **Persistencia local:** [entidades en caché — ver `03-api-y-datos/entidades/`]
+- **Estrategia sin conexión:** Solo en línea | Caché de lectura | Offline-first — [por qué]
+
+---
+
+<span class="cm">### Capacidades nativas (si aplica)</span>
+
+| Puerto (interfaz) | Adaptador (plugin Capacitor) | Permiso | Cuándo se pide | Si el usuario lo niega |
+|-------------------|------------------------------|---------|----------------|------------------------|
+| [p. ej. `CapturaFoto`] | [`@capacitor/camera`] | [cámara] | [al tocar «Tomar foto», tras explicar para qué] | [mensaje + acceso a ajustes; la feature sigue sin foto] |
+
+---
+
+<span class="cm">### Casos borde y estados</span>
+
+- [ ] Cargando
+- [ ] Vacío
+- [ ] Error y reintento
+- [ ] Sin conexión
+- [ ] Permiso denegado (si aplica)
+- [ ] Sesión expirada durante la operación
+
+---
+
+<span class="cm">### Decisiones</span>
+
+&gt; **Instrucción:** enlaza los ADR de los que depende esta feature
+&gt; (`decisiones/registros/ADR-NNN-*.md`).
+
+---
+
+<span class="cm">### Pruebas</span>
+
+- **Unitarias:** [casos de uso, ViewModel (transiciones de estado), mappers]
+- **De componente / UI:** [pantallas clave]
+- **Integración / E2E:** [flujo crítico, si lo hay]</pre><h3>Pantalla</h3><ul><li><strong>Para qué sirve:</strong> especificar una pantalla del prototipo con sus regiones (componentes de Ionic), sus cinco estados, su formulario reactivo si lo tiene, sus acciones, sus permisos y su lista de accesibilidad.</li><li><strong>Cuándo se usa:</strong> una por pantalla del prototipo de la Actividad 1.</li><li><strong>Hito:</strong> <strong>H1</strong>, junto con las capturas del prototipo.</li></ul><pre class="code"><span class="cm"># Pantalla — [Nombre de la pantalla]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/01-arquitectura/pantallas/&lt;pantalla&gt;.md` para
+&gt; especificar una sola pantalla. Corto y visual: enlaza el prototipo. Borra los bloques
+&gt; «Instrucción» al terminar.
+
+- **Ruta:** `/ruta`
+- **Feature:** [nombre de la feature]
+- **Referencia de diseño:** [enlace a la pantalla del prototipo en Figma u otra herramienta]
+
+---
+
+<span class="cm">### Propósito</span>
+
+&gt; **Instrucción:** ¿qué puede hacer el usuario en esta pantalla?
+
+---
+
+<span class="cm">### Regiones de la interfaz</span>
+
+| Región | Componente | Notas |
+|--------|------------|-------|
+| Encabezado | `ion-header` + `ion-toolbar` | [título, botón atrás, acciones] |
+| Cuerpo | `ion-content` + [`ion-list` / `ion-card` / formulario reactivo] | [lista, detalle o formulario] |
+| Pie / acción principal | [`ion-footer` / `ion-fab` / `ion-button`] | [acción principal] |
+
+---
+
+<span class="cm">### Estados</span>
+
+| Estado | Disparador | Interfaz |
+|--------|------------|----------|
+| Cargando | Datos en camino | [`ion-skeleton-text` o `ion-spinner`] |
+| Cargado | Datos listos | [contenido] |
+| Vacío | No hay datos | [mensaje + acción para crear el primero] |
+| Error | Falló la petición | [mensaje entendible + botón «Reintentar»] |
+| Sin conexión | No hay red | [aviso + datos en caché con su fecha] |
+
+---
+
+<span class="cm">### Formulario (si aplica)</span>
+
+| Campo | Tipo | Validaciones (`Validators`) | Mensaje de error |
+|-------|------|-----------------------------|------------------|
+| [campo] | [texto / número / fecha] | [`required`, `minLength(3)`…] | [qué ve el usuario] |
+
+---
+
+<span class="cm">### Acciones</span>
+
+| Acción del usuario | Resultado | Caso de uso / evento |
+|--------------------|-----------|----------------------|
+| [toca el botón principal] | [qué pasa] | [RegistrarPedido] |
+
+---
+
+<span class="cm">### Permisos (si aplica)</span>
+
+- **Permiso:** [cámara / ubicación / notificaciones]
+- **Momento en que se pide:** [al tocar la acción que lo necesita, nunca al abrir la app]
+- **Explicación previa al usuario:** [texto breve de para qué]
+- **Si lo niega:** [qué ve y cómo sigue]
+
+---
+
+<span class="cm">### Accesibilidad</span>
+
+- [ ] Todo elemento interactivo tiene etiqueta accesible (`aria-label` en botones de solo ícono).
+- [ ] Áreas táctiles de al menos 44 × 44 pt (iOS) / 48 × 48 dp (Android).
+- [ ] El texto escala con el tamaño de fuente del sistema (unidades `rem`, sin tamaños fijos en el cuerpo).
+- [ ] El contraste cumple WCAG AA (4,5:1 en texto normal).
+- [ ] Se ve bien en modo `md` y en modo `ios`, en tema claro y oscuro.</pre></section><section id="s-4-02-codigo-y-ui"><h2>4. 02 · Código y UI</h2><p>La sección 02 responde cómo se nombra el código y cómo se manejan los errores y la asincronía, de dónde salen colores, espaciados y tipografía (tokens sobre las variables CSS de Ionic, con modos <code>md</code> e <code>ios</code>), cómo se garantiza la accesibilidad y cómo se centralizan los textos. Sus documentos de reglas no tienen plantilla (ver <code>ESTRUCTURA.md</code>); la única plantilla es la del componente compartido. Se entrega en el <strong>H2</strong> (Actividad 2).</p><h3>Componente compartido</h3><ul><li><strong>Para qué sirve:</strong> fijar el contrato de un componente de <code>shared/</code>: sus <code>input()</code> y <code>output()</code>, sus estados visuales, los tokens que usa y su accesibilidad. Un componente compartido no tiene lógica de negocio ni pide datos.</li><li><strong>Cuándo se usa:</strong> cada vez que un componente se reutiliza en más de una pantalla o feature.</li><li><strong>Hito:</strong> <strong>H2</strong>.</li></ul><pre class="code"><span class="cm"># Componente — [Nombre del componente]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/02-codigo-y-ui/componentes/&lt;componente&gt;.md`
+&gt; para documentar un componente compartido de `src/app/shared/`. Uno por componente
+&gt; reutilizable. Un componente compartido se encarga de presentación y disposición: **sin
+&gt; lógica de negocio y sin pedir datos**. Borra los bloques «Instrucción» al terminar.
+
+- **Ubicación:** `src/app/shared/[componente]/`
+- **Selector:** `app-[componente]`
+- **Estado:** Borrador | Estable | Obsoleto
+
+---
+
+<span class="cm">### Propósito</span>
+
+&gt; **Instrucción:** ¿para qué sirve y cuándo se debe (y no se debe) usar?
+
+---
+
+<span class="cm">### API pública</span>
+
+| Nombre | Tipo | `input()` / `output()` | Requerido | Por defecto | Descripción |
+|--------|------|------------------------|-----------|-------------|-------------|
+| [titulo] | `string` | `input()` | Sí | — | [qué controla] |
+| [seleccionado] | `string` | `output()` | — | — | [cuándo se emite] |
+
+---
+
+<span class="cm">### Estados visuales</span>
+
+| Estado | Apariencia |
+|--------|------------|
+| Normal | [descripción] |
+| Presionado / con foco | [descripción] |
+| Deshabilitado | [descripción] |
+| Cargando | [descripción] |
+| Error | [descripción] |
+
+---
+
+<span class="cm">### Tokens que usa</span>
+
+- **Color:** [p. ej. `--ion-color-primary`, `--ion-color-danger`]
+- **Espaciado:** [p. ej. `--app-space-sm`, `--app-space-md`]
+- **Tipografía:** [p. ej. `--app-text-title`, `--app-text-body`]
+
+&gt; **Instrucción:** ningún color, tamaño ni espaciado va escrito a mano en el componente:
+&gt; todo sale de los tokens de `sistema-de-diseno.md`. Tema claro y oscuro cambian valores,
+&gt; no componentes.
+
+---
+
+<span class="cm">### Accesibilidad</span>
+
+- **Rol y etiqueta:** [cómo lo anuncia el lector de pantalla]
+- **Área táctil:** [tamaño mínimo]
+- **Foco y teclado:** [orden de foco, si aplica]
+
+---
+
+<span class="cm">### Ejemplo de uso</span>
+
+~~~html
+&lt;app-[componente]
+  [titulo]="'Pedidos pendientes'"
+  ([seleccionado])="abrir($event)"&gt;
+&lt;/app-[componente]&gt;
+~~~
+
+&gt; **Instrucción:** declara el componente `standalone` con
+&gt; `changeDetection: ChangeDetectionStrategy.OnPush`; recibe datos por `input()` y avisa por
+&gt; `output()`. Si necesita un servicio de datos, no es un componente compartido: es parte de
+&gt; una feature.</pre></section><section id="s-5-03-api-y-datos"><h2>5. 03 · API y datos</h2><p>La sección 03 responde cómo hace y reintenta peticiones la app (un <strong>único</strong> cliente HTTP con interceptores de token, timeout y errores), dónde viven los tokens y cómo se refrescan (almacenamiento seguro, refresh transparente), qué se guarda en el dispositivo y cómo se migra, y qué pasa sin conexión en cada feature. Se entrega en el <strong>H2</strong>.</p><h3>Integración de endpoint</h3><ul><li><strong>Para qué sirve:</strong> documentar cómo la app consume un endpoint: petición, respuesta, mapeo DTO → dominio, comportamiento ante cada error (incluido el 401 con refresh) y estrategia de caché.</li><li><strong>Cuándo se usa:</strong> uno por endpoint, antes de escribir el repositorio que lo llama.</li><li><strong>Hito:</strong> <strong>H2</strong>; se actualiza en el H4 si el contrato cambió.</li></ul><pre class="code"><span class="cm"># Integración de endpoint — [Nombre]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/03-api-y-datos/endpoints/&lt;endpoint&gt;.md` para
+&gt; documentar cómo la app consume **un** endpoint del backend. Se diligencia antes de escribir
+&gt; el repositorio que lo llama. Borra los bloques «Instrucción» al terminar.
+
+- **Feature:** [nombre de la feature]
+- **Método + ruta:** `GET /v1/pedidos/{id}`
+- **Requiere autenticación:** Sí / No
+- **Idempotente:** Sí (GET, PUT, DELETE) / No (POST, PATCH)
+
+---
+
+<span class="cm">### Petición</span>
+
+| Parámetro | En | Tipo | Requerido | Notas |
+|-----------|----|------|-----------|-------|
+| `id` | ruta | string | Sí | Identificador del pedido |
+
+**Cuerpo (si lo hay):**
+
+~~~json
+{ }
+~~~
+
+---
+
+<span class="cm">### Respuesta</span>
+
+**Éxito (2xx):**
+
+~~~json
+{ "id": "…", "estado": "…", "creado_en": "…" }
+~~~
+
+**Mapeo DTO → dominio:**
+
+| Campo del DTO | Campo del dominio | Transformación |
+|---------------|-------------------|----------------|
+| `estado` | `EstadoPedido` | texto → enum |
+| `creado_en` | `creadoEn` | texto ISO 8601 → `Date` |
+
+---
+
+<span class="cm">### Errores</span>
+
+| Estado | Significado | Comportamiento de la app |
+|--------|-------------|--------------------------|
+| 401 | Sin autenticación | El interceptor refresca el token y reintenta **una** vez; si el refresh falla, cierra sesión y va a `/login` |
+| 403 | Sin permiso | Mensaje claro; no se reintenta |
+| 404 | No encontrado | Estado vacío / «no existe» |
+| 400 / 422 | Error de validación | Error de dominio con mensaje accionable |
+| 5xx / timeout | Falla transitoria | Reintento con espera exponencial solo si es idempotente; luego error con «Reintentar» |
+| Sin red | Sin conexión | Según la estrategia de abajo (caché o aviso) |
+
+---
+
+<span class="cm">### Implementación</span>
+
+- **Interfaz del repositorio (domain):** [`PedidosRepository.obtener(id)`]
+- **DTO (data):** [`PedidoDto`]
+- **Mapper (data):** [`PedidoMapper.aDominio()`] — con prueba unitaria
+- **Implementación (data):** [`PedidosHttpRepository`] — usa el cliente HTTP único de `core/network/`
+- **Timeout aplicado:** [ms — lo pone el interceptor, no la llamada]
+
+---
+
+<span class="cm">### Caché y sin conexión</span>
+
+- **Estrategia:** Solo en línea | Caché de lectura | Offline-first
+- **Entidad en caché:** [nombre — ver `03-api-y-datos/entidades/`]
+- **Vigencia e invalidación:** [cuándo se refresca la caché y cuándo se descarta]</pre><h3>Entidad local</h3><ul><li><strong>Para qué sirve:</strong> definir lo que la app guarda en el dispositivo: almacén, campos, índices, sincronización, datos personales y migraciones. Es la base de la caché de lectura que exige el mínimo 6.</li><li><strong>Cuándo se usa:</strong> una por tabla, colección o clave persistida.</li><li><strong>Hito:</strong> <strong>H2</strong>.</li></ul><pre class="code"><span class="cm"># Entidad local — [Nombre de la entidad]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/03-api-y-datos/entidades/&lt;entidad&gt;.md` para
+&gt; definir algo que la app guarda en el dispositivo (tabla, colección o clave). El almacén
+&gt; elegido se registra en un ADR. Los **tokens nunca** se guardan aquí: van en
+&gt; almacenamiento seguro. Borra los bloques «Instrucción» al terminar.
+
+- **Almacén:** Capacitor Preferences (clave-valor) | SQLite | IndexedDB | [otro]
+- **Tabla / colección / clave:** [`pedidos` (snake_case, plural) o `cache.pedidos.v1`]
+- **Versión de esquema en que aparece:** [n]
+
+&gt; **Instrucción:** Preferences sirve para valores pequeños, como la caché de lectura de una
+&gt; lista corta, y **no cifra**: guarda en texto plano. Si necesitas consultas o volumen, usa
+&gt; SQLite.
+
+---
+
+<span class="cm">### Campos</span>
+
+| Columna | Tipo | Nulo | Notas |
+|---------|------|------|-------|
+| `id` | string / <span class="kw">int</span> | No | Llave primaria |
+| `creado_en` | timestamp | No | Se fija al insertar |
+| `actualizado_en` | timestamp | No | Se fija al actualizar |
+| [campo] | [tipo] | [Sí/No] | [notas] |
+
+---
+
+<span class="cm">### Índices (solo SQLite)</span>
+
+| Índice | Columnas | Razón |
+|--------|----------|-------|
+| [nombre] | [columnas] | [consulta que acelera] |
+
+---
+
+<span class="cm">### Relaciones</span>
+
+| Entidad relacionada | Llave | Cardinalidad |
+|---------------------|-------|--------------|
+| [entidad] | `&lt;entidad&gt;_id` | 1:N / N:1 |
+
+---
+
+<span class="cm">### Sincronización</span>
+
+- **¿Se sincroniza con el backend?** Sí / No
+- **Política de conflicto:** la última escritura gana | el servidor gana | combinación propia del dominio
+- **¿Contiene datos personales?** Sí / No — [cuáles y por qué la app los necesita sin conexión]
+- **¿Se borra al cerrar sesión?** Sí / No
+
+---
+
+<span class="cm">### Notas de migración</span>
+
+&gt; **Instrucción:** ¿qué migración crea o cambia esta entidad y qué pasa con los datos que ya
+&gt; existen en el dispositivo? Las migraciones solo avanzan: nunca se edita una ya publicada.</pre></section><section id="s-6-04-calidad"><h2>6. 04 · Calidad</h2><p>La sección 04 responde qué se prueba, en qué nivel y cuánto (pirámide: unitarias de casos de uso, <em>state holders</em> y mappers en la base), qué presupuestos de rendimiento tiene la app y qué se revisa en seguridad antes de cada release. Las pruebas automatizadas viven en el código; la plantilla cubre los casos manuales en dispositivo. Se entrega en el <strong>H3</strong> (Actividad 3).</p><h3>Caso de prueba</h3><ul><li><strong>Para qué sirve:</strong> dejar reproducible una prueba manual o exploratoria en dispositivo o emulador: precondiciones, pasos, resultado esperado y evidencia.</li><li><strong>Cuándo se usa:</strong> para lo que una prueba unitaria no cubre: permisos, modo avión, sesión vencida, guard de rutas.</li><li><strong>Hito:</strong> <strong>H3</strong>; los resultados entran a «Resultados de pruebas finales y evidencias» de la memoria de la Actividad 3 y al documento técnico de la entrega final (Anexo 2).</li></ul><pre class="code"><span class="cm"># Caso de prueba — TC-[NNN]</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/04-calidad/casos/TC-NNN.md` para un caso de
+&gt; prueba **manual o exploratorio** en dispositivo o emulador. Las pruebas automatizadas viven
+&gt; en el código (`*.spec.ts`) y se nombran `&lt;unidad&gt;_&lt;condición&gt;_&lt;resultadoEsperado&gt;`, por
+&gt; ejemplo `listarPedidos_sinConexion_devuelveCache`. Borra los bloques «Instrucción» al
+&gt; terminar.
+
+- **ID:** TC-NNN
+- **Historia relacionada:** [HU-NN]
+- **Feature / pantalla:** [nombre]
+- **Plataforma(s):** Android | iOS | ambas
+- **Tipo:** Funcional | Regresión | Exploratoria | Permisos | Sin conexión | Sesión
+
+---
+
+<span class="cm">### Precondiciones</span>
+
+- [Estado en que debe estar la app antes de empezar: sesión iniciada, modo avión, permiso
+  nunca concedido, lista vacía…]
+
+---
+
+<span class="cm">### Pasos</span>
+
+| <span class="cm"># | Acción | Resultado esperado |</span>
+|---|--------|--------------------|
+| 1 | [acción] | [resultado esperado] |
+| 2 | [acción] | [resultado esperado] |
+| 3 | [acción] | [resultado esperado] |
+
+---
+
+<span class="cm">### Resultado</span>
+
+- **Estado:** Pasa | Falla | Bloqueado
+- **Build:** [versión + `versionCode`]
+- **Dispositivo / SO:** [p. ej. Pixel 8 / Android 15, o emulador API 35]
+- **Evidencia:** [captura o minuto del video]
+- **Notas / defectos:** [enlace al issue si falló]
+
+---
+
+&gt; **Instrucción — casos que no pueden faltar en el proyecto:**
+&gt;
+&gt; - Permiso negado la primera vez y concedido después desde los ajustes del sistema.
+&gt; - Modo avión: la feature con caché de lectura muestra los últimos datos y avisa que no hay red.
+&gt; - Token de acceso vencido: la petición se completa tras un refresh transparente.
+&gt; - Refresh fallido: la app cierra sesión limpiamente y lleva a `/login`.
+&gt; - Ruta protegida abierta sin sesión: el guard redirige a `/login`.</pre></section><section id="s-7-05-release"><h2>7. 05 · Release</h2><p>La sección 05 responde cómo un commit se convierte en un artefacto firmado, dónde vive la llave de firma, cómo se escalona y se revierte un despliegue y cómo se observa la salud de la app en producción. Se entrega en el <strong>H3</strong> con la app desplegada y su memoria técnica.</p><h3>Checklist de release</h3><ul><li><strong>Para qué sirve:</strong> es el registro de la decisión <em>go / no-go</em> de una versión: pruebas, puertas de calidad, build y firma, tienda y observabilidad.</li><li><strong>Cuándo se usa:</strong> uno por versión; en el proyecto, como mínimo para la <code>v1.0.0</code>.</li><li><strong>Hito:</strong> <strong>H3</strong>; se actualiza y se anexa como evidencia en el <strong>H4</strong>.</li></ul><pre class="code"><span class="cm"># Checklist de release — v[X.Y.Z] (versionCode [N])</span>
+
+&gt; **Instrucción:** copia este archivo a `docs/05-release/releases/vX.Y.Z.md`. Uno por
+&gt; release: es el registro de la decisión de publicar o no publicar (*go / no-go*). En el
+&gt; proyecto se diligencia al menos para la `v1.0.0` del H3 y se actualiza en el H4. Borra los
+&gt; bloques «Instrucción» al terminar.
+
+- **Versión:** vX.Y.Z (versionCode N)
+- **Fecha:** AAAA-MM-DD
+- **Responsable del release:** [nombre]
+
+---
+
+<span class="cm">### Go / No-Go</span>
+
+<span class="cm">### Código y pruebas</span>
+- [ ] Todas las historias del release cumplen la [definición de hecho](../../00-gobierno/definicion-de-hecho.md).
+- [ ] Pruebas unitarias (casos de uso, state holders, mappers, interceptores) en verde: `npm test`.
+- [ ] Ningún defecto crítico o bloqueante abierto.
+
+<span class="cm">### Puertas de calidad</span>
+- [ ] Arranque en frío dentro del presupuesto (medido y comparado con el release anterior).
+- [ ] Presupuestos de `angular.json` (`budgets`) sin errores en el build de producción.
+- [ ] Tamaño del AAB/APK dentro del presupuesto (todo aumento está justificado).
+- [ ] Checklist de [seguridad móvil](../../04-calidad/seguridad-movil.md) aprobado.
+
+<span class="cm">### Build y firma</span>
+- [ ] Build de producción: `ionic build --configuration production` y `npx cap sync android`.
+- [ ] Construido desde `main` en la etiqueta `vX.Y.Z` (por CI, o con pasos documentados y reproducibles).
+- [ ] Firmado con la llave de release; el keystore y sus contraseñas están **fuera** del repositorio.
+- [ ] Firma verificada (`apksigner verify --<span class="kw">print</span>-certs` para APK, `jarsigner -verify` para AAB).
+- [ ] `versionName` y `versionCode` actualizados en `android/app/build.gradle`.
+- [ ] Sin tráfico HTTP en claro: ninguna URL `http:<span class="cm">//` en el entorno de producción y sin `cleartext: true` en `capacitor.config.ts`.</span>
+
+<span class="cm">### Tienda (real o simulada)</span>
+- [ ] Ícono y pantalla de inicio generados (`@capacitor/assets`).
+- [ ] Metadatos al día: descripción, capturas, política de privacidad y sección de seguridad de los datos.
+- [ ] Pista de pruebas internas o despliegue escalonado definido (p. ej. 5 % → 20 % → 50 % → 100 %).
+- [ ] Versión mínima soportada revisada (actualización forzada si hay cambios incompatibles en la API).
+- [ ] iOS: IPA generado o proceso documentado / simulado.
+
+<span class="cm">### Observabilidad</span>
+- [ ] Reporte de fallos activo (p. ej. Firebase Crashlytics o Sentry).
+- [ ] Banderas de funcionalidad nuevas apagadas por defecto y con responsable.
+- [ ] Disparador de reversión (*rollback*) y responsable confirmados.
+
+---
+
+<span class="cm">### Decisión</span>
+
+- **Go / No-Go:** [decisión]
+- **Aprobado por:** [nombre]
+- **Enlace al artefacto firmado:** [release del repositorio o carpeta compartida]
+- **Notas:** [lo que debe saber quien haga el siguiente release]</pre></section><section id="s-8-informe-del-proyecto-de-aula-fo-iv-159"><h2>8. Informe del proyecto de aula (FO-IV-159)</h2><p>La entrega final del proyecto de aula (H4, 40 %) es el formato institucional <strong>FO-IV-159 «Informe de proyectos de aula»</strong>, del proceso de Gestión de Investigación e Innovación, diligenciado por la pareja y acompañado de un <code>.zip</code> de anexos. Viene en el paquete junto a las plantillas y también se descarga suelto: <a href="FO-IV-159-informe-proyectos-de-aula.xlsx">FO-IV-159-informe-proyectos-de-aula.xlsx</a>.</p><ul><li><strong>Para qué sirve:</strong> reportar el proyecto de aula al programa académico: problema, pregunta de investigación, justificación, objetivos, metodología, resultados, productos y anexos.</li><li><strong>Cuándo se usa:</strong> se descarga desde el H1, porque la introducción de la Actividad 1 es el borrador de sus campos 1, 2 y 12 a 16; se completa y se entrega en el H4.</li><li><strong>Hito:</strong> <strong>H4</strong>, tarea «Entrega final del proyecto de aula [40%]», domingo 8 de noviembre a las 11:59 p. m.</li></ul><div class="table-responsive"><table class="styled-table"><thead><tr><th>Hoja</th><th>Qué tiene</th><th>Cómo se usa</th></tr></thead><tbody><tr><td>INFORME</td><td>Campos 1 a 21 (la numeración del formato salta el 4 y el 7), cada uno con su instrucción en la columna D</td><td>Se escribe la respuesta en la celda de la instrucción, reemplazándola</td></tr><tr><td>ESTUDIANTE</td><td>Institución, facultad, programa académico, semestre, nombre y apellidos, e identificación</td><td>Una fila por integrante, desde la fila 4</td></tr><tr><td>PRODUCTOS</td><td>Listado de productos posibles de un proyecto de aula</td><td>No se diligencia: el producto es «Desarrollo de software» (columna DESARROLLO TECNOLÓGICOS) y se declara en el campo 19</td></tr></tbody></table></div><p>Del marco de gobierno móvil al informe:</p><div class="table-responsive"><table class="styled-table"><thead><tr><th>Campos del informe</th><th>Salen de</th></tr></thead><tbody><tr><td>1, 2 y 12 a 16 (título, resumen, problema, pregunta de investigación, justificación y objetivos)</td><td>Introducción del H1 y backlog de <code>00-gobierno/</code></td></tr><tr><td>17 (metodología implementada)</td><td>La metodología que la pareja eligió del listado del formato, con lo que muestran <code>00-gobierno/</code>, las retros y el historial</td></tr><tr><td>18 (resultados)</td><td>Checklist de release de la <code>v1.0.0</code>, retros (retroalimentación y trazabilidad) y socialización</td></tr><tr><td>19 (productos)</td><td>«Desarrollo de software»: la app, su versión y su plataforma</td></tr><tr><td>20 (anexos)</td><td>El <code>.zip</code>: capturas (Anexo 1); documento técnico con el marco 00–05, AAB/APK firmado y enlaces al repositorio y al video (Anexo 2)</td></tr><tr><td>21 (bibliografía)</td><td>Las referencias de los ADR y de los documentos del marco, en APA o IEEE</td></tr></tbody></table></div><p>Dónde va cada archivo de la entrega final y la estructura exacta del <code>.zip</code> están en <code>ESTRUCTURA.md</code> (sección «Entrega final: informe FO-IV-159 y anexos»). El detalle campo por campo, con un ejemplo, está en la Guía del proyecto de aula.</p><div class="callout warn"><h4>Cuidado</h4><p>El formato <strong>no se modifica</strong>: no borren filas, hojas ni columnas, ni cambien la numeración o el encabezado institucional. Las figuras y los diagramas van en el documento técnico del Anexo 2, no en las celdas del informe.</p></div></section><section id="s-9-antes-de-entregar" class="activity-section"><h2>9. Antes de entregar</h2><ul class="checklist"><li><input type="checkbox"> La carpeta <code>docs/</code> del repositorio tiene las seis secciones de <code>ESTRUCTURA.md</code>.</li><li><input type="checkbox"> Definición de listo, definición de hecho y convenciones git están adaptadas al proyecto.</li><li><input type="checkbox"> Hay al menos tres ADR aceptados, uno de ellos sobre el patrón de estado.</li><li><input type="checkbox"> Cada feature tiene su ficha y cada pantalla del prototipo la suya.</li><li><input type="checkbox"> Cada endpoint consumido y cada entidad local tienen su documento en <code>03-api-y-datos/</code>.</li><li><input type="checkbox"> Los casos de prueba manuales imprescindibles están diligenciados con su evidencia.</li><li><input type="checkbox"> Existe el checklist de release de la <code>v1.0.0</code> con su decisión.</li><li><input type="checkbox"> Ningún documento conserva bloques «Instrucción» ni corchetes sin llenar.</li><li><input type="checkbox"> El historial muestra los commits <code>docs(...)</code> antes que los <code>feat(...)</code> que documentan.</li><li><input type="checkbox"> El formato FO-IV-159 está diligenciado (hojas INFORME y ESTUDIANTE) y el <code>.zip</code> de anexos tiene la estructura de <code>ESTRUCTURA.md</code>.</li></ul><p><strong>Más información.</strong> Qué se entrega en cada hito, cómo se evalúa y cómo se diligencia el Informe del proyecto de aula (FO-IV-159) está en la <a href="https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/proyecto-aula/guia/">Guía del proyecto de aula</a>.</p></section>
+</main>
+<footer class="main-footer"><div class="container">
+  <p><strong>Ingeniería para el Desarrollo Móvil</strong> <span class="sep">·</span> Proyecto de aula · Sesión 1 · Plantillas del proyecto: el marco de gobierno móvil listo para usar</p>
+  <p>Facultad de Ingeniería · Posgrado <span class="sep">·</span> Facultad de Ingeniería <span class="sep">·</span> © 2026 CORHUILA</p>
+</div></footer>
+<button id="scrollTopBtn" title="Volver arriba" aria-label="Volver arriba">↑</button>
+<script src="js/script.js?v=9cdae14b"></script>
+</body>
+</html>

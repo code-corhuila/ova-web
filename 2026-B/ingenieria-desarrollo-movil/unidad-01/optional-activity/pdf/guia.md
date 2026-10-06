@@ -19,7 +19,7 @@
 
 Llegar a la **Actividad de aprendizaje 1 (H1, 20 %, vence el domingo 18 de octubre)** con las
 decisiones de base tomadas y documentadas. Esta práctica es **opcional y no calificable**. Si
-ya tienes pareja del ABP, háganla juntos y sobre su propio problema; si no, hazla sobre el
+ya tienes pareja del proyecto de aula, háganla juntos y sobre su propio problema; si no, hazla sobre el
 problema que piensas proponer. Tiempo estimado: tres a cuatro horas. Nada es un ejercicio
 aparte: son las primeras piezas de las secciones **00 Gobierno** y **01 Arquitectura**.
 
@@ -52,10 +52,10 @@ Bitácora de Campo es solo un ejemplo de cómo se razona.
 Cierra con un **veredicto de máximo cinco líneas**: el enfoque elegido, el criterio que
 desempata y **el requisito que, si apareciera, te haría cambiar de enfoque**.
 
-> **Atención:** «Es más barato» o «es lo que sabemos» no son veredictos. El veredicto se gana por
+> **Cuidado:** «Es más barato» o «es lo que sabemos» no son veredictos. El veredicto se gana por
 > descarte: muestra que ningún requisito de tu problema supera el techo del WebView. Si alguno
 > lo supera (realidad aumentada, procesamiento de video en tiempo real), acota el alcance del
-> problema para el ABP y deja escrito qué quedó por fuera y por qué.
+> problema para el proyecto de aula y deja escrito qué quedó por fuera y por qué.
 
 ## 3. Parte B — Esqueleto por feature corriendo en el navegador
 
@@ -105,14 +105,14 @@ grep -rnE "from '@(angular|ionic|capacitor)/" src/app/features/*/domain
 **Evidencia:** una captura del navegador con la URL de la ruta, la lista pintada y la consola
 de DevTools sin errores, y otra del árbol de `src/app` en el editor.
 
-> **Consejo:** En la Unidad 2 este repositorio en memoria se reemplaza por uno HTTP con caché
-> cambiando **una línea** de `core/di/`. Si para hacer ese cambio tuvieras que tocar la página,
-> la Parte B todavía no cumple la regla de dependencias.
+**Consejo.** En la Unidad 2 este repositorio en memoria se reemplaza por uno HTTP con caché
+cambiando **una línea** de `core/di/`. Si para hacer ese cambio tuvieras que tocar la página,
+la Parte B todavía no cumple la regla de dependencias.
 
 ## 4. Parte C — Tu primer ADR con la plantilla del marco
 
 Descarga la plantilla `01-plantilla-adr.md` de
-[Plantillas del proyecto](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/abp/plantillas/),
+[Plantillas del proyecto](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/proyecto-aula/plantillas/),
 cópiala como `docs/01-arquitectura/decisiones/registros/ADR-001-<titulo-corto>.md` y
 diligénciala sobre **una** de estas decisiones:
 
@@ -137,7 +137,7 @@ alternativas reales descartadas con razón?, ¿hay al menos una consecuencia neg
 contexto habla de tu proyecto y no de generalidades? Registra el ADR con una fila en
 `decisiones/README.md` (número, título, estado y fecha).
 
-> **Atención:** Un ADR que solo enumera ventajas no analizó el intercambio, y es lo primero que se
+> **Cuidado:** Un ADR que solo enumera ventajas no analizó el intercambio, y es lo primero que se
 > pregunta en la socialización. Si no se te ocurre ninguna alternativa, probablemente no era
 > una decisión.
 
@@ -166,8 +166,8 @@ usan, los **sistemas externos** con los que se comunica y las **relaciones** ent
 Puedes dibujarlo en diagrams.net (draw.io), Structurizr, PlantUML con la librería C4 o
 Mermaid; exporta PNG o SVG legible.
 
-> **Consejo:** Si el diagrama de contexto necesita más de siete u ocho cajas, probablemente estás
-> mezclando niveles: los contenedores (app, API, base de datos) van en el nivel 2.
+**Consejo.** Si el diagrama de contexto necesita más de siete u ocho cajas, probablemente estás
+mezclando niveles: los contenedores (app, API, base de datos) van en el nivel 2.
 
 ## 6. Entrega y autoevaluación
 
@@ -192,7 +192,7 @@ Mermaid; exporta PNG o SVG legible.
 
 > **Nota:** Lleva tus dudas a la **clínica del H1** en el Encuentro 2 (viernes 16 de octubre,
 > 6:00 – 7:00 p. m., [meet.google.com/pzh-kxer-pnx](https://meet.google.com/pzh-kxer-pnx)). Guía
-> del hito: [Guía del proyecto ABP](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/abp/guia/).
+> del hito: [Guía del proyecto de aula](https://code-corhuila.github.io/ova-web/2026-B/ingenieria-desarrollo-movil/proyecto-aula/guia/).
 
-> **Nota:** **Versión imprimible.** [Descarga esta práctica en PDF](pdf/Practica-Unidad01.pdf), con el membrete institucional.
+**Versión imprimible.** [Descarga esta práctica en PDF](pdf/Practica-Unidad01.pdf), con el membrete institucional.
 
