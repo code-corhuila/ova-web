@@ -16,13 +16,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // getElementById NO lanza por sintaxis (querySelector('#1-...') sí); robusto ante cualquier id.
     const sections = navLinks.map(a => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
     if (sections.length) {
+        const navUl = document.querySelector('.main-nav ul');
         const spy = () => {
             const y = window.scrollY + 140;
             let cur = sections[0];
             sections.forEach(s => { if (s.offsetTop <= y) cur = s; });
-            navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + (cur ? cur.id : '')));
+            navLinks.forEach(a => {
+                const on = a.getAttribute('href') === '#' + (cur ? cur.id : '');
+                a.classList.toggle('active', on);
+                // La barra es de una sola fila con scroll horizontal: arrastra el
+                // enlace activo a la vista para que no quede fuera del área visible.
+                if (on && navUl && navUl.scrollWidth > navUl.clientWidth) {
+                    const li = a.parentElement;
+                    const izq = li.offsetLeft - navUl.clientWidth / 2 + li.offsetWidth / 2;
+                    navUl.scrollTo({ left: Math.max(0, izq), behavior: 'smooth' });
+                }
+            });
         };
         window.addEventListener('scroll', spy); spy();
+    }
+
+    /* Encabezado que se esconde al bajar y reaparece al subir. Con 10+ secciones
+       la barra fija robaba un tercio de la pantalla durante toda la lectura. */
+    const header = document.querySelector('.main-header');
+    if (header) {
+        let ultimoY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY;
+            const bajando = y > ultimoY;
+            // No esconder cerca del tope, ni con el menú móvil abierto, ni por micro-movimientos.
+            if (Math.abs(y - ultimoY) > 6 && y > 220 && !header.querySelector('.main-nav.open')) {
+                header.classList.toggle('nav-hidden', bajando);
+            } else if (y <= 220) {
+                header.classList.remove('nav-hidden');
+            }
+            ultimoY = y;
+        }, { passive: true });
+        // Al saltar a una sección desde el menú, el encabezado debe quedar visible.
+        navLinks.forEach(a => a.addEventListener('click', () => header.classList.remove('nav-hidden')));
     }
 
     const topBtn = document.getElementById('scrollTopBtn');
